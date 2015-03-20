@@ -26,7 +26,7 @@ php artisan vendor:publish --provider="Overtrue\LaravelWechat\ServiceProvider" -
 4. 添加下面行到 `config/app.php` 的 `aliases` 部分：
 
 ```php
-'Wechat' => `Overtrue\LaravelWechat\Facade`,
+'Wechat' => 'Overtrue\LaravelWechat\Facade',
 ```
 
 ## 使用
@@ -49,6 +49,11 @@ Route::any('/wechat', 'WechatController@serve');
 <?php
 
 class WechatController {
+    /**
+     * 处理微信的请求消息
+     *
+     * @return string
+     */
     public function serve()
     {
         Wechat::on('message', function($message){
