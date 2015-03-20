@@ -5,29 +5,29 @@
 ## 安装
 
 1. 安装包文件
-```shell
-composer require "overtrue/laravel-wechat:dev-master"
-```
+  ```shell
+  composer require "overtrue/laravel-wechat:dev-master"
+  ```
 
 2. 添加 `ServiceProvider` 到您项目 `config/app.php` 中的 `providers` 部分:
 
-```php
-'Overtrue\LaravelWechat\ServiceProvider',
-```
+  ```php
+  'Overtrue\LaravelWechat\ServiceProvider',
+  ```
 
 3. 创建配置文件:
 
-```shell
-php artisan vendor:publish --provider="Overtrue\LaravelWechat\ServiceProvider" --tag="config"
-```
+  ```shell
+  php artisan vendor:publish --provider="Overtrue\LaravelWechat\ServiceProvider"
+  ```
 
-然后请修改 `config/wechat.php` 中对应的项即可。
+  然后请修改 `config/wechat.php` 中对应的项即可。
 
 4. 添加下面行到 `config/app.php` 的 `aliases` 部分：
 
-```php
-'Wechat' => 'Overtrue\LaravelWechat\Facade',
-```
+  ```php
+  'Wechat' => 'Overtrue\LaravelWechat\Facade',
+  ```
 
 ## 使用
 
