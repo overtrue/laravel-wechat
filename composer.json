@@ -1,0 +1,15 @@
+{
+    "name": "overtrue/laravel-wechat",
+    "description": "微信 SDK for Laravel",
+    "keywords": ["wechat", "weixin","laravel", "sdk"],
+    "require": {
+        "laravel/laravel": ">=5.0.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "overtrue",
+            "email": "anzhengchao@gmail.com"
+        }
+    ]
+}
