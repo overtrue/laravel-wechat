@@ -46,9 +46,10 @@ Route::any('/wechat', 'WechatController@serve');
 然后创建控制器 `WechatController`：
 
 ```php
-<?php
+<?php namespace App\Http\Controllers;
 
-class WechatController {
+class WechatController extends Controller {
+
     /**
      * 处理微信的请求消息
      *
