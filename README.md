@@ -31,6 +31,11 @@
 
 ## 使用
 
+> 注意：你不需要在 `Wechat::make($config)` 了，我已经在拓展包里完成了这个动作，只要你在 `config/wechat.php` 里填写好配置就好了。
+
+你有两种方式获取 `Wechat` 实例：
+
+### 一、 使用外观（Facade）
 
 由于我们已经添加了外观 `Wechat`，那么我们可以在控制器或者其它任何地方使用 `Wechat::方法名` 方式调用 SDK。
 
@@ -64,6 +69,13 @@ class WechatController extends Controller {
         return Wechat::serve();
     }
 }
+```
+
+### 从容器获取 `Wechat`:
+
+```php
+  $wechat = App::make('wechat');
+  $wechat->on('message', ...);
 ```
 
 更多使用请参考：https://github.com/overtrue/wechat/wiki/
