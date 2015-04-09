@@ -4,7 +4,7 @@
     "keywords": ["wechat", "weixin","laravel", "sdk"],
     "require": {
         "laravel/framework": ">=5.0.0",
-        "overtrue/wechat": "*"
+        "overtrue/wechat": ">1.0.1"
     },
     "autoload": {
         "psr-4": {
