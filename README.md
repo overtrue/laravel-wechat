@@ -74,6 +74,8 @@ class WechatController extends Controller {
 }
 ```
 
+> 注意：不要忘记在头部 `use Wechat` 哦，或者你就得用 `\Wechat` 咯。:smile:
+
 ### 从容器获取 `Wechat`:
 
 ```php
