@@ -53,6 +53,9 @@ Route::any('/wechat', 'WechatController@serve');
 ```php
 <?php namespace App\Http\Controllers;
 
+use Wechat;
+use Log;
+
 class WechatController extends Controller {
 
     /**
@@ -63,7 +66,7 @@ class WechatController extends Controller {
     public function serve()
     {
         Wechat::on('message', function($message){
-            \Log::info("收到来自'{$message['FromUserName']}'的消息：{$message['Content']}");
+            Log::info("收到来自'{$message['FromUserName']}'的消息：{$message['Content']}");
         });
 
         return Wechat::serve();
