@@ -33,6 +33,14 @@
 
 > 注意：你不需要在 `Wechat::make($config)` 了，我已经在拓展包里完成了这个动作，只要你在 `config/wechat.php` 里填写好配置就好了。
 
+路由：
+
+```php
+Route::any('/wechat', 'WechatController@serve');
+```
+
+> 注意：一定是 `Route::any`, 因为微信服务端认证的时候是 `GET`, 接收用户消息时是 `POST` ！
+
 你有两种方式获取 `Wechat` 实例：
 
 ### 一、 使用外观（Facade）
@@ -41,11 +49,6 @@
 
 下面以接收普通消息为例写一个例子：
 
-路由：
-
-```php
-Route::any('/wechat', 'WechatController@serve');
-```
 这里假设您的域名为 `overtrue.me` 那么请登录微信公众平台 “开发者中心” 修改 “URL（服务器配置）” 为： `http://overtrue.me/wechat`。
 
 然后创建控制器 `WechatController`：
