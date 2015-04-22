@@ -31,7 +31,9 @@
 
 ## 使用
 
-> 注意：Laravel 5 默认启用了 CRSF 中间件，因为微信的消息是 POST 过来，所以会触发 CRSF 检查导致无法正确响应消息，所以请去除默认的 CRSF 中间件，改成路由中间件。[默认启用的代码位置](https://github.com/laravel/laravel/blob/master/app/Http/Kernel.php#L18)
+> 注意：
+1. Laravel 5 默认启用了 CRSF 中间件，因为微信的消息是 POST 过来，所以会触发 CRSF 检查导致无法正确响应消息，所以请去除默认的 CRSF 中间件，改成路由中间件。[默认启用的代码位置](https://github.com/laravel/laravel/blob/master/app/Http/Kernel.php#L18)
+2. 你不需要在 `Wechat::make($config)` 了，我已经在拓展包里完成了这个动作，只要你在 `config/wechat.php` 里填写好配置就好了。
 
 由于我们已经添加了外观 `Wechat`，那么我们可以在控制器或者其它任何地方使用 `Wechat::方法名` 方式调用 SDK。
 
@@ -42,12 +44,26 @@
 ```php
 Route::any('/wechat', 'WechatController@serve');
 ```
+
+> 注意：一定是 `Route::any`, 因为微信服务端认证的时候是 `GET`, 接收用户消息时是 `POST` ！
+
+你有两种方式获取 `Wechat` 实例：
+
+### 一、 使用外观（Facade）
+
+由于我们已经添加了外观 `Wechat`，那么我们可以在控制器或者其它任何地方使用 `Wechat::方法名` 方式调用 SDK。
+
+下面以接收普通消息为例写一个例子：
+
 这里假设您的域名为 `overtrue.me` 那么请登录微信公众平台 “开发者中心” 修改 “URL（服务器配置）” 为： `http://overtrue.me/wechat`。
 
 然后创建控制器 `WechatController`：
 
 ```php
 <?php namespace App\Http\Controllers;
+
+use Wechat;
+use Log;
 
 class WechatController extends Controller {
 
@@ -59,12 +75,21 @@ class WechatController extends Controller {
     public function serve()
     {
         Wechat::on('message', function($message){
-            \Log::info("收到来自'{$message['FromUserName']}'的消息：{$message['Content']}");
+            Log::info("收到来自'{$message['FromUserName']}'的消息：{$message['Content']}");
         });
 
         return Wechat::serve();
     }
 }
+```
+
+> 注意：不要忘记在头部 `use Wechat` 哦，或者你就得用 `\Wechat` 咯。:smile:
+
+### 从容器获取 `Wechat` 实例
+
+```php
+  $wechat = App::make('wechat');
+  $wechat->on('message', ...);
 ```
 
 更多使用请参考：https://github.com/overtrue/wechat/wiki/
