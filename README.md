@@ -31,6 +31,7 @@
 
 ## 使用
 
+> 注意：Laravel 5 默认启用了 CRSF 中间件，因为微信的消息是 POST 过来，所以会触发 CRSF 检查导致无法正确响应消息，所以请去除默认的 CRSF 中间件，改成路由中间件。[默认启用的代码位置](https://github.com/laravel/laravel/blob/master/app/Http/Kernel.php#L18)
 
 由于我们已经添加了外观 `Wechat`，那么我们可以在控制器或者其它任何地方使用 `Wechat::方法名` 方式调用 SDK。
 
