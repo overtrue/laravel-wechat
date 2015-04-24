@@ -1,5 +1,4 @@
 <?php
-
 return [
     'appId'          => 'Your app id', // 必填
     'secret'         => 'Your secret', // 必填
