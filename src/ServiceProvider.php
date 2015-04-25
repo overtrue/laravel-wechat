@@ -58,7 +58,7 @@ class ServiceProvider extends LaravelServiceProvider
         });
 
         foreach ($this->services as $alias => $service) {
-            $this->app->singleton($service, function($app){
+            $this->app->singleton($service, function($app) use ($service){
                 return new $service(config('wechat.appId'), config('wechat.secret'));
             });
 
