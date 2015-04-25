@@ -32,20 +32,20 @@
 
 别名对应关系如下：
 
-  'wechat.server'    => 'Overtrue\\Wechat\\Server',
-  'wechat.user'      => 'Overtrue\\Wechat\\User',
-  'wechat.group'     => 'Overtrue\\Wechat\\Group',
-  'wechat.auth'      => 'Overtrue\\Wechat\\Auth',
-  'wechat.menu'      => 'Overtrue\\Wechat\\Menu',
-  'wechat.menu.item' => 'Overtrue\\Wechat\\MenuItem',
-  'wechat.js'        => 'Overtrue\\Wechat\\Js',
-  'wechat.staff'     => 'Overtrue\\Wechat\\Staff',
-  'wechat.store'     => 'Overtrue\\Wechat\\Store',
-  'wechat.card'      => 'Overtrue\\Wechat\\Card',
-  'wechat.qrcode'    => 'Overtrue\\Wechat\\QRCode',
-  'wechat.url'       => 'Overtrue\\Wechat\\Url',
-  'wechat.media'     => 'Overtrue\\Wechat\\Media',
-  'wechat.image'     => 'Overtrue\\Wechat\\Image',
+    'wechat.server'    => 'Overtrue\\Wechat\\Server',
+    'wechat.user'      => 'Overtrue\\Wechat\\User',
+    'wechat.group'     => 'Overtrue\\Wechat\\Group',
+    'wechat.auth'      => 'Overtrue\\Wechat\\Auth',
+    'wechat.menu'      => 'Overtrue\\Wechat\\Menu',
+    'wechat.menu.item' => 'Overtrue\\Wechat\\MenuItem',
+    'wechat.js'        => 'Overtrue\\Wechat\\Js',
+    'wechat.staff'     => 'Overtrue\\Wechat\\Staff',
+    'wechat.store'     => 'Overtrue\\Wechat\\Store',
+    'wechat.card'      => 'Overtrue\\Wechat\\Card',
+    'wechat.qrcode'    => 'Overtrue\\Wechat\\QRCode',
+    'wechat.url'       => 'Overtrue\\Wechat\\Url',
+    'wechat.media'     => 'Overtrue\\Wechat\\Media',
+    'wechat.image'     => 'Overtrue\\Wechat\\Image',
 
 下面以接收普通消息为例写一个例子：
 
