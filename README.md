@@ -2,6 +2,8 @@
 
 微信 SDK for Laravel 5， 基于 [overtrue/wechat](https://github.com/overtrue/wechat)
 
+本项目只适用于，只有一个固定的账号，如果是开发微信公众号管理系统就不要使用了，直接用 [overtrue/wechat](https://github.com/overtrue/wechat) 更方便些。
+
 ## 安装
 
 1. 安装包文件
@@ -23,11 +25,6 @@
 
   然后请修改 `config/wechat.php` 中对应的项即可。
 
-4. 添加下面行到 `config/app.php` 的 `aliases` 部分：
-
-  ```php
-  'Wechat' => 'Overtrue\LaravelWechat\Facade',
-  ```
 
 ## 使用
 
@@ -35,9 +32,23 @@
 
 > 1. Laravel 5 默认启用了 CRSF 中间件，因为微信的消息是 POST 过来，所以会触发 CRSF 检查导致无法正确响应消息，所以请去除默认的 CRSF 中间件，改成路由中间件。[默认启用的代码位置](https://github.com/laravel/laravel/blob/master/app/Http/Kernel.php#L18)
 
-> 2. 你不需要在 `Wechat::make($config)` 了，我已经在拓展包里完成了这个动作，只要你在 `config/wechat.php` 里填写好配置就好了。
+所有的Wechat对象都已经放到了容器中，直接从容器中取就好。
 
-由于我们已经添加了外观 `Wechat`，那么我们可以在控制器或者其它任何地方使用 `Wechat::方法名` 方式调用 SDK。
+别名对应关系如下：
+
+  'wechat.user'      => 'Overtrue\\Wechat\\User',
+  'wechat.group'     => 'Overtrue\\Wechat\\Group',
+  'wechat.auth'      => 'Overtrue\\Wechat\\Auth',
+  'wechat.menu'      => 'Overtrue\\Wechat\\Menu',
+  'wechat.menu.item' => 'Overtrue\\Wechat\\MenuItem',
+  'wechat.js'        => 'Overtrue\\Wechat\\Js',
+  'wechat.staff'     => 'Overtrue\\Wechat\\Staff',
+  'wechat.store'     => 'Overtrue\\Wechat\\Store',
+  'wechat.card'      => 'Overtrue\\Wechat\\Card',
+  'wechat.qrcode'    => 'Overtrue\\Wechat\\QRCode',
+  'wechat.url'       => 'Overtrue\\Wechat\\Url',
+  'wechat.media'     => 'Overtrue\\Wechat\\Media',
+  'wechat.image'     => 'Overtrue\\Wechat\\Image',
 
 下面以接收普通消息为例写一个例子：
 
@@ -49,14 +60,6 @@ Route::any('/wechat', 'WechatController@serve');
 
 > 注意：一定是 `Route::any`, 因为微信服务端认证的时候是 `GET`, 接收用户消息时是 `POST` ！
 
-你有两种方式获取 `Wechat` 实例：
-
-### 一、 使用外观（Facade）
-
-由于我们已经添加了外观 `Wechat`，那么我们可以在控制器或者其它任何地方使用 `Wechat::方法名` 方式调用 SDK。
-
-下面以接收普通消息为例写一个例子：
-
 这里假设您的域名为 `overtrue.me` 那么请登录微信公众平台 “开发者中心” 修改 “URL（服务器配置）” 为： `http://overtrue.me/wechat`。
 
 然后创建控制器 `WechatController`：
@@ -64,7 +67,6 @@ Route::any('/wechat', 'WechatController@serve');
 ```php
 <?php namespace App\Http\Controllers;
 
-use Wechat;
 use Log;
 
 class WechatController extends Controller {
@@ -76,7 +78,7 @@ class WechatController extends Controller {
      */
     public function serve()
     {
-        Wechat::on('message', function($message){
+        App::on('message', function($message){
             Log::info("收到来自'{$message['FromUserName']}'的消息：{$message['Content']}");
         });
 
