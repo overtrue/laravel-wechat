@@ -59,13 +59,18 @@ class ServiceProvider extends LaravelServiceProvider
 
         foreach ($this->services as $alias => $service) {
             $this->app->singleton($service, function($app){
-                return new {$service}(config('wechat.appId'), config('wechat.secret'));
+                return new $service(config('wechat.appId'), config('wechat.secret'));
             });
 
             $this->app->alias($service, $alias);
         }
     }
 
+    /**
+     * 提供的服务名称列表
+     *
+     * @return array
+     */
     public function provides()
     {
         return array_keys($this->services) + array_values($this->services);
