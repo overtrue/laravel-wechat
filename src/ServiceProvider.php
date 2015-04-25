@@ -3,10 +3,16 @@
 namespace Overtrue\LaravelWechat;
 
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
+use Overtrue\Wechat\Server as WechatServer;
 use Overtrue\Wechat\Alias;
 
 class ServiceProvider extends LaravelServiceProvider
 {
+    /**
+     * 延迟加载
+     *
+     * @var boolean
+     */
     protected $defer = true;
 
     /**
@@ -29,6 +35,7 @@ class ServiceProvider extends LaravelServiceProvider
         'wechat.media'     => 'Overtrue\\Wechat\\Media',
         'wechat.image'     => 'Overtrue\\Wechat\\Image',
     ];
+
 
     /**
      * Boot the provider.
@@ -53,26 +60,28 @@ class ServiceProvider extends LaravelServiceProvider
             Alias::register();
         }
 
-        $this->app->singleton('wechat.server', function($app){
-            return new WechatServer(config('wechat.appId'), config('wechat.token'), config('wechat.encodingAESKey'));
+        if (config('wechat') == include __DIR__ . '/config.php') {
+            throw new \Exception("请先在config/wechat.php完成微信相关配置");
+        }
+
+        $this->app->singleton(['Overtrue\\Wechat\\Server' => 'wechat.server'], function($app){
+            return new WechatServer(config('wechat.app_id'), config('wechat.token'), config('wechat.encoding_key'));
         });
 
         foreach ($this->services as $alias => $service) {
-            $this->app->singleton($service, function($app) use ($service){
-                return new $service(config('wechat.appId'), config('wechat.secret'));
+            $this->app->singleton([$service => $alias], function($app) use ($service){
+                return new $service(config('wechat.app_id'), config('wechat.secret'));
             });
-
-            $this->app->alias($service, $alias);
         }
     }
 
     /**
-     * 提供的服务名称列表
+     * 提供的服务
      *
      * @return array
      */
     public function provides()
     {
-        return array_keys($this->services) + array_values($this->services);
+        return $this->services;
     }
 }
