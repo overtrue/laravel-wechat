@@ -100,7 +100,7 @@ use Overtrue\Wechat\Auth;
 
 class WechatController extends Controller {
 
-    public function __construct(Auth $auth)
+    public function demo(Auth $auth)
     {
         // $auth 则为容器中 Overtrue\Wechat\Auth 的实例
     }
