@@ -32,20 +32,20 @@
 
 别名对应关系如下：
 
-    'wechat.server'    => 'Overtrue\\Wechat\\Server',
-    'wechat.user'      => 'Overtrue\\Wechat\\User',
-    'wechat.group'     => 'Overtrue\\Wechat\\Group',
-    'wechat.auth'      => 'Overtrue\\Wechat\\Auth',
-    'wechat.menu'      => 'Overtrue\\Wechat\\Menu',
-    'wechat.menu.item' => 'Overtrue\\Wechat\\MenuItem',
-    'wechat.js'        => 'Overtrue\\Wechat\\Js',
-    'wechat.staff'     => 'Overtrue\\Wechat\\Staff',
-    'wechat.store'     => 'Overtrue\\Wechat\\Store',
-    'wechat.card'      => 'Overtrue\\Wechat\\Card',
-    'wechat.qrcode'    => 'Overtrue\\Wechat\\QRCode',
-    'wechat.url'       => 'Overtrue\\Wechat\\Url',
-    'wechat.media'     => 'Overtrue\\Wechat\\Media',
-    'wechat.image'     => 'Overtrue\\Wechat\\Image',
+    'wechat.server'    => 'Overtrue\Wechat\Server',
+    'wechat.user'      => 'Overtrue\Wechat\User',
+    'wechat.group'     => 'Overtrue\Wechat\Group',
+    'wechat.auth'      => 'Overtrue\Wechat\Auth',
+    'wechat.menu'      => 'Overtrue\Wechat\Menu',
+    'wechat.menu.item' => 'Overtrue\Wechat\MenuItem',
+    'wechat.js'        => 'Overtrue\Wechat\Js',
+    'wechat.staff'     => 'Overtrue\Wechat\Staff',
+    'wechat.store'     => 'Overtrue\Wechat\Store',
+    'wechat.card'      => 'Overtrue\Wechat\Card',
+    'wechat.qrcode'    => 'Overtrue\Wechat\QRCode',
+    'wechat.url'       => 'Overtrue\Wechat\Url',
+    'wechat.media'     => 'Overtrue\Wechat\Media',
+    'wechat.image'     => 'Overtrue\Wechat\Image',
 
 下面以接收普通消息为例写一个例子：
 
@@ -89,11 +89,33 @@ class WechatController extends Controller {
 
 > 注意：不要忘记在头部 `use` 哦，或者你就得用 `\Overtrue\Wechat\Server` 全称咯。:smile:
 
-### 从容器获取对应实例
+### 我们有两种方式获取 SDK 的服务实例
+
+##### 使用容器的自动注入
+
+```php
+<?php namespace App\Http\Controllers;
+
+use Overtrue\Wechat\Auth;
+
+class WechatController extends Controller {
+
+    public function __construct(Auth $auth)
+    {
+        // $auth 则为容器中 Overtrue\Wechat\Auth 的实例
+    }
+}
+```
+
+##### 使用别名/类名从容器获取对应实例
+
+上面已经列出了所有可用的别名对应关系，你可以使用别名或者类名获取对应的实例：
 
 ```php
   $wechatServer = App::make('wechat.server'); // 服务端
   $wechatUser = App::make('wechat.user'); // 用户服务
+  或者：
+  $wechatUser = App::make('Overtrue\Wechat\User'); // 用户服务
   // ... 其它同理
 ```
 
