@@ -21,6 +21,11 @@
 
 3. 请修改 `config/wechat.php` 中对应的项即可。
 
+4. （可选）添加外观到 `config/app.php` 中的 `aliases` 部分:
+
+  ```php
+  'Wechat' => 'Overtrue\LaravelWechat\Facade',
+  ```
 
 ## 使用
 
@@ -89,7 +94,7 @@ class WechatController extends Controller {
 
 > 注意：不要忘记在头部 `use` 哦，或者你就得用 `\Overtrue\Wechat\Server` 全称咯。:smile:
 
-### 我们有两种方式获取 SDK 的服务实例
+### 我们有三种方式获取 SDK 的服务实例
 
 ##### 使用容器的自动注入
 
@@ -117,6 +122,14 @@ class WechatController extends Controller {
   或者：
   $wechatUser = App::make('Overtrue\Wechat\User'); // 用户服务
   // ... 其它同理
+```
+
+#### 使用外观 `Wechat`
+
+```php
+$wechatServer = Wechat::server();
+$wechatUser = Wechat::user();
+//... 其它同理
 ```
 
 更多使用请参考：https://github.com/overtrue/wechat/wiki/
