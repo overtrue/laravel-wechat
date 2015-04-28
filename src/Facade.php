@@ -6,6 +6,16 @@ use Illuminate\Support\Facades\Facade as LaravelFacade;
 class Facade extends LaravelFacade
 {
     /**
+     * 默认为 Server
+     *
+     * @return string
+     */
+    public function getFacadeAccessor()
+    {
+        return "wechay.server";
+    }
+
+    /**
      * 获取微信 SDK 服务
      *
      * @param string $name
