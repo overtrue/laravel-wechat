@@ -82,6 +82,6 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function provides()
     {
-        return $this->services;
+        return array_merge(array_keys($this->services), array_values($this->services));
     }
 }
