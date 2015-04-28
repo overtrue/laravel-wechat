@@ -12,7 +12,7 @@ class Facade extends LaravelFacade
      */
     public function getFacadeAccessor()
     {
-        return "wechay.server";
+        return "wechat.server";
     }
 
     /**
