@@ -31,7 +31,7 @@
 
 > 注意：
 
-> 1. Laravel 5 默认启用了 CRSF 中间件，因为微信的消息是 POST 过来，所以会触发 CRSF 检查导致无法正确响应消息，所以请去除默认的 CRSF 中间件，改成路由中间件。[默认启用的代码位置](https://github.com/laravel/laravel/blob/master/app/Http/Kernel.php#L18)
+> 1. Laravel 5 默认启用了 CRSF 中间件，因为微信的消息是 POST 过来，所以会触发 CRSF 检查导致无法正确响应消息，所以请去除默认的 CRSF 中间件，改成路由中间件。可以参考我的写法：[overtrue gist:Kernel.php](https://gist.github.com/overtrue/ff6cd3a4e869fbaf6c01#file-kernel-php-L31)
 
 所有的Wechat对象都已经放到了容器中，直接从容器中取就好。
 
