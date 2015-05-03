@@ -34,6 +34,10 @@ class ServiceProvider extends LaravelServiceProvider
         'wechat.url'       => 'Overtrue\\Wechat\\Url',
         'wechat.media'     => 'Overtrue\\Wechat\\Media',
         'wechat.image'     => 'Overtrue\\Wechat\\Image',
+        'wechat.notice'    => 'Overtrue\\Wechat\\Notice',
+        'wechat.color'     => 'Overtrue\\Wechat\\Color',
+        'wechat.semantic'  => 'Overtrue\\Wechat\\Semantic',
+        'wechat.stats'     => 'Overtrue\\Wechat\\Stats',
     ];
 
 
