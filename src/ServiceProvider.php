@@ -16,6 +16,13 @@ class ServiceProvider extends LaravelServiceProvider
     protected $defer = true;
 
     /**
+     * 补充
+     *
+     * @var array
+     */
+    protected $providesAppend = ['wechat.server', 'Overtrue\\Wechat\\Server'];
+
+    /**
      * 服务列表
      *
      * @var array
@@ -86,6 +93,6 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function provides()
     {
-        return array_merge(array_keys($this->services), array_values($this->services));
+        return array_merge(array_keys($this->services), array_values($this->services), $this->providesAppend);
     }
 }
