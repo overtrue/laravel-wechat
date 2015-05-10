@@ -71,10 +71,6 @@ class ServiceProvider extends LaravelServiceProvider
             Alias::register();
         }
 
-        if (config('wechat') == include __DIR__ . '/config.php') {
-            throw new \Exception("请先在config/wechat.php完成微信相关配置");
-        }
-
         $this->app->singleton(['Overtrue\\Wechat\\Server' => 'wechat.server'], function($app){
             return new WechatServer(config('wechat.app_id'), config('wechat.token'), config('wechat.encoding_key'));
         });
