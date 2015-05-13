@@ -19,13 +19,14 @@
   'Overtrue\LaravelWechat\ServiceProvider',
   ```
 
-3. 请修改应用根目录下的 `config/wechat.php` 中对应的项即可，如果没有找到请执行下面的命令生成配置文件：
+3. 创建配置文件：
 
   ```shell
   php artisan vendor:publish  --provider=Overtrue\\LaravelWechat\\ServiceProvider
   ```
+4. 请修改应用根目录下的 `config/wechat.php` 中对应的项即可，如果没有找到请执行下面的命令生成配置文件：
 
-4. （可选）添加外观到 `config/app.php` 中的 `aliases` 部分:
+5. （可选）添加外观到 `config/app.php` 中的 `aliases` 部分:
 
   ```php
   'Wechat' => 'Overtrue\LaravelWechat\Facade',
