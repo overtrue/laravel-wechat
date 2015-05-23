@@ -58,6 +58,8 @@
     'wechat.url'       => 'Overtrue\Wechat\Url',
     'wechat.media'     => 'Overtrue\Wechat\Media',
     'wechat.image'     => 'Overtrue\Wechat\Image',
+    'wechat.notice'     => 'Overtrue\Wechat\Notice',
+    'wechat.media'     => 'Overtrue\Wechat\Media',
 
 下面以接收普通消息为例写一个例子：
 
