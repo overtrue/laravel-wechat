@@ -16,11 +16,7 @@
 
     "scripts": {
         "post-install-cmd": [
-            "php artisan clear-compiled",
             "php artisan vendor:publish  --provider=Overtrue\\LaravelWechat\\ServiceProvider"
-        ],
-        "post-update-cmd": [
-            "php artisan clear-compiled"
         ]
     },
     "minimum-stability" : "dev",
