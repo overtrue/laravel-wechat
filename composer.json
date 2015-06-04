@@ -3,7 +3,7 @@
     "description": "微信 SDK for Laravel",
     "keywords": ["wechat", "weixin","laravel", "sdk"],
     "require": {
-        "overtrue/wechat": "2.0.*"
+        "overtrue/wechat": "2.1.*@dev"
     },
     "autoload": {
         "psr-4": {
