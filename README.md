@@ -8,6 +8,8 @@
 
 本项目只适用于，只有一个固定的账号，如果是开发微信公众号管理系统就不要使用了，直接用 [overtrue/wechat](https://github.com/overtrue/wechat) 更方便些。
 
+> 交流QQ群：319502940
+
 ## 安装
 
 1. 安装包文件
