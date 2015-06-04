@@ -67,7 +67,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        if (config('wechat.alias')) {
+        if (config('wechat.use_alias')) {
             Alias::register();
         }
 
