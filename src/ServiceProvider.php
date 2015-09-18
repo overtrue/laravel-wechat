@@ -55,9 +55,11 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            __DIR__ . '/config.php' => config_path('wechat.php'),
-        ], 'config');
+        if (function_exists('config_path')) {
+            $this->publishes([
+                __DIR__ . '/config.php' => config_path('wechat.php'),
+            ], 'config');
+        }
     }
 
     /**
@@ -67,6 +69,10 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(
+            __DIR__.'/config.php', 'wechat'
+        );
+
         if (config('wechat.use_alias')) {
             Alias::register();
         }

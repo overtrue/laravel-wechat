@@ -16,25 +16,50 @@
   ```shell
   composer require "overtrue/laravel-wechat:2.0.*"
   ```
+## 配置
 
-2. 添加 `ServiceProvider` 到您项目 `config/app.php` 中的 `providers` 部分:
+### Laravel 应用
+
+1. 注册 `ServiceProvider`:
 
   ```php
-  'Overtrue\LaravelWechat\ServiceProvider',
+  Overtrue\LaravelWechat\ServiceProvider::class,
   ```
 
-3. 创建配置文件：
+2. 创建配置文件：
 
   ```shell
   php artisan vendor:publish
   ```
-4. 请修改应用根目录下的 `config/wechat.php` 中对应的项即可；
+3. 请修改应用根目录下的 `config/wechat.php` 中对应的项即可；
 
-5. （可选）添加外观到 `config/app.php` 中的 `aliases` 部分:
+4. （可选）添加外观到 `config/app.php` 中的 `aliases` 部分:
 
   ```php
   'Wechat' => 'Overtrue\LaravelWechat\Facade',
   ```
+### Lumen 应用
+
+1. 在 `bootstrap/app.php` 中 82 行左右：
+
+  ```php
+  $app->register(Overtrue\LaravelWechat\ServiceProvider::class);
+  ```
+
+2. 在 ENV 中配置以下选项：
+
+```php
+WECHAT_USE_ALIAS=false
+WECHAT_APPID=你的微信APPid
+WECHAT_SECRET=你的secret
+WECHAT_TOKEN=你的token
+WECHAT_ENCODING_KEY=AESkey
+```
+3. 如果你习惯使用 `config/wechat.php` 来配置的话，请记得在 `bootstrap/app.php` 中19行以后添加：
+
+```php
+$app->configure('wechat');
+```
 
 ## 使用
 
