@@ -13,6 +13,7 @@
 ## 安装
 
 1. 安装包文件
+
   ```shell
   composer require "overtrue/laravel-wechat:2.1.*"
   ```
@@ -32,6 +33,7 @@
   ```shell
   php artisan vendor:publish
   ```
+
 3. 请修改应用根目录下的 `config/wechat.php` 中对应的项即可；
 
 4. （可选）添加外观到 `config/app.php` 中的 `aliases` 部分:
