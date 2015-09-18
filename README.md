@@ -1,6 +1,6 @@
 # laravel-wechat
 
-> 注意：此版本为 2.x 版本，不兼容 1.x，已经移除外观，与 [overtrue/wechat 2.0](https://github.com/overtrue/wechat) 同步
+> 注意：此版本为 2.x 版本，不兼容 1.x，已经移除外观，与 [overtrue/wechat 2.x](https://github.com/overtrue/wechat) 同步
 
 > 1.x 的配置文件里面的项目为驼峰，2.x 系列已经改为下划线，请参考: [src/config.php](https://github.com/overtrue/laravel-wechat/blob/master/src/config.php)
 
@@ -14,7 +14,7 @@
 
 1. 安装包文件
   ```shell
-  composer require "overtrue/laravel-wechat:2.0.*"
+  composer require "overtrue/laravel-wechat:2.1.*"
   ```
 ## 配置
 
