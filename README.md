@@ -4,7 +4,7 @@
 
 > 1.x 的配置文件里面的项目为驼峰，2.x 系列已经改为下划线，请参考: [src/config.php](https://github.com/overtrue/laravel-wechat/blob/master/src/config.php)
 
-微信 SDK for Laravel 5， 基于 [overtrue/wechat](https://github.com/overtrue/wechat)
+微信 SDK for Laravel 5 / Lumen， 基于 [overtrue/wechat](https://github.com/overtrue/wechat)
 
 本项目只适用于，只有一个固定的账号，如果是开发微信公众号管理系统就不要使用了，直接用 [overtrue/wechat](https://github.com/overtrue/wechat) 更方便些。
 
@@ -16,6 +16,7 @@
   ```shell
   composer require "overtrue/laravel-wechat:2.1.*"
   ```
+
 ## 配置
 
 ### Laravel 应用
@@ -38,6 +39,7 @@
   ```php
   'Wechat' => 'Overtrue\LaravelWechat\Facade',
   ```
+
 ### Lumen 应用
 
 1. 在 `bootstrap/app.php` 中 82 行左右：
@@ -50,10 +52,10 @@
 
 ```php
 WECHAT_USE_ALIAS=false
-WECHAT_APPID=你的微信APPid
-WECHAT_SECRET=你的secret
-WECHAT_TOKEN=你的token
-WECHAT_ENCODING_KEY=AESkey
+WECHAT_APPID=xxx
+WECHAT_SECRET=xxx
+WECHAT_TOKEN=xxx
+WECHAT_ENCODING_KEY=xxx
 ```
 3. 如果你习惯使用 `config/wechat.php` 来配置的话，请记得在 `bootstrap/app.php` 中19行以后添加：
 
