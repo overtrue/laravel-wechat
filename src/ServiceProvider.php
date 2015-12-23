@@ -77,6 +77,8 @@ class ServiceProvider extends LaravelServiceProvider
         if (config('wechat.use_alias')) {
             Alias::register();
         }
+        
+        $this->app->register('Overtrue\\LaravelWechat\\ServiceProvider::class');
 
         $this->app->singleton(['Overtrue\\Wechat\\Server' => 'wechat.server'], function($app){
             return new WechatServer(config('wechat.app_id'), config('wechat.token'), config('wechat.encoding_key'));
