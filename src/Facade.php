@@ -12,7 +12,7 @@ class Facade extends LaravelFacade
      */
     static public function getFacadeAccessor()
     {
-        return "wechat.server";
+        return "wechat";
     }
 
     /**
@@ -25,6 +25,12 @@ class Facade extends LaravelFacade
      */
     static public function __callStatic($name, $args)
     {
-        return self::resolveFacadeInstance("wechat.{$name}");
+        $app = static::getFacadeRoot();
+
+        if (method_exists($app, $name)) {
+            return call_user_func_array([$app, $name], $args);
+        }
+
+        return $app->$name;
     }
 }

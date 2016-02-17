@@ -3,8 +3,7 @@
 namespace Overtrue\LaravelWechat;
 
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
-use Overtrue\Wechat\Server as WechatServer;
-use Overtrue\Wechat\Alias;
+use EasyWeChat\Foundation\Application;
 
 class ServiceProvider extends LaravelServiceProvider
 {
@@ -14,39 +13,6 @@ class ServiceProvider extends LaravelServiceProvider
      * @var boolean
      */
     protected $defer = true;
-
-    /**
-     * 补充
-     *
-     * @var array
-     */
-    protected $providesAppends = ['wechat.server', 'Overtrue\\Wechat\\Server'];
-
-    /**
-     * 服务列表
-     *
-     * @var array
-     */
-    protected $services = [
-        'wechat.user'      => 'Overtrue\\Wechat\\User',
-        'wechat.group'     => 'Overtrue\\Wechat\\Group',
-        'wechat.auth'      => 'Overtrue\\Wechat\\Auth',
-        'wechat.menu'      => 'Overtrue\\Wechat\\Menu',
-        'wechat.menu.item' => 'Overtrue\\Wechat\\MenuItem',
-        'wechat.js'        => 'Overtrue\\Wechat\\Js',
-        'wechat.staff'     => 'Overtrue\\Wechat\\Staff',
-        'wechat.store'     => 'Overtrue\\Wechat\\Store',
-        'wechat.card'      => 'Overtrue\\Wechat\\Card',
-        'wechat.qrcode'    => 'Overtrue\\Wechat\\QRCode',
-        'wechat.url'       => 'Overtrue\\Wechat\\Url',
-        'wechat.media'     => 'Overtrue\\Wechat\\Media',
-        'wechat.image'     => 'Overtrue\\Wechat\\Image',
-        'wechat.notice'    => 'Overtrue\\Wechat\\Notice',
-        'wechat.color'     => 'Overtrue\\Wechat\\Color',
-        'wechat.semantic'  => 'Overtrue\\Wechat\\Semantic',
-        'wechat.stats'     => 'Overtrue\\Wechat\\Stats',
-    ];
-
 
     /**
      * Boot the provider.
@@ -73,19 +39,15 @@ class ServiceProvider extends LaravelServiceProvider
             __DIR__.'/config.php', 'wechat'
         );
 
-        if (config('wechat.use_alias')) {
-            Alias::register();
-        }
+        $this->app->singleton(['EasyWeChat\\Foundation\\Application' => 'wechat'], function($app){
+            $app = new Application(config('wechat'));
 
-        $this->app->singleton(['Overtrue\\Wechat\\Server' => 'wechat.server'], function($app){
-            return new WechatServer(config('wechat.app_id'), config('wechat.token'), config('wechat.encoding_key'));
+            if (config('wechat.use_laravel_cache')) {
+                $app->cache = new CacheBridge();
+            }
+
+            return $app;
         });
-
-        foreach ($this->services as $alias => $service) {
-            $this->app->singleton([$service => $alias], function($app) use ($service){
-                return new $service(config('wechat.app_id'), config('wechat.secret'));
-            });
-        }
     }
 
     /**
@@ -95,6 +57,6 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function provides()
     {
-        return array_merge(array_keys($this->services), array_values($this->services), $this->providesAppends);
+        return ['wechat', 'EasyWeChat\\Foundation\\Application'];
     }
 }
