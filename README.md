@@ -123,7 +123,7 @@ class WechatController extends Controller {
 }
 ```
 
-### 我们有三种方式获取 SDK 的服务实例
+### 我们有以下方式获取 SDK 的服务实例
 
 ##### 使用容器的自动注入
 
