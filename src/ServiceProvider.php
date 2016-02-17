@@ -40,7 +40,13 @@ class ServiceProvider extends LaravelServiceProvider
         );
 
         $this->app->singleton(['EasyWeChat\\Foundation\\Application' => 'wechat'], function($app){
-            return new Application(config('wechat'));
+            $app = new Application(config('wechat'));
+
+            if (config('wechat.use_laravel_cache')) {
+                $app->cache = new CacheBridge();
+            }
+
+            return $app;
         });
     }
 

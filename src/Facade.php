@@ -25,8 +25,12 @@ class Facade extends LaravelFacade
      */
     static public function __callStatic($name, $args)
     {
-        $app = static::getFacadeAccessor();
+        $app = static::getFacadeRoot();
 
-        return call_user_func_array([$app, $name], $args);
+        if (method_exists($app, $name)) {
+            return call_user_func_array([$app, $name], $args);
+        }
+
+        return $app->$name;
     }
 }
