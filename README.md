@@ -113,10 +113,14 @@ class WechatController extends Controller {
      */
     public function serve()
     {
+        Log::info('request arrived.');
+
         $wechat = app('wechat');
         $wechat->server->setMessageHandler(function($message){
             return "欢迎关注 overtrue！";
         });
+
+        Log::info('return response.');
 
         return $server->serve(); // 或者 return $server;
     }
