@@ -100,11 +100,14 @@ Route::any('/wechat', 'WechatController@serve');
 然后创建控制器 `WechatController`：
 
 ```php
-<?php namespace App\Http\Controllers;
+<?php 
+
+namespace App\Http\Controllers;
 
 use Log;
 
-class WechatController extends Controller {
+class WechatController extends Controller 
+{
 
     /**
      * 处理微信的请求消息
@@ -132,11 +135,14 @@ class WechatController extends Controller {
 ##### 使用容器的自动注入
 
 ```php
-<?php namespace App\Http\Controllers;
+<?php 
+
+namespace App\Http\Controllers;
 
 use EasyWeChat\Foundation\Application;
 
-class WechatController extends Controller {
+class WechatController extends Controller 
+{
 
     public function demo(Application $wechat)
     {
