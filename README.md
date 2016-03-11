@@ -100,13 +100,13 @@ Route::any('/wechat', 'WechatController@serve');
 然后创建控制器 `WechatController`：
 
 ```php
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
 use Log;
 
-class WechatController extends Controller 
+class WechatController extends Controller
 {
 
     /**
@@ -135,13 +135,13 @@ class WechatController extends Controller
 ##### 使用容器的自动注入
 
 ```php
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
 use EasyWeChat\Foundation\Application;
 
-class WechatController extends Controller 
+class WechatController extends Controller
 {
 
     public function demo(Application $wechat)
@@ -172,7 +172,7 @@ class WechatController extends Controller
 
 使用中间件的情况下 `app/config/wechat.php` 中的 `oauth.callback` 就随便填写吧(因为用不着了 :smile:)。
 
-1. 在 `app/Http/routes.php` 中添加路由中间件：
+1. 在 `app/Http/Kernel.php` 中添加路由中间件：
 
 ```php
 protected $routeMiddleware = [
@@ -190,7 +190,7 @@ protected $routeMiddleware = [
 Route::group(['middleware' => ['web', 'wechat.oauth']], function () {
     Route::get('/user', function () {
         $user = session('wechat.oauth_user'); // 拿到授权用户资料
-        
+
         dd($user);
     });
 });
