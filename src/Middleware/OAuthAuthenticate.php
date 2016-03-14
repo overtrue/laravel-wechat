@@ -24,8 +24,8 @@ class OAuthAuthenticate
         if (!session('wechat.oauth_user')) {
             if ($request->has('state') && $request->has('code')) {
                 session(['wechat.oauth_user' => $wechat->oauth->user()]);
-                
-                return redirect()->to(url($request->url(), array_except($request->query(), ['code', 'state'])));
+
+                return redirect()->to(url($request->url().'?'.array_except($request->query(), ['code', 'state'])));
             }
 
             return $wechat->oauth->redirect($request->fullUrl());
