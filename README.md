@@ -37,7 +37,7 @@
 4. （可选）添加外观到 `config/app.php` 中的 `aliases` 部分:
 
   ```php
-  'Wechat' => 'Overtrue\LaravelWechat\Facade',
+  'Wechat' => Overtrue\LaravelWechat\Facade::class,
   ```
 
 ### Lumen 应用
