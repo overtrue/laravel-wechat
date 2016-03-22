@@ -79,11 +79,24 @@ $app->configure('wechat');
 
 ## 使用
 
+### Laravel <= 5.1
+
 > 注意：
 
 > 1. Laravel 5 默认启用了 CSRF 中间件，因为微信的消息是 POST 过来，所以会触发 CSRF 检查导致无法正确响应消息，所以请去除默认的 CSRF 中间件，改成路由中间件。可以参考我的写法：[overtrue gist:Kernel.php](https://gist.github.com/overtrue/ff6cd3a4e869fbaf6c01#file-kernel-php-L31)
 > 5.1 里的 CSRF 已经带了可忽略部分url的功能，你可以参考：http://laravel.com/docs/master/routing#csrf-protection
 
+### Laravel 5.2
+
+在 5.2 里把微信相关的路由放到外面就好了：
+
+```php
+Route::group(['middleware' => ['web']], function () {
+  // 不要放这里就不会启用 csrf
+});
+
+// 放这里就好了
+```
 
 下面以接收普通消息为例写一个例子：
 
