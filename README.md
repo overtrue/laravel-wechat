@@ -127,7 +127,7 @@ class WechatController extends Controller
      */
     public function serve()
     {
-        Log::info('request arrived.');
+        Log::info('request arrived.'); # 注意：Log 为 Laravel 组件，所以它记的日志去 Laravel 日志看，而不是 EasyWeChat 日志
 
         $wechat = app('wechat');
         $wechat->server->setMessageHandler(function($message){
@@ -140,6 +140,8 @@ class WechatController extends Controller
     }
 }
 ```
+
+> 上面例子里的 Log 是 Laravel 组件，所以它的日志不会写到 EasyWeChat 里的，建议把 wechat 的日志配置到 Laravel 同一个日志文件，便于调试。
 
 ### 我们有以下方式获取 SDK 的服务实例
 
