@@ -19,7 +19,7 @@ class OAuthAuthenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $wechat = app('EasyWeChat\\Foundation\\Application');
+        $wechat = app('EasyWeChat\\Foundation\\Application', [config('wechat')]);
 
         if (!session('wechat.oauth_user')) {
             if ($request->has('state') && $request->has('code')) {
