@@ -86,15 +86,11 @@ $app->configure('wechat');
 
 ### Laravel 5.2
 
-在 5.2 里把微信相关的路由放到外面就好了：
+Laravel 5.2 默认启用了 web 中间件，意味着 CSRF 会默认打开，有两种方案：
 
-```php
-Route::group(['middleware' => ['web']], function () {
-  // 不要放这里就不会启用 csrf
-});
+1. 在 CSRF 中间件里排除微信相关的路由
+2. 关掉 CSRF 中间件（极不推荐）
 
-// 放这里就好了
-```
 
 下面以接收普通消息为例写一个例子：
 
