@@ -28,7 +28,13 @@ class OAuthAuthenticate
                 return redirect()->to($this->getTargetUrl($request));
             }
 
-            return $wechat->oauth->redirect($request->fullUrl());
+            $scopes = config('wechat.oauth.scopes', ['snsapi_base']);
+
+            if (is_string($scopes)) {
+                $scopes = array_map('trim', explode(',', $scopes));
+            }
+
+            return $wechat->oauth->scopes($scopes)->redirect($request->fullUrl());
         }
 
         return $next($request);
