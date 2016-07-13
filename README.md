@@ -16,6 +16,10 @@
   composer require "overtrue/laravel-wechat:~3.0"
   ```
 
+> 如果你用了 laravel-debugbar，请禁用或者关掉，否则这模块别想正常使用！！！
+> 如果你用了 laravel-debugbar，请禁用或者关掉，否则这模块别想正常使用！！！
+> 如果你用了 laravel-debugbar，请禁用或者关掉，否则这模块别想正常使用！！！
+
 ## 配置
 
 ### Laravel 应用
