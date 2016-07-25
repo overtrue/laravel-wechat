@@ -27,13 +27,13 @@ class ServiceProvider extends LaravelServiceProvider
     }
     
     /**
-	 * Setup the config.
-	 *
-	 * @return void
-	 */
-	protected function setupConfig()
-	{
-		$source = realpath(__DIR__ . '/config.php');
+     * Setup the config.
+     * 
+     *  @return void
+     */
+     protected function setupConfig()
+     {
+     	$source = realpath(__DIR__ . '/config.php');
 	
         if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
             $this->publishes([
@@ -43,7 +43,7 @@ class ServiceProvider extends LaravelServiceProvider
             $this->app->configure('wechat');
         }
         $this->mergeConfigFrom($source, 'wechat');
-	}
+     }
 
     /**
      * Register the provider.
