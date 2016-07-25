@@ -4,6 +4,8 @@ namespace Overtrue\LaravelWechat;
 
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use EasyWeChat\Foundation\Application;
+use Illuminate\Foundation\Application as LaravelApplication;
+use Laravel\Lumen\Application as LumenApplication;
 
 class ServiceProvider extends LaravelServiceProvider
 {
@@ -21,11 +23,26 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function boot()
     {
-        if (function_exists('config_path')) {
+        $this->setupConfig();
+    }
+
+    /**
+     * Setup the config.
+     *
+     * @return void
+     */
+    protected function setupConfig()
+    {
+        $source = realpath(__DIR__ . '/config.php');
+        
+        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/config.php' => config_path('wechat.php'),
-            ], 'config');
+                $source => config_path('wechat.php')
+            ]);
+        } elseif ($this->app instanceof LumenApplication) {
+            $this->app->configure('wechat');
         }
+        $this->mergeConfigFrom($source, 'wechat');
     }
 
     /**
@@ -35,10 +52,6 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(
-            __DIR__.'/config.php', 'wechat'
-        );
-
         $this->app->singleton(['EasyWeChat\\Foundation\\Application' => 'wechat'], function($app){
             $app = new Application(config('wechat'));
 
