@@ -77,11 +77,7 @@ WECHAT_PAYMENT_SUB_APP_ID
 WECHAT_PAYMENT_SUB_MERCHANT_ID
 ```
 
-3. 如果你习惯使用 `config/wechat.php` 来配置的话，请记得在 `bootstrap/app.php` 中19行以后添加：
-
-```php
-$app->configure('wechat');
-```
+3. 如果你习惯使用 `config/wechat.php` 来配置的话，将 `vendor/overtrue/laravel-wechat/src/config.php` 拷贝到`app/config`目录下，并将文件名改成`wechat.php`。
 
 ## 使用
 
