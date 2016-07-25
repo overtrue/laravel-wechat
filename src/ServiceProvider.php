@@ -23,27 +23,27 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function boot()
     {
-        $this->setupConfig();
+		$this->setupConfig();
     }
     
-    /**
-     * Setup the config.
-     * 
-     *  @return void
-     */
-     protected function setupConfig()
-     {
-     	$source = realpath(__DIR__ . '/config.php');
-	
-        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
-            $this->publishes([
-                $source => config_path('wechat.php'),
-            ]);
-        } elseif ($this->app instanceof LumenApplication) {
-            $this->app->configure('wechat');
+        /**
+         * Setup the config. 
+         * 
+         * @return void
+        */
+        protected function setupConfig()
+        {
+                $source = realpath(__DIR__ . '/config.php');
+                
+                app instanceof LaravelApplication && $this->app->runningInConsole()) {
+                        $this->publishes([
+                                $source => config_path('wechat.php'),
+                        ]);
+                } elseif ($this->app instanceof LumenApplication) {
+                        $this->app->configure('wechat');
+                }
+                $this->mergeConfigFrom($source, 'wechat');
         }
-        $this->mergeConfigFrom($source, 'wechat');
-     }
 
     /**
      * Register the provider.
