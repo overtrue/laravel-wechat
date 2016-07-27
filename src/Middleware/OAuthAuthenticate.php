@@ -3,6 +3,8 @@
 namespace Overtrue\LaravelWechat\Middleware;
 
 use Closure;
+use Event;
+use Overtrue\LaravelWechat\Events\WeChatUserAuthorized;
 
 /**
  * Class OAuthAuthenticate
@@ -21,9 +23,12 @@ class OAuthAuthenticate
     {
         $wechat = app('EasyWeChat\\Foundation\\Application', [config('wechat')]);
 
+        $isNewSession = false;
+
         if (!session('wechat.oauth_user')) {
             if ($request->has('state') && $request->has('code')) {
                 session(['wechat.oauth_user' => $wechat->oauth->user()]);
+                $isNewSession = true;
 
                 return redirect()->to($this->getTargetUrl($request));
             }
@@ -36,6 +41,8 @@ class OAuthAuthenticate
 
             return $wechat->oauth->scopes($scopes)->redirect($request->fullUrl());
         }
+
+        Event::fire(new WeChatUserAuthorized(session('wechat.oauth_user'), $isNewSession));
 
         return $next($request);
     }
