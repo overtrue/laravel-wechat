@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Cache;
 /**
  * Cache bridge for laravel.
  */
-class CacheBridge implements CacheInterface 
+class CacheBridge implements CacheInterface
 {
     /**
      * Fetches an entry from the cache.
@@ -17,7 +17,7 @@ class CacheBridge implements CacheInterface
      *
      * @return mixed The cached data or FALSE, if no cache entry exists for the given id.
      */
-    public function fetch($id) 
+    public function fetch($id)
     {
         return Cache::get($id);
     }
@@ -70,8 +70,7 @@ class CacheBridge implements CacheInterface
      *
      * @return array|null An associative array with server's statistics if available, NULL otherwise.
      */
-    public function getStats() 
+    public function getStats()
     {
-        return null;
     }
 }

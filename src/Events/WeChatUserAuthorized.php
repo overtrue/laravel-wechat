@@ -3,9 +3,8 @@
 namespace Overtrue\LaravelWechat\Events;
 
 use App\Events\Event;
-use Overtrue\Socialite\User;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Overtrue\Socialite\User;
 
 class WeChatUserAuthorized extends Event
 {

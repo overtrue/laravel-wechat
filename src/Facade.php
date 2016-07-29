@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\LaravelWechat;
 
 use Illuminate\Support\Facades\Facade as LaravelFacade;
@@ -6,11 +7,11 @@ use Illuminate\Support\Facades\Facade as LaravelFacade;
 class Facade extends LaravelFacade
 {
     /**
-     * 默认为 Server
+     * 默认为 Server.
      *
      * @return string
      */
-    static public function getFacadeAccessor()
+    public static function getFacadeAccessor()
     {
         return 'wechat';
     }
@@ -23,7 +24,7 @@ class Facade extends LaravelFacade
      *
      * @return mixed
      */
-    static public function __callStatic($name, $args)
+    public static function __callStatic($name, $args)
     {
         $app = static::getFacadeRoot();
 
