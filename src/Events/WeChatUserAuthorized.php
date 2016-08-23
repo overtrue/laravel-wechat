@@ -4,7 +4,6 @@ namespace Overtrue\LaravelWechat\Events;
 
 use Overtrue\Socialite\User;
 use Illuminate\Queue\SerializesModels;
-use Overtrue\Socialite\User;
 
 class WeChatUserAuthorized
 {
