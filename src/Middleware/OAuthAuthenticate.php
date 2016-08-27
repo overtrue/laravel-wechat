@@ -5,12 +5,25 @@ namespace Overtrue\LaravelWechat\Middleware;
 use Closure;
 use Event;
 use Overtrue\LaravelWechat\Events\WeChatUserAuthorized;
+use EasyWeChat\Foundation\Application;
+
 
 /**
  * Class OAuthAuthenticate.
  */
 class OAuthAuthenticate
 {
+    /**
+     * Use Service Container would be much artisan.
+     *
+     */
+    public $wechat;
+
+    public function __construct(Application $wechat)
+    {
+        $this->wechat = $wechat;
+    }
+    
     /**
      * Handle an incoming request.
      *
@@ -22,13 +35,11 @@ class OAuthAuthenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $wechat = app('EasyWeChat\\Foundation\\Application', [config('wechat')]);
-
         $isNewSession = false;
 
         if (!session('wechat.oauth_user')) {
             if ($request->has('state') && $request->has('code')) {
-                session(['wechat.oauth_user' => $wechat->oauth->user()]);
+                session(['wechat.oauth_user' => $this->wechat->oauth->user()]);
                 $isNewSession = true;
 
                 return redirect()->to($this->getTargetUrl($request));
@@ -40,7 +51,7 @@ class OAuthAuthenticate
                 $scopes = array_map('trim', explode(',', $scopes));
             }
 
-            return $wechat->oauth->scopes($scopes)->redirect($request->fullUrl());
+            return $this->wechat->oauth->scopes($scopes)->redirect($request->fullUrl());
         }
 
         Event::fire(new WeChatUserAuthorized(session('wechat.oauth_user'), $isNewSession));
