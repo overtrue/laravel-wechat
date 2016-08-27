@@ -15,8 +15,11 @@ class OAuthAuthenticate
     /**
      * Use Service Container would be much artisan.
      */
-    public $wechat;
-
+    private $wechat;
+    
+    /**
+     * Inject the wechat service.
+     */
     public function __construct(Application $wechat)
     {
         $this->wechat = $wechat;
