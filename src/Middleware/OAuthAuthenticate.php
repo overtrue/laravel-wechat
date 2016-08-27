@@ -16,7 +16,7 @@ class OAuthAuthenticate
      * Use Service Container would be much artisan.
      */
     private $wechat;
-    
+
     /**
      * Inject the wechat service.
      */
