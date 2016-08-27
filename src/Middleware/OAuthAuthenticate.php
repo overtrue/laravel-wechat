@@ -7,7 +7,6 @@ use Event;
 use Overtrue\LaravelWechat\Events\WeChatUserAuthorized;
 use EasyWeChat\Foundation\Application;
 
-
 /**
  * Class OAuthAuthenticate.
  */
@@ -15,7 +14,6 @@ class OAuthAuthenticate
 {
     /**
      * Use Service Container would be much artisan.
-     *
      */
     public $wechat;
 
