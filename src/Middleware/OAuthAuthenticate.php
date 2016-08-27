@@ -3,9 +3,9 @@
 namespace Overtrue\LaravelWechat\Middleware;
 
 use Closure;
+use EasyWeChat\Foundation\Application;
 use Event;
 use Overtrue\LaravelWechat\Events\WeChatUserAuthorized;
-use EasyWeChat\Foundation\Application;
 
 /**
  * Class OAuthAuthenticate.
@@ -21,7 +21,7 @@ class OAuthAuthenticate
     {
         $this->wechat = $wechat;
     }
-    
+
     /**
      * Handle an incoming request.
      *
