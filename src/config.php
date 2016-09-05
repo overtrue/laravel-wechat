@@ -61,11 +61,12 @@ return [
     /**
      * 开发模式下的免授权模拟授权用户资料
      *
-     * 当此选项为空的时候则会启用微信授权，用于开发时使用，开发完成请删除即可
+     * 当 enable_mock 为 true 则会启用模拟微信授权，用于开发时使用，开发完成请删除或者改为 false 即可
      */
     // 'enable_mock' => env('WECHAT_ENABLE_MOCK', true),
     // 'mock_user' => [
     //     "openid" =>"odh7zsgI75iT8FRh0fGlSojc9PWM",
+    //     // 以下字段为 scope 为 snsapi_userinfo 时需要
     //     "nickname" => "overtrue",
     //     "sex" =>"1",
     //     "province" =>"北京",
