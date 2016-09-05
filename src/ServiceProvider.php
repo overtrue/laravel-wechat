@@ -37,7 +37,6 @@ class ServiceProvider extends LaravelServiceProvider
         $source = realpath(__DIR__.'/config.php');
 
         if ($this->app instanceof LaravelApplication) {
-
             if ($this->app->runningInConsole()) {
                 $this->publishes([
                     $source => config_path('wechat.php'),
@@ -82,7 +81,7 @@ class ServiceProvider extends LaravelServiceProvider
     }
 
     /**
-     * 创建模拟登录
+     * 创建模拟登录.
      */
     protected function setUpMockAuthUser()
     {
