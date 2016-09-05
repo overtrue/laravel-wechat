@@ -75,6 +75,7 @@ WECHAT_PAYMENT_KEY_PATH
 WECHAT_PAYMENT_DEVICE_INFO
 WECHAT_PAYMENT_SUB_APP_ID
 WECHAT_PAYMENT_SUB_MERCHANT_ID
+WECHAT_ENABLE_MOCK
 ```
 
 3. 如果你习惯使用 `config/wechat.php` 来配置的话，将 `vendor/overtrue/laravel-wechat/src/config.php` 拷贝到`app/config`目录下，并将文件名改成`wechat.php`。
@@ -210,6 +211,27 @@ _如果你在用 5.1 上面没有 'web' 中间件_
 
 上面的路由定义了 `/user` 是需要微信授权的，那么在这条路由的**回调 或 控制器对应的方法里**， 你就可以从 `session('wechat.oauth_user')` 拿到已经授权的用户信息了。
 
+## 模拟授权
+
+有时候我们希望在本地开发完成后线上才真实的走微信授权流程，这将减少我们的开发成本，那么你需要做以下两步：
+
+1.  在 config/wechat.php 中将：'enable_mock' 启用，不论你是用 `.env` 文件里 `WECHAT_ENABLE_MOCK=true` 或者其它什么方法都可以。
+2.  在 config/wechat.php 中配置 `mock_user` 为微信的模拟的用户资料:
+
+```php
+ 'enable_mock' => env('WECHAT_ENABLE_MOCK', true),
+ 'mock_user' => [
+     "openid" =>"odh7zsgI75iT8FRh0fGlSojc9PWM",
+     "nickname" => "overtrue",
+     "sex" =>"1",
+     "province" =>"北京",
+     "city" =>"北京",
+     "country" =>"中国",
+     "headimgurl" => "http://wx.qlogo.cn/mmopen/C2rEUskXQiblFYMUl9O0G05Q6pKibg7V1WpHX6CIQaic824apriabJw4r6EWxziaSt5BATrlbx1GVzwW2qjUCqtYpDvIJLjKgP1ug/0",
+],
+```
+
+以上字段在 scope 为 `snsapi_userinfo` 时尽可能配置齐全哦，当然，如果你的模式只是 `snsapi_base` 的话只需要 `openid` 就好了。
 
 更多 SDK 的具体使用请参考：https://easywechat.org
 

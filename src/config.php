@@ -57,4 +57,20 @@ return [
     //     // 'sub_merchant_id' => env('WECHAT_PAYMENT_SUB_MERCHANT_ID', ''),
     //     // ...
     // ],
+
+    /**
+     * 开发模式下的免授权模拟授权用户资料
+     *
+     * 当此选项为空的时候则会启用微信授权，用于开发时使用，开发完成请删除即可
+     */
+    // 'enable_mock' => env('WECHAT_ENABLE_MOCK', true),
+    // 'mock_user' => [
+    //     "openid" =>"odh7zsgI75iT8FRh0fGlSojc9PWM",
+    //     "nickname" => "overtrue",
+    //     "sex" =>"1",
+    //     "province" =>"北京",
+    //     "city" =>"北京",
+    //     "country" =>"中国",
+    //     "headimgurl" => "http://wx.qlogo.cn/mmopen/C2rEUskXQiblFYMUl9O0G05Q6pKibg7V1WpHX6CIQaic824apriabJw4r6EWxziaSt5BATrlbx1GVzwW2qjUCqtYpDvIJLjKgP1ug/0",
+    // ],
 ];
