@@ -40,7 +40,7 @@ class OAuthAuthenticate
         $isNewSession = false;
         $onlyRedirectInWeChatBrowser = config('wechat.oauth.only_wechat_browser', false);
 
-        if (!$this->isWeChatBrowser()) {
+        if ($onlyRedirectInWeChatBrowser && !$this->isWeChatBrowser()) {
             if (config('debug')) {
                 Log::debug('[not wechat browser] skip wechat oauth redirect.');
             }
