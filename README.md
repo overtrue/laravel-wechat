@@ -209,7 +209,16 @@ Route::group(['middleware' => ['web', 'wechat.oauth']], function () {
 ```
 _如果你在用 5.1 上面没有 'web' 中间件_
 
+当然，你也可以在中间件参数指定当前的 `scopes`:
+
+```php
+Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function () {
+  // ...
+});
+```
+
 上面的路由定义了 `/user` 是需要微信授权的，那么在这条路由的**回调 或 控制器对应的方法里**， 你就可以从 `session('wechat.oauth_user')` 拿到已经授权的用户信息了。
+
 
 ## 模拟授权
 
@@ -238,6 +247,15 @@ _如果你在用 5.1 上面没有 'web' 中间件_
 ```
 
 以上字段在 scope 为 `snsapi_userinfo` 时尽可能配置齐全哦，当然，如果你的模式只是 `snsapi_base` 的话只需要 `openid` 就好了。
+
+## 授权事件
+
+每次授权均会触发 `Overtrue\LaravelWechat\Events\WeChatUserAuthorized`，你可以监听该事件，该事件有两个属性：
+
+```php
+$event->user; // 同 session('wechat.oauth_user') 一样
+$event->isNewSession; // 是不是新的会话（第一次创建 session 时为 true）
+```
 
 更多 SDK 的具体使用请参考：https://easywechat.org
 
