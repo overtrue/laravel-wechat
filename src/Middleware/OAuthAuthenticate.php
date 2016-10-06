@@ -31,7 +31,7 @@ class OAuthAuthenticate
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure                 $next
-     * @param bool|false               $onlyRedirectInWeChatBrowser
+     * @param bool|null                $onlyRedirectInWeChatBrowser
      * @param string|null              $scopes
      *
      * @return mixed
