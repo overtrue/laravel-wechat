@@ -40,7 +40,7 @@ class OAuthAuthenticate
         $isNewSession = false;
         $onlyRedirectInWeChatBrowser = config('wechat.oauth.only_wechat_browser', false);
 
-        if ($onlyRedirectInWeChatBrowser && !$this->isWeChatBrowser()) {
+        if ($onlyRedirectInWeChatBrowser && !$this->isWeChatBrowser($request)) {
             if (config('debug')) {
                 Log::debug('[not wechat browser] skip wechat oauth redirect.');
             }
@@ -103,9 +103,10 @@ class OAuthAuthenticate
     /**
      * Detect current user agent type.
      *
+     * @param \Illuminate\Http\Request $request
      * @return bool
      */
-    protected function isWeChatBrowser()
+    protected function isWeChatBrowser($request)
     {
         return strpos($request->header('user_agent'), 'MicroMessenger') !== false;
     }
