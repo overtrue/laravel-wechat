@@ -59,7 +59,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(['EasyWeChat\\Foundation\\Application' => 'wechat'], function ($app) {
+        $this->app->singleton(\easyWeChat\Foundation\Application::class, function ($app) {
             $app = new Application(config('wechat'));
 
             if (config('wechat.use_laravel_cache')) {
