@@ -2,7 +2,7 @@
 
 namespace Overtrue\LaravelWechat;
 
-use EasyWeChat\Foundation\Application;
+use EasyWeChat\Foundation\Application as EasyWeChatApplication;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
@@ -59,7 +59,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(\EasyWeChat\Foundation\Application::class, function ($app) {
+        $this->app->singleton(EasyWeChatApplication::class, function ($app) {
             $app = new Application(config('wechat'));
 
             if (config('wechat.use_laravel_cache')) {
@@ -68,6 +68,9 @@ class ServiceProvider extends LaravelServiceProvider
 
             return $app;
         });
+
+        $this->app->alias(EasyWeChatApplication::class, 'wechat');
+        $this->app->alias(EasyWeChatApplication::class, 'easywechat');
     }
 
     /**
@@ -77,7 +80,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function provides()
     {
-        return ['wechat', 'EasyWeChat\\Foundation\\Application'];
+        return ['wechat', EasyWeChatApplication::class];
     }
 
     /**
