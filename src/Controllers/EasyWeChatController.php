@@ -17,7 +17,7 @@ class EasyWeChatController extends LaravelController
      */
     protected $events = [
         'authorized' => Events\Authorized::class,
-        'unauthorized' => Events\UnAuthorized::class,
+        'unauthorized' => Events\Unauthorized::class,
         'updateauthorized' => Events\UpdateAuthorized::class,
     ];
 
