@@ -5,7 +5,7 @@ namespace Overtrue\LaravelWechat\Events\OpenPlatform;
 use EasyWeChat\Support\Collection;
 use Illuminate\Queue\SerializesModels;
 
-class UnAuthorized
+class Unauthorized
 {
     use SerializesModels;
 
@@ -14,11 +14,11 @@ class UnAuthorized
     /**
      * Create a new event instance.
      *
-     * @param \EasyWeChat\Support\Collection $event
+     * @param \EasyWeChat\Support\Collection $message
      */
-    public function __construct(Collection $event)
+    public function __construct(Collection $message)
     {
-        $this->message = $event;
+        $this->message = $message;
     }
 
     /**
