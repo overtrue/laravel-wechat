@@ -21,6 +21,16 @@ return [
     'token'   => env('WECHAT_TOKEN', 'your-token'),          // Token
     'aes_key' => env('WECHAT_AES_KEY', ''),                    // EncodingAESKey
 
+    /**
+     * 开放平台第三方平台配置信息
+     */
+    'open_platform' => [
+        /**
+         * 事件推送URL
+         */
+        'serve_url' => env('WECHAT_OPEN_PLATFORM_SERVE_URL', 'serve'),
+    ],
+
     /*
      * 日志配置
      *
