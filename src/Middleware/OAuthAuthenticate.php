@@ -55,7 +55,7 @@ class OAuthAuthenticate
         }
 
         if (!session('wechat.oauth_user') || $this->needReauth($scopes)) {
-            if ($request->has('state') && $request->has('code')) {
+            if ($request->has('code')) {
                 session(['wechat.oauth_user' => $this->wechat->oauth->user()]);
                 $isNewSession = true;
 
