@@ -49,7 +49,6 @@ class OAuthAuthenticate
         }
 
         $scopes = $scopes ?: config('wechat.oauth.scopes', ['snsapi_base']);
-        $this->wechat->server->setRequest($request);
 
         if (is_string($scopes)) {
             $scopes = array_map('trim', explode(',', $scopes));
