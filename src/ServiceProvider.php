@@ -64,11 +64,12 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(EasyWeChatApplication::class, function ($app) {
+        $this->app->singleton(EasyWeChatApplication::class, function ($laravelApp) {
             $app = new EasyWeChatApplication(config('wechat'));
             if (config('wechat.use_laravel_cache')) {
                 $app->cache = new CacheBridge();
             }
+            $app->server->setRequest($laravelApp['request']);
 
             return $app;
         });
