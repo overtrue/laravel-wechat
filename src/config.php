@@ -24,13 +24,13 @@ return [
     /**
      * 开放平台第三方平台配置信息
      */
-    'open_platform' => [
+    //'open_platform' => [
         /**
          * 事件推送URL
          */
-        'serve_url' => env('WECHAT_OPEN_PLATFORM_SERVE_URL', 'serve'),
-    ],
-
+        //'serve_url' => env('WECHAT_OPEN_PLATFORM_SERVE_URL', 'serve'),
+    //],
+    
     /*
      * 日志配置
      *
