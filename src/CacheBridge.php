@@ -49,6 +49,10 @@ class CacheBridge implements CacheInterface
      */
     public function save($id, $data, $lifeTime = 0)
     {
+        if ($lifeTime == 0) {
+            return Cache::forever($id, $data);
+        }
+        
         return Cache::put($id, $data, $lifeTime / 60);
     }
 
