@@ -102,6 +102,7 @@ class ServiceProvider extends LaravelServiceProvider
                 'nickname' => array_get($user, 'nickname'),
                 'avatar'   => array_get($user, 'headimgurl'),
                 'email'    => null,
+                'original' => array_merge($user, [privilege => []]),
             ]);
 
             session(['wechat.oauth_user' => $user]);

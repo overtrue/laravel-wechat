@@ -239,6 +239,7 @@ Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function
      // 以下字段为 scope 为 snsapi_userinfo 时需要
      "nickname" => "overtrue",
      "sex" =>"1",
+     "language" =>"zh_CN",
      "province" =>"北京",
      "city" =>"北京",
      "country" =>"中国",
