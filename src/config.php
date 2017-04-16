@@ -24,12 +24,29 @@ return [
     /**
      * 开放平台第三方平台配置信息
      */
-    //'open_platform' => [
-        /**
-         * 事件推送URL
-         */
-        //'serve_url' => env('WECHAT_OPEN_PLATFORM_SERVE_URL', 'serve'),
-    //],
+    
+    // 'open_platform' => [
+        /*
+        * 开放平台应用基本信息
+        */
+        // 'app_id'  => env('WECHAT_OPEN_PLATFORM_APPID', ''),
+        // 'secret'  => env('WECHAT_OPEN_PLATFORM_SECRET', ''),
+        // 'token'   => env('WECHAT_OPEN_PLATFORM_TOKEN', ''),
+        // 'aes_key' => env('WECHAT_OPEN_PLATFORM_AES_KEY', ''),
+    // ],
+
+    /**
+     * 小程序配置信息
+     */
+    // 'mini_program' => [
+        /*
+        * 小程序基本信息
+        */
+        // 'app_id'  => env('WECHAT_MINI_PROGRAM_APPID', ''),
+        // 'secret'  => env('WECHAT_MINI_PROGRAM_SECRET', ''),
+        // 'token'   => env('WECHAT_MINI_PROGRAM_TOKEN', ''),
+        // 'aes_key' => env('WECHAT_MINI_PROGRAM_AES_KEY', ''),
+    // ],
     
     /*
      * 日志配置
