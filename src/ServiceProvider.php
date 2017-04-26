@@ -6,18 +6,11 @@ use EasyWeChat\Foundation\Application as EasyWeChatApplication;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
-use Overtrue\LaravelWechat\ServiceProviders\RouteServiceProvider;
+use Overtrue\LaravelWechat\Providers\RouteServiceProvider;
 use Overtrue\Socialite\User as SocialiteUser;
 
 class ServiceProvider extends LaravelServiceProvider
 {
-    /**
-     * 延迟加载.
-     *
-     * @var bool
-     */
-    protected $defer = true;
-
     /**
      * Boot the provider.
      *
@@ -27,9 +20,7 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $this->setupConfig();
 
-        if ($this->isEnableOpenPlatform()) {
-            $this->app->register(RouteServiceProvider::class);
-        }
+        $this->app->register(RouteServiceProvider::class);
     }
 
     /**
@@ -79,16 +70,6 @@ class ServiceProvider extends LaravelServiceProvider
     }
 
     /**
-     * 提供的服务
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return ['wechat', EasyWeChatApplication::class];
-    }
-
-    /**
      * 创建模拟登录.
      */
     protected function setUpMockAuthUser()
@@ -107,25 +88,5 @@ class ServiceProvider extends LaravelServiceProvider
 
             session(['wechat.oauth_user' => $user]);
         }
-    }
-
-    /**
-     * Check open platform is configured.
-     *
-     * @return bool
-     */
-    private function isEnableOpenPlatform()
-    {
-        return $this->config()->has('wechat.open_platform');
-    }
-
-    /**
-     * Get config value by key
-     *
-     * @return \Illuminate\Config\Repository
-     */
-    private function config()
-    {
-        return $this->app['config'];
     }
 }
