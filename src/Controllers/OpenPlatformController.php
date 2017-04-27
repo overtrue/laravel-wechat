@@ -14,7 +14,7 @@ class OpenPlatformController extends Controller
      *
      * @var array
      */
-    protected static $events = [
+    protected $events = [
         'authorized' => Events\Authorized::class,
         'unauthorized' => Events\Unauthorized::class,
         'updateauthorized' => Events\UpdateAuthorized::class,
@@ -31,7 +31,7 @@ class OpenPlatformController extends Controller
     {
         $server = $application->open_platform->server;
 
-        $server->setMessageHandler([self::class, 'handle']);
+        $server->setMessageHandler([$this, 'handle']);
 
         return $server->serve();
     }
@@ -41,9 +41,9 @@ class OpenPlatformController extends Controller
      *
      * @param \EasyWeChat\Support\Collection $message
      */
-    public static function handle($message)
+    public function handle($message)
     {
-        if ($event = array_get(self::$events, $message->InfoType)) {
+        if ($event = array_get($this->events, $message->InfoType)) {
             Event::fire(new $event($message));
         }
     }
