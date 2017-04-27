@@ -41,7 +41,7 @@ class OpenPlatformController extends Controller
      *
      * @param \EasyWeChat\Support\Collection $message
      */
-    private function handle($message)
+    public function handle($message)
     {
         if ($event = array_get($this->events, $message->InfoType)) {
             Event::fire(new $event($message));
