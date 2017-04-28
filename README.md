@@ -219,6 +219,12 @@ Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function
 
 上面的路由定义了 `/user` 是需要微信授权的，那么在这条路由的**回调 或 控制器对应的方法里**， 你就可以从 `session('wechat.oauth_user')` 拿到已经授权的用户信息了。
 
+## 路由支持
+
+首先在配置文件中将`route.enabled` 项改为 `true` 启用路由，无需在项目中定义路由、控制器等，只需监听相应的事件即可。
+
+#### 开放平台路由支持
+修改配置文件中的 `route.open_platform_serve_url` 为开放平台第三方应用设置的授权事件接收 URL。
 
 ## 模拟授权
 
@@ -228,34 +234,45 @@ Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function
 2.  在 config/wechat.php 中配置 `mock_user` 为微信的模拟的用户资料:
 
 ```php
-  /*
-   * 开发模式下的免授权模拟授权用户资料
-   *
-   * 当 enable_mock 为 true 则会启用模拟微信授权，用于开发时使用，开发完成请删除或者改为 false 即可
-   */
-  'enable_mock' => env('WECHAT_ENABLE_MOCK', true),
-  'mock_user' => [
-     "openid" =>"odh7zsgI75iT8FRh0fGlSojc9PWM",
-     // 以下字段为 scope 为 snsapi_userinfo 时需要
-     "nickname" => "overtrue",
-     "sex" =>"1",
-     "language" =>"zh_CN",
-     "province" =>"北京",
-     "city" =>"北京",
-     "country" =>"中国",
-     "headimgurl" => "http://wx.qlogo.cn/mmopen/C2rEUskXQiblFYMUl9O0G05Q6pKibg7V1WpHX6CIQaic824apriabJw4r6EWxziaSt5BATrlbx1GVzwW2qjUCqtYpDvIJLjKgP1ug/0",
+/*
+ * 开发模式下的免授权模拟授权用户资料
+ *
+ * 当 enable_mock 为 true 则会启用模拟微信授权，用于开发时使用，开发完成请删除或者改为 false 即可
+ */
+'enable_mock' => env('WECHAT_ENABLE_MOCK', true),
+'mock_user' => [
+    'openid' => 'odh7zsgI75iT8FRh0fGlSojc9PWM',
+    // 以下字段为 scope 为 snsapi_userinfo 时需要
+    'nickname' => 'overtrue',
+    'sex' => '1',
+    'province' => '北京',
+    'city' => '北京',
+    'country' => '中国',
+    'headimgurl' => 'http://wx.qlogo.cn/mmopen/C2rEUskXQiblFYMUl9O0G05Q6pKibg7V1WpHX6CIQaic824apriabJw4r6EWxziaSt5BATrlbx1GVzwW2qjUCqtYpDvIJLjKgP1ug/0',
 ],
 ```
 
 以上字段在 scope 为 `snsapi_userinfo` 时尽可能配置齐全哦，当然，如果你的模式只是 `snsapi_base` 的话只需要 `openid` 就好了。
 
-## 授权事件
+## 事件
 
-每次授权均会触发 `Overtrue\LaravelWechat\Events\WeChatUserAuthorized`，你可以监听该事件，该事件有两个属性：
+> 你可以监听相应的事件，并对事件发生后执行相应的操作。
+
+- OAuth 网页授权：`Overtrue\LaravelWechat\Events\WeChatUserAuthorized`
 
 ```php
+// 该事件有两个属性
 $event->user; // 同 session('wechat.oauth_user') 一样
 $event->isNewSession; // 是不是新的会话（第一次创建 session 时为 true）
+```
+
+- 开放平台授权成功：`Overtrue\LaravelWechat\Events\OpenPlatform\Authorized`
+- 开放平台授权更新：`Overtrue\LaravelWechat\Events\OpenPlatform\UpdateAuthorized`
+- 开放平台授权取消：`Overtrue\LaravelWechat\Events\OpenPlatform\Unauthorized`
+
+```php
+// 开放平台事件有如下属性
+$message = $event->message;     // 获取授权事件通知内容
 ```
 
 更多 SDK 的具体使用请参考：https://easywechat.org
