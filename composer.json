@@ -18,5 +18,15 @@
             "name": "overtrue",
             "email": "anzhengchao@gmail.com"
         }
-    ]
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Overtrue\\LaravelWechat\\ServiceProvider"
+            ],
+            "aliases": {
+                "EasyWeChat": "Overtrue\\LaravelWechat\\Facade"
+            }
+        }
+    }
 }
