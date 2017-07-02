@@ -10,7 +10,13 @@
             "Overtrue\\LaravelWechat\\": "src/"
         }
     },
-
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Overtrue\\LaravelWechat\\ServiceProvider"
+            ]
+        }
+    },
     "license": "MIT",
     "minimum-stability" : "dev",
     "authors": [
