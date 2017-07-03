@@ -4,10 +4,9 @@ namespace Overtrue\LaravelWechat\Controllers;
 
 use Event;
 use EasyWeChat\Foundation\Application;
-use Illuminate\Routing\Controller;
 use Overtrue\LaravelWechat\Events\OpenPlatform as Events;
 
-class OpenPlatformController extends Controller
+class OpenPlatformController
 {
     /**
      * Events.
@@ -29,11 +28,7 @@ class OpenPlatformController extends Controller
      */
     public function index(Application $application)
     {
-        $server = $application->open_platform->server;
-
-        $server->setMessageHandler([$this, 'handle']);
-
-        return $server->serve();
+        return $application->open_platform->server->setMessageHandler([$this, 'handle'])->serve();
     }
 
     /**
