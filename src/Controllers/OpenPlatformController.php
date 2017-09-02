@@ -9,51 +9,36 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Overtrue\LaravelWechat\Controllers;
+namespace Overtrue\LaravelWeChat\Controllers;
 
-use EasyWeChat\Foundation\Application;
+use EasyWeChat\OpenPlatform\Application;
+use EasyWeChat\OpenPlatform\Server\Guard;
 use Event;
-use Illuminate\Routing\Controller;
-use Overtrue\LaravelWechat\Events\OpenPlatform as Events;
+use Overtrue\LaravelWeChat\Events\OpenPlatform as Events;
 
-class OpenPlatformController extends Controller
+class OpenPlatformController
 {
-    /**
-     * Events.
-     *
-     * @var array
-     */
-    protected $events = [
-        'authorized' => Events\Authorized::class,
-        'unauthorized' => Events\Unauthorized::class,
-        'updateauthorized' => Events\UpdateAuthorized::class,
-    ];
-
     /**
      * Register for open platform.
      *
-     * @param \EasyWeChat\Foundation\Application $application
+     * @param \EasyWeChat\OpenPlatform\Application $application
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(Application $application)
     {
-        $server = $application->open_platform->server;
+        $server = $application->server;
 
-        $server->setMessageHandler([$this, 'handle']);
+        $server->on(Guard::EVENT_AUTHORIZED, function ($payload) {
+            Event::fire(new Events\Authorized($payload));
+        });
+        $server->on(Guard::EVENT_UNAUTHORIZED, function ($payload) {
+            Event::fire(new Events\Unauthorized($payload));
+        });
+        $server->on(Guard::EVENT_UPDATE_AUTHORIZED, function ($payload) {
+            Event::fire(new Events\UpdateAuthorized($payload));
+        });
 
         return $server->serve();
-    }
-
-    /**
-     * Handle event message and fire event.
-     *
-     * @param \EasyWeChat\Support\Collection $message
-     */
-    public function handle($message)
-    {
-        if ($event = array_get($this->events, $message->InfoType)) {
-            Event::fire(new $event($message));
-        }
     }
 }

@@ -14,16 +14,23 @@ return [
      * 路由配置
      */
     'route' => [
-        'enabled' => false,         // 是否开启路由
-        'attributes' => [           // 路由 group 参数
-            'prefix' => null,
-            'middleware' => null,
-            'as' => 'easywechat::',
+        'enabled' => false, // 是否开启路由
+
+        // 开放平台第三方平台
+        'open_platform' => [
+            'uri' => 'serve',   // 事件接收 URL
+
+            // 路由参数
+            'attributes' => [
+                'prefix' => 'open-platform',
+                'middleware' => null,
+            ],
         ],
-        'open_platform_serve_url' => 'open-platform-serve', // 开放平台服务URL
     ],
 
-    // 默认配置，将会合并到各模块中
+    /*
+     * 默认配置，将会合并到各模块中
+     */
     'defaults' => [
         /*
          * Debug 模式，bool 值：true/false
@@ -55,7 +62,9 @@ return [
         ],
     ],
 
-    // 公众号
+    /*
+     * 公众号
+     */
     'official_account' => [
         /*
          * 账号基本信息，请从微信公众平台/开放平台获取
@@ -80,7 +89,7 @@ return [
     ],
 
     /*
-     * 开放平台第三方平台配置信息
+     * 开放平台第三方平台
      */
     // 'open_platform' => [
     //     'app_id'  => env('WECHAT_OPEN_PLATFORM_APPID', ''),
@@ -90,7 +99,7 @@ return [
     // ],
 
     /*
-     * 小程序配置信息
+     * 小程序
      */
     // 'mini_program' => [
     //     'app_id'  => env('WECHAT_MINI_PROGRAM_APPID', ''),
@@ -117,7 +126,9 @@ return [
     //     // ...
     // ],
 
-    // 企业微信
+    /*
+     * 企业微信
+     */
     // 'we_work' => [
     //     // 企业 ID
     //     'corp_id' => 'xxxxxxxxxxxxxxxxx',
