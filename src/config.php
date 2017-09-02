@@ -14,13 +14,17 @@ return [
      * 路由配置
      */
     'route' => [
-        'enabled' => false, // 是否开启路由
+        /*
+         * 是否开启路由
+         */
+        'enabled' => false,
 
-        // 开放平台第三方平台
+        /*
+         * 开放平台第三方平台路由配置
+         */
         'open_platform' => [
-            'uri' => 'serve',   // 事件接收 URL
+            'uri' => 'serve',
 
-            // 路由参数
             'attributes' => [
                 'prefix' => 'open-platform',
                 'middleware' => null,
