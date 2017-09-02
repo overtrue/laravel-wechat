@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "overtrue/wechat": "^3.3.3"
+        "overtrue/wechat": "dev-master"
     },
     "autoload": {
         "psr-4": {

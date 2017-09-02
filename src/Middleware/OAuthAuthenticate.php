@@ -21,7 +21,7 @@ class OAuthAuthenticate
     /**
      * Inject the wechat service.
      */
-    public function __construct(Application $wechat)
+    public function __construct($wechat)
     {
         $this->wechat = $wechat;
     }

@@ -2,7 +2,11 @@
 
 namespace Overtrue\LaravelWechat;
 
-use EasyWeChat\Foundation\Application as EasyWeChatApplication;
+use EasyWeChat\OfficialAccount\Application as OfficialAccount;
+use EasyWeChat\MiniProgram\Application as MiniProgram;
+use EasyWeChat\OpenPlatform\Application as OpenPlatform;
+use EasyWeChat\Payment\Application as Payment;
+use EasyWeChat\WeWork\AgentFactory as WeWork;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
@@ -55,18 +59,31 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(EasyWeChatApplication::class, function ($laravelApp) {
-            $app = new EasyWeChatApplication(config('wechat'));
-            if (config('wechat.use_laravel_cache')) {
-                $app->cache = new CacheBridge();
+        $apps = [
+            'official_account' => OfficialAccount::class,
+            'we_work' => WeWork::class,
+            'mini_program' => MiniProgram::class,
+            'payment' => Payment::class,
+            'open_platform' => OpenPlatform::class,
+        ];
+
+        foreach ($apps as $name => $class) {
+            if (empty(config('wechat.'.$name))) {
+                continue;
             }
-            $app->server->setRequest($laravelApp['request']);
 
-            return $app;
-        });
+            $this->app->singleton($class, function ($laravelApp) use ($name, $class) {
+                $app = new $class(array_merge(config('wechat.defaults', []), config('wechat.'.$name)));
+                if (config('wechat.use_laravel_cache')) {
+                    $app['cache'] = $laravelApp['cache.store'];
+                }
+                $app['request'] = $laravelApp['request'];
 
-        $this->app->alias(EasyWeChatApplication::class, 'wechat');
-        $this->app->alias(EasyWeChatApplication::class, 'easywechat');
+                return $app;
+            });
+            $this->app->alias($class, 'wechat.'.$name);
+            $this->app->alias($class, 'easywechat.'.$name);
+        }
     }
 
     /**

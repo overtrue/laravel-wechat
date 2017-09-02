@@ -13,25 +13,46 @@ class Facade extends LaravelFacade
      */
     public static function getFacadeAccessor()
     {
-        return 'wechat';
+        return 'wechat.official_account';
     }
 
     /**
-     * 获取微信 SDK 服务
-     *
-     * @param string $name
-     * @param array  $args
-     *
-     * @return mixed
+     * @return \EasyWeChat\OfficialAccount\Application
      */
-    public static function __callStatic($name, $args)
+    public function officialAccount()
     {
-        $app = static::getFacadeRoot();
+        return app('wechat.official_account');
+    }
 
-        if (method_exists($app, $name)) {
-            return call_user_func_array([$app, $name], $args);
-        }
+    /**
+     * @return \EasyWeChat\WeWork\AgentFactory
+     */
+    public function weWork()
+    {
+        return app('wechat.we_work');
+    }
 
-        return $app->$name;
+    /**
+     * @return \EasyWeChat\Payment\Application
+     */
+    public function payment()
+    {
+        return app('wechat.payment');
+    }
+
+    /**
+     * @return \EasyWeChat\MiniProgram\Application
+     */
+    public function miniProgram()
+    {
+        return app('wechat.mini_grogram');
+    }
+
+    /**
+     * @return \EasyWeChat\OpenPlatform\Application
+     */
+    public function openPlatform()
+    {
+        return app('wechat.open_platform');
     }
 }
