@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the overtrue/easy-sms.
+ * This file is part of the overtrue/laravel-wechat.
  *
  * (c) overtrue <i@overtrue.me>
  *
