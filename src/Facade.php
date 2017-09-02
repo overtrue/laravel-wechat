@@ -14,7 +14,7 @@ namespace Overtrue\LaravelWechat;
 use Illuminate\Support\Facades\Facade as LaravelFacade;
 
 /**
- * Class Facade
+ * Class Facade.
  *
  * @author overtrue <i@overtrue.me>
  */

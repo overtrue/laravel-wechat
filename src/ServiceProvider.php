@@ -23,7 +23,7 @@ use Overtrue\LaravelWechat\Providers\RouteServiceProvider;
 use Overtrue\Socialite\User as SocialiteUser;
 
 /**
- * Class ServiceProvider
+ * Class ServiceProvider.
  *
  * @author overtrue <i@overtrue.me>
  */
