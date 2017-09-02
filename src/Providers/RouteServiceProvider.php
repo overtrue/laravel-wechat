@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the overtrue/easy-sms.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Overtrue\LaravelWechat\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -48,20 +57,20 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function mapOpenPlatformRoutes()
     {
-        $this->match(['GET','POST'], $this->config('open_platform_serve_url'), 'OpenPlatformController@index')->name('open-platform');
+        $this->match(['GET', 'POST'], $this->config('open_platform_serve_url'), 'OpenPlatformController@index')->name('open-platform');
     }
 
     /**
      * Get config value by key.
      *
-     * @param string $key
+     * @param string     $key
      * @param mixed|null $default
      *
      * @return mixed
      */
     private function config($key, $default = null)
     {
-        /** @var  \Illuminate\Config\Repository  $config */
+        /** @var \Illuminate\Config\Repository $config */
         $config = $this->app->make('config');
 
         return $config->get("wechat.route.$key", $default);
@@ -71,7 +80,7 @@ class RouteServiceProvider extends ServiceProvider
      * Call the router method.
      *
      * @param string $name
-     * @param array $args
+     * @param array  $args
      *
      * @return mixed
      */

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the overtrue/easy-sms.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Overtrue\LaravelWechat;
 
 use EasyWeChat\OfficialAccount\Application as OfficialAccount;
@@ -17,8 +26,6 @@ class ServiceProvider extends LaravelServiceProvider
 {
     /**
      * Boot the provider.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -29,8 +36,6 @@ class ServiceProvider extends LaravelServiceProvider
 
     /**
      * Setup the config.
-     *
-     * @return void
      */
     protected function setupConfig()
     {
@@ -54,8 +59,6 @@ class ServiceProvider extends LaravelServiceProvider
 
     /**
      * Register the provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -95,11 +98,11 @@ class ServiceProvider extends LaravelServiceProvider
 
         if (is_array($user) && !empty($user['openid']) && config('wechat.enable_mock')) {
             $user = new SocialiteUser([
-                'id'       => array_get($user, 'openid'),
-                'name'     => array_get($user, 'nickname'),
+                'id' => array_get($user, 'openid'),
+                'name' => array_get($user, 'nickname'),
                 'nickname' => array_get($user, 'nickname'),
-                'avatar'   => array_get($user, 'headimgurl'),
-                'email'    => null,
+                'avatar' => array_get($user, 'headimgurl'),
+                'email' => null,
                 'original' => array_merge($user, ['privilege' => []]),
             ]);
 

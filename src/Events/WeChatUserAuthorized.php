@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the overtrue/easy-sms.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Overtrue\LaravelWechat\Events;
 
 use Illuminate\Queue\SerializesModels;
@@ -17,8 +26,6 @@ class WeChatUserAuthorized
      *
      * @param \Overtrue\Socialite\User $user
      * @param bool                     $isNewSession
-     *
-     * @return void
      */
     public function __construct(User $user, $isNewSession = false)
     {
