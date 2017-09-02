@@ -1,10 +1,8 @@
 # laravel-wechat
 
-> 注意：此版本为 3.x 版本，不兼容 2.x 与 1.x，与 [overtrue/wechat 3.x](https://github.com/overtrue/wechat) 同步
+> 注意：此版本为 4.x 版本，不兼容 3.x，与 [overtrue/wechat 4.x](https://github.com/overtrue/wechat) 同步
 
 微信 SDK for Laravel 5 / Lumen， 基于 [overtrue/wechat](https://github.com/overtrue/wechat)
-
-本项目只适用于，只有一个固定的账号，如果是开发微信公众号管理系统就不要使用了，直接用 [overtrue/wechat](https://github.com/overtrue/wechat) 更方便些。
 
 > 交流QQ群：319502940
 
@@ -22,20 +20,14 @@
 1. 安装包文件
 
   ```shell
-  composer require "overtrue/laravel-wechat:~3.0"
+  composer require "overtrue/laravel-wechat:~4.0"
   ```
-
-> 如果你用了 laravel-debugbar，请禁用或者关掉，否则这模块别想正常使用！！！
-
-> 如果你用了 laravel-debugbar，请禁用或者关掉，否则这模块别想正常使用！！！
-
-> 如果你用了 laravel-debugbar，请禁用或者关掉，否则这模块别想正常使用！！！
 
 ## 配置
 
 ### Laravel 应用
 
-1. 注册 `ServiceProvider`:
+1. 注册 `ServiceProvider`(5.5+ 版本不需要手动注册):
 
   ```php
   Overtrue\LaravelWechat\ServiceProvider::class,
@@ -63,31 +55,7 @@
   $app->register(Overtrue\LaravelWechat\ServiceProvider::class);
   ```
 
-2. ENV 中支持以下配置：
-
-```php
-WECHAT_APPID
-WECHAT_SECRET
-WECHAT_TOKEN
-WECHAT_AES_KEY
-
-WECHAT_LOG_LEVEL
-WECHAT_LOG_FILE
-
-WECHAT_OAUTH_SCOPES
-WECHAT_OAUTH_CALLBACK
-
-WECHAT_PAYMENT_MERCHANT_ID
-WECHAT_PAYMENT_KEY
-WECHAT_PAYMENT_CERT_PATH
-WECHAT_PAYMENT_KEY_PATH
-WECHAT_PAYMENT_DEVICE_INFO
-WECHAT_PAYMENT_SUB_APP_ID
-WECHAT_PAYMENT_SUB_MERCHANT_ID
-WECHAT_ENABLE_MOCK
-```
-
-3. 如果你习惯使用 `config/wechat.php` 来配置的话，将 `vendor/overtrue/laravel-wechat/src/config.php` 拷贝到`app/config`目录下，并将文件名改成`wechat.php`。
+2. 如果你习惯使用 `config/wechat.php` 来配置的话，将 `vendor/overtrue/laravel-wechat/src/config.php` 拷贝到`app/config`目录下，并将文件名改成`wechat.php`。
 
 ## 使用
 
@@ -103,7 +71,6 @@ Laravel 5.2 以后的版本默认启用了 web 中间件，意味着 CSRF 会默
 1. 在 CSRF 中间件里排除微信相关的路由
 2. 关掉 CSRF 中间件（极不推荐）
 
-
 下面以接收普通消息为例写一个例子：
 
 > 假设您的域名为 `overtrue.me` 那么请登录微信公众平台 “开发者中心” 修改 “URL（服务器配置）” 为： `http://overtrue.me/wechat`。
@@ -111,12 +78,12 @@ Laravel 5.2 以后的版本默认启用了 web 中间件，意味着 CSRF 会默
 路由：
 
 ```php
-Route::any('/wechat', 'WechatController@serve');
+Route::any('/wechat', 'WeChatController@serve');
 ```
 
 > 注意：一定是 `Route::any`, 因为微信服务端认证的时候是 `GET`, 接收用户消息时是 `POST` ！
 
-然后创建控制器 `WechatController`：
+然后创建控制器 `WeChatController`：
 
 ```php
 <?php
@@ -125,7 +92,7 @@ namespace App\Http\Controllers;
 
 use Log;
 
-class WechatController extends Controller
+class WeChatController extends Controller
 {
 
     /**
@@ -137,14 +104,12 @@ class WechatController extends Controller
     {
         Log::info('request arrived.'); # 注意：Log 为 Laravel 组件，所以它记的日志去 Laravel 日志看，而不是 EasyWeChat 日志
 
-        $wechat = app('wechat');
-        $wechat->server->setMessageHandler(function($message){
+        $app = app('wechat.official_account');
+        $app->server->push(function($message){
             return "欢迎关注 overtrue！";
         });
 
-        Log::info('return response.');
-
-        return $wechat->server->serve();
+        return $app->server->serve();
     }
 }
 ```
@@ -155,19 +120,21 @@ class WechatController extends Controller
 
 ##### 使用容器的自动注入
 
+以公众号为例：
+
 ```php
 <?php
 
 namespace App\Http\Controllers;
 
-use EasyWeChat\Foundation\Application;
+use EasyWeChat\OfficialAccount\Application;
 
 class WechatController extends Controller
 {
 
-    public function demo(Application $wechat)
+    public function demo(Application $officialAccount)
     {
-        // $wechat 则为容器中 EasyWeChat\Foundation\Application 的实例
+        // $officialAccount 则为容器中 EasyWeChat\OfficialAccount\Application 的实例
     }
 }
 ```
@@ -183,11 +150,13 @@ class WechatController extends Controller
 然后就可以在任何地方使用外观方式调用 SDK 对应的服务了：
 
 ```php
-  $wechatServer = EasyWeChat::server(); // 服务端
-  $wechatUser = EasyWeChat::user(); // 用户服务
-  // ... 其它同理
+  $officialAccount = EasyWeChat::officialAccount(); // 公众号
+  $weWork = EasyWeChat::weWork(); // 企业微信
+  $payment = EasyWeChat::payment(); // 微信支付
+  $openPlatform = EasyWeChat::openPlatform(); // 开放平台
+  $miniProgram = EasyWeChat::miniProgram(); // 小程序
+  
 ```
-
 
 ## OAuth 中间件
 
@@ -284,7 +253,7 @@ $event->isNewSession; // 是不是新的会话（第一次创建 session 时为 
 $message = $event->message;     // 获取授权事件通知内容
 ```
 
-更多 SDK 的具体使用请参考：https://easywechat.org
+更多 SDK 的具体使用请参考：https://easywechat.com
 
 ## License
 

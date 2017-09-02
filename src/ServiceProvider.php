@@ -1,9 +1,18 @@
 <?php
 
+/*
+ * This file is part of the overtrue/laravel-wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Overtrue\LaravelWechat;
 
-use EasyWeChat\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\MiniProgram\Application as MiniProgram;
+use EasyWeChat\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\OpenPlatform\Application as OpenPlatform;
 use EasyWeChat\Payment\Application as Payment;
 use EasyWeChat\WeWork\AgentFactory as WeWork;
@@ -13,12 +22,15 @@ use Laravel\Lumen\Application as LumenApplication;
 use Overtrue\LaravelWechat\Providers\RouteServiceProvider;
 use Overtrue\Socialite\User as SocialiteUser;
 
+/**
+ * Class ServiceProvider
+ *
+ * @author overtrue <i@overtrue.me>
+ */
 class ServiceProvider extends LaravelServiceProvider
 {
     /**
      * Boot the provider.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -29,8 +41,6 @@ class ServiceProvider extends LaravelServiceProvider
 
     /**
      * Setup the config.
-     *
-     * @return void
      */
     protected function setupConfig()
     {
@@ -54,8 +64,6 @@ class ServiceProvider extends LaravelServiceProvider
 
     /**
      * Register the provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -95,11 +103,11 @@ class ServiceProvider extends LaravelServiceProvider
 
         if (is_array($user) && !empty($user['openid']) && config('wechat.enable_mock')) {
             $user = new SocialiteUser([
-                'id'       => array_get($user, 'openid'),
-                'name'     => array_get($user, 'nickname'),
+                'id' => array_get($user, 'openid'),
+                'name' => array_get($user, 'nickname'),
                 'nickname' => array_get($user, 'nickname'),
-                'avatar'   => array_get($user, 'headimgurl'),
-                'email'    => null,
+                'avatar' => array_get($user, 'headimgurl'),
+                'email' => null,
                 'original' => array_merge($user, ['privilege' => []]),
             ]);
 

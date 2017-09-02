@@ -1,9 +1,17 @@
 <?php
 
+/*
+ * This file is part of the overtrue/laravel-wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Overtrue\LaravelWechat\Middleware;
 
 use Closure;
-use EasyWeChat\Foundation\Application;
 use Event;
 use Log;
 use Overtrue\LaravelWechat\Events\WeChatUserAuthorized;
@@ -91,19 +99,20 @@ class OAuthAuthenticate
     /**
      * Is different scopes.
      *
-     * @param  array $scopes
+     * @param array $scopes
      *
      * @return bool
      */
     protected function needReauth($scopes)
     {
-        return session('wechat.oauth_user.original.scope') == 'snsapi_base' && in_array("snsapi_userinfo", $scopes);
+        return session('wechat.oauth_user.original.scope') == 'snsapi_base' && in_array('snsapi_userinfo', $scopes);
     }
 
     /**
      * Detect current user agent type.
      *
      * @param \Illuminate\Http\Request $request
+     *
      * @return bool
      */
     protected function isWeChatBrowser($request)

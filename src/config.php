@@ -1,7 +1,16 @@
 <?php
 
+/*
+ * This file is part of the overtrue/laravel-wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 return [
-    /**
+    /*
      * 路由配置
      */
     'route' => [
@@ -16,24 +25,24 @@ return [
 
     // 默认配置，将会合并到各模块中
     'defaults' => [
-        /**
+        /*
          * Debug 模式，bool 值：true/false
          *
          * 当值为 false 时，所有的日志都不会记录
          */
-        'debug'  => true,
+        'debug' => true,
 
-        /**
+        /*
          * 指定 API 调用返回结果的类型：array(default)/collection/object/raw/自定义类名
          */
         'response_type' => 'array',
 
-        /**
+        /*
          * 使用 Laravel 的缓存系统
          */
         'use_laravel_cache' => true,
 
-        /**
+        /*
          * 日志配置
          *
          * level: 日志级别，可选为：
@@ -42,21 +51,21 @@ return [
          */
         'log' => [
             'level' => env('WECHAT_LOG_LEVEL', 'debug'),
-            'file'  => env('WECHAT_LOG_FILE', storage_path('logs/wechat.log')),
+            'file' => env('WECHAT_LOG_FILE', storage_path('logs/wechat.log')),
         ],
     ],
 
     // 公众号
     'official_account' => [
-        /**
+        /*
          * 账号基本信息，请从微信公众平台/开放平台获取
          */
-        'app_id'  => env('WECHAT_OFFICIAL_ACCOUNT_APPID', 'your-app-id'),         // AppID
-        'secret'  => env('WECHAT_OFFICIAL_ACCOUNT_SECRET', 'your-app-secret'),     // AppSecret
-        'token'   => env('WECHAT_OFFICIAL_ACCOUNT_TOKEN', 'your-token'),          // Token
+        'app_id' => env('WECHAT_OFFICIAL_ACCOUNT_APPID', 'your-app-id'),         // AppID
+        'secret' => env('WECHAT_OFFICIAL_ACCOUNT_SECRET', 'your-app-secret'),     // AppSecret
+        'token' => env('WECHAT_OFFICIAL_ACCOUNT_TOKEN', 'your-token'),          // Token
         'aes_key' => env('WECHAT_OFFICIAL_ACCOUNT_AES_KEY', ''),                    // EncodingAESKey
 
-        /**
+        /*
          * OAuth 配置
          *
          * only_wechat_browser: 只在微信浏览器跳转
@@ -70,7 +79,7 @@ return [
         // ],
     ],
 
-    /**
+    /*
      * 开放平台第三方平台配置信息
      */
     // 'open_platform' => [
@@ -80,7 +89,7 @@ return [
     //     'aes_key' => env('WECHAT_OPEN_PLATFORM_AES_KEY', ''),
     // ],
 
-    /**
+    /*
      * 小程序配置信息
      */
     // 'mini_program' => [
