@@ -30,13 +30,13 @@
 1. 注册 `ServiceProvider`(5.5+ 版本不需要手动注册):
 
   ```php
-  Overtrue\LaravelWechat\ServiceProvider::class,
+  Overtrue\LaravelWeChat\ServiceProvider::class,
   ```
 
 2. 创建配置文件：
 
   ```shell
-  php artisan vendor:publish --provider="Overtrue\LaravelWechat\ServiceProvider"
+  php artisan vendor:publish --provider="Overtrue\LaravelWeChat\ServiceProvider"
   ```
 
 3. 请修改应用根目录下的 `config/wechat.php` 中对应的项即可；
@@ -44,7 +44,7 @@
 4. （可选）添加外观到 `config/app.php` 中的 `aliases` 部分:
 
   ```php
-  'EasyWeChat' => Overtrue\LaravelWechat\Facade::class,
+  'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,
   ```
 
 ### Lumen 应用
@@ -52,7 +52,7 @@
 1. 在 `bootstrap/app.php` 中 82 行左右：
 
   ```php
-  $app->register(Overtrue\LaravelWechat\ServiceProvider::class);
+  $app->register(Overtrue\LaravelWeChat\ServiceProvider::class);
   ```
 
 2. 如果你习惯使用 `config/wechat.php` 来配置的话，将 `vendor/overtrue/laravel-wechat/src/config.php` 拷贝到`app/config`目录下，并将文件名改成`wechat.php`。
@@ -144,7 +144,7 @@ class WechatController extends Controller
 在 `config/app.php` 中 `alias` 部分添加外观别名：
 
 ```php
-'EasyWeChat' => Overtrue\LaravelWechat\Facade::class,
+'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,
 ```
 
 然后就可以在任何地方使用外观方式调用 SDK 对应的服务了：
@@ -155,7 +155,7 @@ class WechatController extends Controller
   $payment = EasyWeChat::payment(); // 微信支付
   $openPlatform = EasyWeChat::openPlatform(); // 开放平台
   $miniProgram = EasyWeChat::miniProgram(); // 小程序
-  
+
 ```
 
 ## OAuth 中间件
@@ -167,7 +167,7 @@ class WechatController extends Controller
 ```php
 protected $routeMiddleware = [
     // ...
-    'wechat.oauth' => \Overtrue\LaravelWechat\Middleware\OAuthAuthenticate::class,
+    'wechat.oauth' => \Overtrue\LaravelWeChat\Middleware\OAuthAuthenticate::class,
 ];
 ```
 
@@ -236,7 +236,7 @@ Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function
 
 > 你可以监听相应的事件，并对事件发生后执行相应的操作。
 
-- OAuth 网页授权：`Overtrue\LaravelWechat\Events\WeChatUserAuthorized`
+- OAuth 网页授权：`Overtrue\LaravelWeChat\Events\WeChatUserAuthorized`
 
 ```php
 // 该事件有两个属性
@@ -244,9 +244,9 @@ $event->user; // 同 session('wechat.oauth_user') 一样
 $event->isNewSession; // 是不是新的会话（第一次创建 session 时为 true）
 ```
 
-- 开放平台授权成功：`Overtrue\LaravelWechat\Events\OpenPlatform\Authorized`
-- 开放平台授权更新：`Overtrue\LaravelWechat\Events\OpenPlatform\UpdateAuthorized`
-- 开放平台授权取消：`Overtrue\LaravelWechat\Events\OpenPlatform\Unauthorized`
+- 开放平台授权成功：`Overtrue\LaravelWeChat\Events\OpenPlatform\Authorized`
+- 开放平台授权更新：`Overtrue\LaravelWeChat\Events\OpenPlatform\UpdateAuthorized`
+- 开放平台授权取消：`Overtrue\LaravelWeChat\Events\OpenPlatform\Unauthorized`
 
 ```php
 // 开放平台事件有如下属性

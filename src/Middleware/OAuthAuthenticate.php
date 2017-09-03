@@ -9,12 +9,12 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Overtrue\LaravelWechat\Middleware;
+namespace Overtrue\LaravelWeChat\Middleware;
 
 use Closure;
 use Event;
 use Log;
-use Overtrue\LaravelWechat\Events\WeChatUserAuthorized;
+use Overtrue\LaravelWeChat\Events\WeChatUserAuthorized;
 
 /**
  * Class OAuthAuthenticate.

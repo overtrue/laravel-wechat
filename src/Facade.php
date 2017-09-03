@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Overtrue\LaravelWechat;
+namespace Overtrue\LaravelWeChat;
 
 use Illuminate\Support\Facades\Facade as LaravelFacade;
 

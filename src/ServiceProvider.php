@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Overtrue\LaravelWechat;
+namespace Overtrue\LaravelWeChat;
 
 use EasyWeChat\MiniProgram\Application as MiniProgram;
 use EasyWeChat\OfficialAccount\Application as OfficialAccount;
@@ -19,7 +19,7 @@ use EasyWeChat\WeWork\AgentFactory as WeWork;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
-use Overtrue\LaravelWechat\Providers\RouteServiceProvider;
+use Overtrue\LaravelWeChat\Controllers\OpenPlatformController;
 use Overtrue\Socialite\User as SocialiteUser;
 
 /**
@@ -36,7 +36,9 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $this->setupConfig();
 
-        $this->app->register(RouteServiceProvider::class);
+        if (config('wechat.route.enabled')) {
+            $this->registerRoutes();
+        }
     }
 
     /**
@@ -92,6 +94,19 @@ class ServiceProvider extends LaravelServiceProvider
             $this->app->alias($class, 'wechat.'.$name);
             $this->app->alias($class, 'easywechat.'.$name);
         }
+    }
+
+    /**
+     * Register routes.
+     */
+    protected function registerRoutes()
+    {
+        $router = $this->app instanceof LaravelApplication ? $this->app['router'] : $this->app;
+
+        // Register open-platform routes...
+        $router->group(config('wechat.route.open_platform.attributes', []), function ($router) {
+            $router->post(config('wechat.route.open_platform.uri'), OpenPlatformController::class.'@index');
+        });
     }
 
     /**

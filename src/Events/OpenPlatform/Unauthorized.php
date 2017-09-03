@@ -9,34 +9,19 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Overtrue\LaravelWechat\Events\OpenPlatform;
-
-use EasyWeChat\Support\Collection;
-use Illuminate\Queue\SerializesModels;
+namespace Overtrue\LaravelWeChat\Events\OpenPlatform;
 
 class Unauthorized
 {
-    use SerializesModels;
-
-    public $message;
+    public $payload;
 
     /**
      * Create a new event instance.
      *
-     * @param \EasyWeChat\Support\Collection $message
+     * @param array $payload
      */
-    public function __construct(Collection $message)
+    public function __construct(array $payload)
     {
-        $this->message = $message;
-    }
-
-    /**
-     * Get the channels the event should be broadcast on.
-     *
-     * @return array
-     */
-    public function broadcastOn()
-    {
-        return [];
+        $this->payload = $payload;
     }
 }
