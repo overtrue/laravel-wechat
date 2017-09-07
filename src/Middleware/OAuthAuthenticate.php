@@ -15,6 +15,7 @@ use Closure;
 use Event;
 use Log;
 use Overtrue\LaravelWeChat\Events\WeChatUserAuthorized;
+use EasyWeChat\OpenPlatform\Application;
 
 /**
  * Class OAuthAuthenticate.
@@ -29,7 +30,7 @@ class OAuthAuthenticate
     /**
      * Inject the wechat service.
      */
-    public function __construct($wechat)
+    public function __construct(Application $wechat)
     {
         $this->wechat = $wechat;
     }
