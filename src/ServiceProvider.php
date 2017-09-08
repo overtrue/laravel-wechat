@@ -117,14 +117,13 @@ class ServiceProvider extends LaravelServiceProvider
         $user = config('wechat.mock_user');
 
         if (is_array($user) && !empty($user['openid']) && config('wechat.enable_mock')) {
-            $user = new SocialiteUser([
+            $user = (new SocialiteUser([
                 'id' => array_get($user, 'openid'),
                 'name' => array_get($user, 'nickname'),
                 'nickname' => array_get($user, 'nickname'),
                 'avatar' => array_get($user, 'headimgurl'),
                 'email' => null,
-                'original' => array_merge($user, ['privilege' => []]),
-            ]);
+            ]))->merge(['original' => array_merge($user, ['privilege' => []])])->setProviderName('WeChat');
 
             session(['wechat.oauth_user' => $user]);
         }
