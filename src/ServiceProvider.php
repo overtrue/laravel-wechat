@@ -15,7 +15,7 @@ use EasyWeChat\MiniProgram\Application as MiniProgram;
 use EasyWeChat\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\OpenPlatform\Application as OpenPlatform;
 use EasyWeChat\Payment\Application as Payment;
-use EasyWeChat\WeWork\AgentFactory as WeWork;
+use EasyWeChat\Work\AgentFactory as Work;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
@@ -71,7 +71,7 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $apps = [
             'official_account' => OfficialAccount::class,
-            'we_work' => WeWork::class,
+            'work' => Work::class,
             'mini_program' => MiniProgram::class,
             'payment' => Payment::class,
             'open_platform' => OpenPlatform::class,

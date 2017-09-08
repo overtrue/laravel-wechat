@@ -151,7 +151,7 @@ class WechatController extends Controller
 
 ```php
   $officialAccount = EasyWeChat::officialAccount(); // 公众号
-  $weWork = EasyWeChat::weWork(); // 企业微信
+  $work = EasyWeChat::work(); // 企业微信
   $payment = EasyWeChat::payment(); // 微信支付
   $openPlatform = EasyWeChat::openPlatform(); // 开放平台
   $miniProgram = EasyWeChat::miniProgram(); // 小程序
