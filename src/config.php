@@ -133,7 +133,7 @@ return [
     /*
      * 企业微信
      */
-    // 'we_work' => [
+    // 'work' => [
     //     // 企业 ID
     //     'corp_id' => 'xxxxxxxxxxxxxxxxx',
 
@@ -141,7 +141,7 @@ return [
     //     'agents' => [
     //         'contacts' => [
     //             'agent_id' => 100020,
-    //             'secret'   => env('WECHAT_WEWORK_AGENT_CONTACTS_SECRET', ''),
+    //             'secret'   => env('WECHAT_WORK_AGENT_CONTACTS_SECRET', ''),
     //         ],
     //        //...
     //    ],

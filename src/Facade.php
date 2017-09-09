@@ -33,23 +33,23 @@ class Facade extends LaravelFacade
     /**
      * @return \EasyWeChat\OfficialAccount\Application
      */
-    public function officialAccount()
+    public static function officialAccount()
     {
         return app('wechat.official_account');
     }
 
     /**
-     * @return \EasyWeChat\WeWork\AgentFactory
+     * @return \EasyWeChat\Work\AgentFactory
      */
-    public function weWork()
+    public static function work()
     {
-        return app('wechat.we_work');
+        return app('wechat.work');
     }
 
     /**
      * @return \EasyWeChat\Payment\Application
      */
-    public function payment()
+    public static function payment()
     {
         return app('wechat.payment');
     }
@@ -57,7 +57,7 @@ class Facade extends LaravelFacade
     /**
      * @return \EasyWeChat\MiniProgram\Application
      */
-    public function miniProgram()
+    public static function miniProgram()
     {
         return app('wechat.mini_grogram');
     }
@@ -65,7 +65,7 @@ class Facade extends LaravelFacade
     /**
      * @return \EasyWeChat\OpenPlatform\Application
      */
-    public function openPlatform()
+    public static function openPlatform()
     {
         return app('wechat.open_platform');
     }
