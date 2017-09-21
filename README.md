@@ -19,6 +19,8 @@
 
 1. 安装包文件
 
+> !!! 注意，4.0 还没发布！所以下面的命令是装不上的，你要试用 4.0，请将 4.0 改成 dev-master
+
   ```shell
   composer require "overtrue/laravel-wechat:~4.0"
   ```
