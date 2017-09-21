@@ -12,6 +12,7 @@
 namespace Overtrue\LaravelWeChat\Middleware;
 
 use Closure;
+use EasyWeChat\OfficialAccount\Application;
 use Event;
 use Log;
 use Overtrue\LaravelWeChat\Events\WeChatUserAuthorized;
@@ -28,8 +29,10 @@ class OAuthAuthenticate
 
     /**
      * Inject the wechat service.
+     *
+     * @param \EasyWeChat\OfficialAccount\Application $wechat
      */
-    public function __construct($wechat)
+    public function __construct(Application $wechat)
     {
         $this->wechat = $wechat;
     }
@@ -49,7 +52,7 @@ class OAuthAuthenticate
         $onlyRedirectInWeChatBrowser = config('wechat.oauth.only_wechat_browser', false);
 
         if ($onlyRedirectInWeChatBrowser && !$this->isWeChatBrowser($request)) {
-            if (config('debug')) {
+            if (config('wechat.debug')) {
                 Log::debug('[not wechat browser] skip wechat oauth redirect.');
             }
 
