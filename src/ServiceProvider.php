@@ -101,7 +101,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     protected function registerRoutes()
     {
-        $router = $this->app instanceof LaravelApplication ? $this->app['router'] : $this->app;
+        $router = $this->app instanceof LaravelApplication || isset($this->app['router']) ? $this->app['router'] : $this->app;
 
         // Register open-platform routes...
         $router->group(config('wechat.route.open_platform.attributes', []), function ($router) {
