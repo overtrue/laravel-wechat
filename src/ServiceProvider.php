@@ -34,8 +34,6 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function boot()
     {
-        $this->setupConfig();
-
         if (config('wechat.route.enabled')) {
             $this->registerRoutes();
         }
