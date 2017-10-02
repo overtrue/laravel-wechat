@@ -69,6 +69,8 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
+        $this->setupConfig();
+        
         $apps = [
             'official_account' => OfficialAccount::class,
             'work' => Work::class,
