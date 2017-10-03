@@ -59,7 +59,7 @@ class Facade extends LaravelFacade
      */
     public static function miniProgram()
     {
-        return app('wechat.mini_grogram');
+        return app('wechat.mini_program');
     }
 
     /**
