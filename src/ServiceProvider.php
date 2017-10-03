@@ -34,8 +34,6 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function boot()
     {
-        $this->setupConfig();
-
         if (config('wechat.route.enabled')) {
             $this->registerRoutes();
         }
@@ -69,6 +67,8 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
+        $this->setupConfig();
+
         $apps = [
             'official_account' => OfficialAccount::class,
             'work' => Work::class,
