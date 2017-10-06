@@ -37,6 +37,11 @@ class ServiceProvider extends LaravelServiceProvider
         if (config('wechat.route.enabled')) {
             $this->registerRoutes();
         }
+
+        if ($this->app instanceof LaravelApplication) {
+            // 创建模拟授权
+            $this->setUpMockAuthUser();
+        }
     }
 
     /**
@@ -46,15 +51,8 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $source = realpath(__DIR__.'/config.php');
 
-        if ($this->app instanceof LaravelApplication) {
-            if ($this->app->runningInConsole()) {
-                $this->publishes([
-                    $source => config_path('wechat.php'),
-                ]);
-            }
-
-            // 创建模拟授权
-            $this->setUpMockAuthUser();
+        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
+            $this->publishes([$source => config_path('wechat.php')]);
         } elseif ($this->app instanceof LumenApplication) {
             $this->app->configure('wechat');
         }
