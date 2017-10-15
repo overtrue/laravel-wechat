@@ -38,7 +38,7 @@
 2. 创建配置文件：
 
   ```shell
-  php artisan vendor:publish --provider="Overtrue\LaravelWeChat\ServiceProvider"
+  php artisan vendor:publish --provider="Overtrue\LaravelWechat\ServiceProvider"
   ```
 
 3. 请修改应用根目录下的 `config/wechat.php` 中对应的项即可；
@@ -46,7 +46,7 @@
 4. （可选）添加外观到 `config/app.php` 中的 `aliases` 部分:
 
   ```php
-  'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,
+  'EasyWeChat' => Overtrue\LaravelWechat\Facade::class,
   ```
 
 ### Lumen 应用
