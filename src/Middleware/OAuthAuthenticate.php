@@ -49,7 +49,7 @@ class OAuthAuthenticate
     public function handle($request, Closure $next, $scopes = null)
     {
         $isNewSession = false;
-        $onlyRedirectInWeChatBrowser = config('wechat.oauth.only_wechat_browser', false);
+        $onlyRedirectInWeChatBrowser = config('wechat.official_account.oauth.only_wechat_browser', false);
 
         if ($onlyRedirectInWeChatBrowser && !$this->isWeChatBrowser($request)) {
             if (config('wechat.debug')) {
@@ -59,7 +59,7 @@ class OAuthAuthenticate
             return $next($request);
         }
 
-        $scopes = $scopes ?: config('wechat.oauth.scopes', ['snsapi_base']);
+        $scopes = $scopes ?: config('wechat.official_account.oauth.scopes', ['snsapi_base']);
 
         if (is_string($scopes)) {
             $scopes = array_map('trim', explode(',', $scopes));
