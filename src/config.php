@@ -11,28 +11,6 @@
 
 return [
     /*
-     * 路由配置
-     */
-    'route' => [
-        /*
-         * 是否开启路由
-         */
-        'enabled' => false,
-
-        /*
-         * 开放平台第三方平台路由配置
-         */
-        'open_platform' => [
-            'uri' => 'serve',
-
-            'attributes' => [
-                'prefix' => 'open-platform',
-                'middleware' => null,
-            ],
-        ],
-    ],
-
-    /*
      * 默认配置，将会合并到各模块中
      */
     'defaults' => [
@@ -67,16 +45,35 @@ return [
     ],
 
     /*
+     * 路由配置
+     */
+    'route' => [
+        /*
+         * 是否开启路由
+         */
+        'enabled' => false,
+
+        /*
+         * 开放平台第三方平台路由配置
+         */
+        'open_platform' => [
+            'uri' => 'serve',
+
+            'attributes' => [
+                'prefix' => 'open-platform',
+                'middleware' => null,
+            ],
+        ],
+    ],
+
+    /*
      * 公众号
      */
     'official_account' => [
-        /*
-         * 账号基本信息，请从微信公众平台/开放平台获取
-         */
         'app_id' => env('WECHAT_OFFICIAL_ACCOUNT_APPID', 'your-app-id'),         // AppID
-        'secret' => env('WECHAT_OFFICIAL_ACCOUNT_SECRET', 'your-app-secret'),     // AppSecret
-        'token' => env('WECHAT_OFFICIAL_ACCOUNT_TOKEN', 'your-token'),          // Token
-        'aes_key' => env('WECHAT_OFFICIAL_ACCOUNT_AES_KEY', ''),                    // EncodingAESKey
+        'secret' => env('WECHAT_OFFICIAL_ACCOUNT_SECRET', 'your-app-secret'),    // AppSecret
+        'token' => env('WECHAT_OFFICIAL_ACCOUNT_TOKEN', 'your-token'),           // Token
+        'aes_key' => env('WECHAT_OFFICIAL_ACCOUNT_AES_KEY', ''),                 // EncodingAESKey
 
         /*
          * OAuth 配置
@@ -116,17 +113,14 @@ return [
      * 微信支付
      */
     // 'payment' => [
-    //     'sandbox_mode'       => env('WECHAT_PAYMENT_SANDBOX', true),
+    //     'sandbox'            => env('WECHAT_PAYMENT_SANDBOX', false),
     //     'app_id'             => env('WECHAT_PAYMENT_APPID', ''),
     //     'secret'             => env('WECHAT_PAYMENT_SECRET', ''),
-    //     'merchant_id'        => env('WECHAT_PAYMENT_MERCHANT_ID', 'your-mch-id'),
+    //     'mch_id'             => env('WECHAT_PAYMENT_MERCHANT_ID', 'your-mch-id'),
     //     'key'                => env('WECHAT_PAYMENT_KEY', 'key-for-signature'),
     //     'cert_path'          => env('WECHAT_PAYMENT_CERT_PATH', 'path/to/cert/apiclient_cert.pem'),    // XXX: 绝对路径！！！！
-    //     'key_path'           => env('WECHAT_PAYMENT_KEY_PATH', 'path/to/cert/apiclient_key.pem'),          // XXX: 绝对路径！！！！
-    //     'notify_url'         => '/payments/wechat-notify', // 默认支付通知地址
-    //     // 'device_info'     => env('WECHAT_PAYMENT_DEVICE_INFO', ''),
-    //     // 'sub_app_id'      => env('WECHAT_PAYMENT_SUB_APP_ID', ''),
-    //     // 'sub_merchant_id' => env('WECHAT_PAYMENT_SUB_MERCHANT_ID', ''),
+    //     'key_path'           => env('WECHAT_PAYMENT_KEY_PATH', 'path/to/cert/apiclient_key.pem'),      // XXX: 绝对路径！！！！
+    //     'notify_url'         => 'http://example.com/payments/wechat-notify',                           // 默认支付结果通知地址
     //     // ...
     // ],
 
