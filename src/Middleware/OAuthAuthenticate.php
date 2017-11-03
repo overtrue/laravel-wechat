@@ -108,7 +108,7 @@ class OAuthAuthenticate
      */
     protected function needReauth($scopes)
     {
-        return session('wechat.oauth_user.original.scope') == 'snsapi_base' && in_array('snsapi_userinfo', $scopes);
+        return 'snsapi_base' == session('wechat.oauth_user.original.scope') && in_array('snsapi_userinfo', $scopes);
     }
 
     /**
@@ -120,6 +120,6 @@ class OAuthAuthenticate
      */
     protected function isWeChatBrowser($request)
     {
-        return strpos($request->header('user_agent'), 'MicroMessenger') !== false;
+        return false !== strpos($request->header('user_agent'), 'MicroMessenger');
     }
 }
