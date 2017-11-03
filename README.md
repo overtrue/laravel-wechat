@@ -1,6 +1,8 @@
 # laravel-wechat
 
-> 注意：此版本为 4.x 版本，不兼容 3.x，与 [overtrue/wechat 4.x](https://github.com/overtrue/wechat) 同步
+> 注意：此版本为未发布的 4.x 版本，不兼容 3.x，与 [overtrue/wechat 4.x](https://github.com/overtrue/wechat) 同步
+
+如果你用的 3.x 版本，请从这里查看文档 https://github.com/overtrue/laravel-wechat/tree/3.1.10
 
 微信 SDK for Laravel 5 / Lumen， 基于 [overtrue/wechat](https://github.com/overtrue/wechat)
 
@@ -38,6 +40,10 @@
 2. 创建配置文件：
 
   ```shell
+  // 3.x
+  php artisan vendor:publish --provider="Overtrue\LaravelWechat\ServiceProvider"
+
+  // 4.0 
   php artisan vendor:publish --provider="Overtrue\LaravelWeChat\ServiceProvider"
   ```
 
@@ -54,6 +60,9 @@
 1. 在 `bootstrap/app.php` 中 82 行左右：
 
   ```php
+  // 3.0
+  $app->register(Overtrue\LaravelWechat\ServiceProvider::class);
+  // 4.0
   $app->register(Overtrue\LaravelWeChat\ServiceProvider::class);
   ```
 
