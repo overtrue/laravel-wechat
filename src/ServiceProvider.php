@@ -82,7 +82,7 @@ class ServiceProvider extends LaravelServiceProvider
 
             $this->app->singleton($class, function ($laravelApp) use ($name, $class) {
                 $app = new $class(array_merge(config('wechat.defaults', []), config('wechat.'.$name)));
-                if (config('wechat.use_laravel_cache')) {
+                if (config('wechat.defaults.use_laravel_cache')) {
                     $app['cache'] = $laravelApp['cache.store'];
                 }
                 $app['request'] = $laravelApp['request'];
