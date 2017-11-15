@@ -36,7 +36,7 @@ class CacheBridge implements CacheInterface
 
     public function set($key, $value, $ttl = null)
     {
-        return $this->repository->set($key, $value, $this->toMinutes($ttl));
+        return $this->repository->put($key, $value, $this->toMinutes($ttl));
     }
 
     public function delete($key)
