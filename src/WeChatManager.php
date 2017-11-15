@@ -127,4 +127,5 @@ class WeChatManager implements Factory
 
         return $this->{$type}[$name] = $app;
     }
+
 }
