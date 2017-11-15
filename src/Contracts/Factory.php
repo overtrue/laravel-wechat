@@ -17,6 +17,7 @@ interface Factory
      * Get a OfficialAccount by name.
      *
      * @param string $name
+     *
      * @return \EasyWeChat\OfficialAccount\Application
      */
     public function officialAccount($name = null);
@@ -25,6 +26,7 @@ interface Factory
      * Get a Work by name.
      *
      * @param string $name
+     *
      * @return \EasyWeChat\Work\AgentFactory
      */
     public function work($name = null);
@@ -33,6 +35,7 @@ interface Factory
      * Get a MiniProgram by name.
      *
      * @param string $name
+     *
      * @return \EasyWeChat\MiniProgram\Application
      */
     public function miniProgram($name = null);
@@ -41,6 +44,7 @@ interface Factory
      * Get a Payment by name.
      *
      * @param string $name
+     *
      * @return \EasyWeChat\Payment\Application
      */
     public function payment($name = null);
@@ -49,6 +53,7 @@ interface Factory
      * Get a OpenPlatform by name.
      *
      * @param string $name
+     *
      * @return \EasyWeChat\OpenPlatform\Application
      */
     public function openPlatform($name = null);

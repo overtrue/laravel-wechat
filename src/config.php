@@ -112,7 +112,7 @@ return [
           'secret' => env('WECHAT_MINI_PROGRAM_SECRET', ''),
           'token' => env('WECHAT_MINI_PROGRAM_TOKEN', ''),
           'aes_key' => env('WECHAT_MINI_PROGRAM_AES_KEY', ''),
-        ]
+        ],
     ],
 
     /*
@@ -127,7 +127,7 @@ return [
           'cert_path' => env('WECHAT_PAYMENT_CERT_PATH', 'path/to/cert/apiclient_cert.pem'),    // XXX: 绝对路径！！！！
           'key_path' => env('WECHAT_PAYMENT_KEY_PATH', 'path/to/cert/apiclient_key.pem'),      // XXX: 绝对路径！！！！
           'notify_url' => 'http://example.com/payments/wechat-notify',                           // 默认支付结果通知地址
-        ]
+        ],
         // ...
     ],
 
