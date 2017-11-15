@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the overtrue/laravel-wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Overtrue\LaravelWeChat;
 
 use Overtrue\LaravelWeChat\Contracts\Factory;
@@ -13,12 +22,12 @@ use EasyWeChat\Work\AgentFactory as Work;
 class WeChatManager implements Factory
 {
     /**
-     * LaravelApp
+     * LaravelApp.
      */
     protected $laravelApp;
 
     /**
-     *  collections of types
+     *  collections of types.
      */
     protected $officialAccounts;
     protected $works;
@@ -34,7 +43,7 @@ class WeChatManager implements Factory
     /**
      * Get a OfficialAccount by name.
      *
-     * @param  string  $name
+     * @param string $name
      * @return \EasyWeChat\OfficialAccount\Application
      */
     public function officialAccount($name = null)
@@ -45,7 +54,7 @@ class WeChatManager implements Factory
     /**
      * Get a Work by name.
      *
-     * @param  string  $name
+     * @param string $name
      * @return \EasyWeChat\Work\AgentFactory
      */
     public function work($name = null)
@@ -56,7 +65,7 @@ class WeChatManager implements Factory
     /**
      * Get a MiniProgram by name.
      *
-     * @param  string  $name
+     * @param string $name
      * @return \EasyWeChat\MiniProgram\Application
      */
     public function miniProgram($name = null)
@@ -67,7 +76,7 @@ class WeChatManager implements Factory
     /**
      * Get a Payment by name.
      *
-     * @param  string  $name
+     * @param string $name
      * @return \EasyWeChat\Payment\Application
      */
     public function payment($name = null)
@@ -78,7 +87,7 @@ class WeChatManager implements Factory
     /**
      * Get a OpenPlatform by name.
      *
-     * @param  string  $name
+     * @param string $name
      * @return \EasyWeChat\OpenPlatform\Application
      */
     public function openPlatform($name = null)
@@ -87,7 +96,7 @@ class WeChatManager implements Factory
     }
 
     /**
-     * Maker
+     * Maker.
      */
     protected function resolve($type, $name)
     {
@@ -113,4 +122,5 @@ class WeChatManager implements Factory
 
         return $this->{$type}[$name] = $app;
     }
+    
 }
