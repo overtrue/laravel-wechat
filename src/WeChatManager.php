@@ -21,11 +21,6 @@ use EasyWeChat\Work\AgentFactory as Work;
 class WeChatManager implements Factory
 {
     /**
-     * LaravelApp.
-     */
-    protected $laravelApp;
-
-    /**
      *  collections of types.
      */
     protected $officialAccounts;
@@ -33,11 +28,6 @@ class WeChatManager implements Factory
     protected $miniPrograms;
     protected $payments;
     protected $openPlatforms;
-
-    public function __construct($app)
-    {
-        $this->laravelApp = $app;
-    }
 
     /**
      * Get a OfficialAccount by name.
@@ -120,9 +110,9 @@ class WeChatManager implements Factory
 
         $app = new $apps[$type](array_merge(config('wechat.defaults', []), config("wechat.{$type}.{$name}")));
         if (config('wechat.defaults.use_laravel_cache')) {
-            $app['cache'] = $this->laravelApp['cache.store'];
+            $app['cache'] = app('cache.store');
         }
-        $app['request'] = $this->laravelApp['request'];
+        $app['request'] = app('request');
 
         return $this->{$type}[$name] = $app;
     }
