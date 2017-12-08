@@ -11,7 +11,7 @@
     ],
     "require": {
         "overtrue/wechat": "dev-master",
-        "overtrue/laravel-wechat": "dev-master"
+        "illuminate/container": "5.5.*"
     },
     "autoload": {
         "psr-4": {
