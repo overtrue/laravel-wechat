@@ -19,7 +19,6 @@ use EasyWeChat\Work\AgentFactory as Work;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
-use Overtrue\LaravelWeChat\Controllers\OpenPlatformController;
 use Overtrue\Socialite\User as SocialiteUser;
 
 /**
@@ -34,10 +33,6 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function boot()
     {
-        if (config('wechat.route.enabled')) {
-            $this->registerRoutes();
-        }
-
         if ($this->app instanceof LaravelApplication) {
             // 创建模拟授权
             $this->setUpMockAuthUser();
@@ -80,6 +75,12 @@ class ServiceProvider extends LaravelServiceProvider
                 continue;
             }
 
+            if ($config = config('wechat.route.'.$name)) {
+                $this->app->router->group($config['attributes'], function ($router) use ($config) {
+                    $router->post($config['uri'], $config['action']);
+                });
+            }
+
             $this->app->singleton($class, function ($laravelApp) use ($name, $class) {
                 $app = new $class(array_merge(config('wechat.defaults', []), config('wechat.'.$name)));
                 if (config('wechat.defaults.use_laravel_cache')) {
@@ -92,19 +93,6 @@ class ServiceProvider extends LaravelServiceProvider
             $this->app->alias($class, 'wechat.'.$name);
             $this->app->alias($class, 'easywechat.'.$name);
         }
-    }
-
-    /**
-     * Register routes.
-     */
-    protected function registerRoutes()
-    {
-        $router = isset($this->app['router']) ? $this->app['router'] : $this->app;
-
-        // Register open-platform routes...
-        $router->group(config('wechat.route.open_platform.attributes', []), function ($router) {
-            $router->post(config('wechat.route.open_platform.uri'), OpenPlatformController::class.'@index');
-        });
     }
 
     /**
