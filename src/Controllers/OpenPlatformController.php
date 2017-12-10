@@ -16,7 +16,7 @@ use EasyWeChat\OpenPlatform\Server\Guard;
 use Event;
 use Overtrue\LaravelWeChat\Events\OpenPlatform as Events;
 
-class OpenPlatformController
+class OpenPlatformController extends Controller
 {
     /**
      * Register for open platform.
@@ -25,7 +25,7 @@ class OpenPlatformController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(Application $application)
+    public function __invoke(Application $application)
     {
         $server = $application->server;
 
@@ -37,6 +37,9 @@ class OpenPlatformController
         });
         $server->on(Guard::EVENT_UPDATE_AUTHORIZED, function ($payload) {
             Event::fire(new Events\UpdateAuthorized($payload));
+        });
+        $server->on(Guard::EVENT_COMPONENT_VERIFY_TICKET, function ($payload) {
+            Event::fire(new Events\VerifyTicketRefreshed($payload));
         });
 
         return $server->serve();

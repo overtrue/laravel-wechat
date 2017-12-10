@@ -1,8 +1,8 @@
 # laravel-wechat
 
-> 注意：此版本为未发布的 4.x 版本，不兼容 3.x，与 [overtrue/wechat 4.x](https://github.com/overtrue/wechat) 同步
+‼️ 注意：此版本为未发布的 4.x 版本，不兼容 3.x，与 [overtrue/wechat 4.x](https://github.com/overtrue/wechat) 同步
 
-如果你用的 3.x 版本，请从这里查看文档 https://github.com/overtrue/laravel-wechat/tree/3.1.10
+‼️ 如果你用的 3.x 版本，请从这里查看文档 https://github.com/overtrue/laravel-wechat/tree/3.1.10
 
 微信 SDK for Laravel 5 / Lumen， 基于 [overtrue/wechat](https://github.com/overtrue/wechat)
 
@@ -17,70 +17,48 @@
   </a>
 </p>
 
+## 框架要求
+
+Laravel/Lumen >= 5.5
+
 ## 安装
 
-1. 安装包文件
-
-> !!! 注意，4.0 还没发布！所以下面的命令是装不上的，你要试用 4.0，请将 4.0 改成 dev-master
-
-  ```shell
-  composer require "overtrue/laravel-wechat:~4.0"
-  ```
+```shell
+composer require "overtrue/laravel-wechat:~4.0"
+```
 
 ## 配置
 
 ### Laravel 应用
 
-1. 注册 `ServiceProvider`(5.5+ 版本不需要手动注册):
+1. 创建配置文件：
 
-  ```php
-  Overtrue\LaravelWeChat\ServiceProvider::class,
-  ```
+```shell
+php artisan vendor:publish --provider="Overtrue\LaravelWeChat\ServiceProvider"
+```
 
-2. 创建配置文件：
-
-  ```shell
-  // 3.x
-  php artisan vendor:publish --provider="Overtrue\LaravelWechat\ServiceProvider"
-
-  // 4.0 
-  php artisan vendor:publish --provider="Overtrue\LaravelWeChat\ServiceProvider"
-  ```
-
-3. 请修改应用根目录下的 `config/wechat.php` 中对应的项即可；
-
-4. （可选）添加外观到 `config/app.php` 中的 `aliases` 部分:
-
-  ```php
-  'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,
-  ```
+2. 请修改应用根目录下的 `config/wechat.php` 中对应的项即可。
 
 ### Lumen 应用
 
 1. 在 `bootstrap/app.php` 中 82 行左右：
 
-  ```php
-  // 3.0
-  $app->register(Overtrue\LaravelWechat\ServiceProvider::class);
-  // 4.0
-  $app->register(Overtrue\LaravelWeChat\ServiceProvider::class);
-  ```
+```php
+$app->register(Overtrue\LaravelWeChat\ServiceProvider::class);
+```
 
 2. 如果你习惯使用 `config/wechat.php` 来配置的话，将 `vendor/overtrue/laravel-wechat/src/config.php` 拷贝到`app/config`目录下，并将文件名改成`wechat.php`。
 
 ## 使用
 
-### Laravel <= 5.1
+:rotating_light: 在中间件 `App\Http\Middleware\VerifyCsrfToken` 排除微信相关的路由，如：
 
-1. Laravel 5 起默认启用了 CSRF 中间件，因为微信的消息是 POST 过来，所以会触发 CSRF 检查导致无法正确响应消息，所以请去除默认的 CSRF 中间件，改成路由中间件。可以参考我的写法：[overtrue gist:Kernel.php](https://gist.github.com/overtrue/ff6cd3a4e869fbaf6c01#file-kernel-php-L31)
-2. 5.1 里的 CSRF 已经带了可忽略部分url的功能，你可以参考：http://laravel.com/docs/master/routing#csrf-protection
-
-### Laravel 5.2+
-
-Laravel 5.2 以后的版本默认启用了 web 中间件，意味着 CSRF 会默认打开，有两种方案：
-
-1. 在 CSRF 中间件里排除微信相关的路由
-2. 关掉 CSRF 中间件（极不推荐）
+```php
+protected $except = [
+    // ...
+    'wechat',
+];
+```
 
 下面以接收普通消息为例写一个例子：
 
@@ -184,8 +162,6 @@ protected $routeMiddleware = [
 
 2. 在路由中添加中间件：
 
-以 5.2 为例：
-
 ```php
 //...
 Route::group(['middleware' => ['web', 'wechat.oauth']], function () {
@@ -196,7 +172,6 @@ Route::group(['middleware' => ['web', 'wechat.oauth']], function () {
     });
 });
 ```
-_如果你在用 5.1 上面没有 'web' 中间件_
 
 当然，你也可以在中间件参数指定当前的 `scopes`:
 
@@ -208,12 +183,36 @@ Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function
 
 上面的路由定义了 `/user` 是需要微信授权的，那么在这条路由的**回调 或 控制器对应的方法里**， 你就可以从 `session('wechat.oauth_user')` 拿到已经授权的用户信息了。
 
-## 路由支持
+启用路由，无需在项目中定义路由、控制器等，只需监听相应的事件即可。
 
-首先在配置文件中将`route.enabled` 项改为 `true` 启用路由，无需在项目中定义路由、控制器等，只需监听相应的事件即可。
+## 开放平台路由支持
 
-#### 开放平台路由支持
-修改配置文件中的 `route.open_platform_serve_url` 为开放平台第三方应用设置的授权事件接收 URL。
+在配置文件 `route` 处取消注释即可启用。
+
+```php
+'open_platform' => [
+    'uri' => 'serve',
+    'action' => Overtrue\LaravelWeChat\Controllers\OpenPlatformController::class,
+    'attributes' => [
+        'prefix' => 'open-platform',
+        'middleware' => null,
+    ],
+],
+```
+
+Tips: 默认的控制器会根据微信开放平台的推送内容触发如下事件，你可以监听相应的事件并进行处理：
+
+- 授权方成功授权：`Overtrue\LaravelWeChat\Events\OpenPlatform\Authorized`
+- 授权方更新授权：`Overtrue\LaravelWeChat\Events\OpenPlatform\UpdateAuthorized`
+- 授权方取消授权：`Overtrue\LaravelWeChat\Events\OpenPlatform\Unauthorized`
+- 开放平台推送 VerifyTicket：`Overtrue\LaravelWeChat\Events\OpenPlatform\VerifyTicketRefreshed`
+
+```php
+// 事件有如下属性
+$message = $event->payload; // 开放平台事件通知内容
+```
+
+配置后 `http://example.com/open-platform/serve` 则为开放平台第三方应用设置的授权事件接收 URL。
 
 ## 模拟授权
 
@@ -253,15 +252,6 @@ Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function
 // 该事件有两个属性
 $event->user; // 同 session('wechat.oauth_user') 一样
 $event->isNewSession; // 是不是新的会话（第一次创建 session 时为 true）
-```
-
-- 开放平台授权成功：`Overtrue\LaravelWeChat\Events\OpenPlatform\Authorized`
-- 开放平台授权更新：`Overtrue\LaravelWeChat\Events\OpenPlatform\UpdateAuthorized`
-- 开放平台授权取消：`Overtrue\LaravelWeChat\Events\OpenPlatform\Unauthorized`
-
-```php
-// 开放平台事件有如下属性
-$message = $event->message;     // 获取授权事件通知内容
 ```
 
 更多 SDK 的具体使用请参考：https://easywechat.com
