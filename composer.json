@@ -10,8 +10,8 @@
         }
     ],
     "require": {
+        "illuminate/container": "^5.1"
         "overtrue/wechat": "dev-master",
-        "illuminate/container": "5.5.*"
     },
     "autoload": {
         "psr-4": {
