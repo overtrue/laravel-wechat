@@ -76,7 +76,7 @@ class ServiceProvider extends LaravelServiceProvider
             }
 
             if ($config = config('wechat.route.'.$name)) {
-                $this->app->router->group($config['attributes'], function ($router) use ($config) {
+                $this->getRouter()->group($config['attributes'], function ($router) use ($config) {
                     $router->post($config['uri'], $config['action']);
                 });
             }
@@ -93,6 +93,15 @@ class ServiceProvider extends LaravelServiceProvider
             $this->app->alias($class, 'wechat.'.$name);
             $this->app->alias($class, 'easywechat.'.$name);
         }
+    }
+
+    protected function getRouter()
+    {
+        if ($this->app instanceof LumenApplication && !class_exists('Laravel\Lumen\Routing\Router')) {
+            return $this->app;
+        }
+
+        return $this->app->router;
     }
 
     /**

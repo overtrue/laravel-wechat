@@ -11,17 +11,15 @@
 
 namespace Overtrue\LaravelWeChat\Events\OpenPlatform;
 
-class UpdateAuthorized
+/**
+ * @method string getAppId()
+ * @method string getCreateTime()
+ * @method string getInfoType()
+ * @method string getAuthorizerAppid()
+ * @method string getAuthorizationCode()
+ * @method string getAuthorizationCodeExpiredTime()
+ * @method string getPreAuthCode()
+ */
+class UpdateAuthorized extends OpenPlatformEvent
 {
-    public $payload;
-
-    /**
-     * Create a new event instance.
-     *
-     * @param array $payload
-     */
-    public function __construct(array $payload)
-    {
-        $this->payload = $payload;
-    }
 }

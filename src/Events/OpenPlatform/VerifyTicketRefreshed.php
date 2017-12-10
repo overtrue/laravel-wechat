@@ -11,17 +11,12 @@
 
 namespace Overtrue\LaravelWeChat\Events\OpenPlatform;
 
-class VerifyTicketRefreshed
+/**
+ * @method string getAppId()
+ * @method string getCreateTime()
+ * @method string getInfoType()
+ * @method string getComponentVerifyTicket()
+ */
+class VerifyTicketRefreshed extends OpenPlatformEvent
 {
-    public $payload;
-
-    /**
-     * Create a new event instance.
-     *
-     * @param array $payload
-     */
-    public function __construct(array $payload)
-    {
-        $this->payload = $payload;
-    }
 }
