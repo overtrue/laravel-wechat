@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "illuminate/container": "^5.1"
+        "illuminate/container": "^5.1",
         "overtrue/wechat": "dev-master",
     },
     "autoload": {
