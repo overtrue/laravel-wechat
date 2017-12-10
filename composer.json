@@ -10,8 +10,8 @@
         }
     ],
     "require": {
+        "illuminate/container": "^5.1"
         "overtrue/wechat": "dev-master",
-        "overtrue/laravel-wechat": "dev-master"
     },
     "autoload": {
         "psr-4": {
