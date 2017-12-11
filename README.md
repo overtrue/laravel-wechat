@@ -34,7 +34,7 @@ composer require "overtrue/laravel-wechat:~4.0"
 1. 创建配置文件：
 
 ```shell
-php artisan vendor:publish --provider="Overtrue\LaravelWeChat\ServiceProvider"
+php artisan vendor:publish --provider="Overtrue\LaravelWechat\ServiceProvider"
 ```
 
 2. 请修改应用根目录下的 `config/wechat.php` 中对应的项即可。
