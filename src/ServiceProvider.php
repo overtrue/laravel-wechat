@@ -81,17 +81,20 @@ class ServiceProvider extends LaravelServiceProvider
                 });
             }
 
-            $this->app->singleton($class, function ($laravelApp) use ($name, $class) {
-                $app = new $class(array_merge(config('wechat.defaults', []), config('wechat.'.$name)));
-                if (config('wechat.defaults.use_laravel_cache')) {
-                    $app['cache'] = new CacheBridge($laravelApp['cache.store']);
-                }
-                $app['request'] = $laravelApp['request'];
+            $appConfigs = config('wechat.'.$name);
+            foreach ($appConfigs as $key => $config) {
+                $this->app->singleton("wechat.{$name}.{$key}", function ($laravelApp) use ($name, $key, $class) {
+                    $app = new $class(array_merge(config('wechat.defaults', []), config("wechat.{$name}.{$key}")));
+                    if (config('wechat.defaults.use_laravel_cache')) {
+                        $app['cache'] = new CacheBridge($laravelApp['cache.store']);
+                    }
+                    $app['request'] = $laravelApp['request'];
 
-                return $app;
-            });
-            $this->app->alias($class, 'wechat.'.$name);
-            $this->app->alias($class, 'easywechat.'.$name);
+                    return $app;
+                });
+            }
+            $this->app->alias($"wechat.{$name}.default", 'wechat.'.$name);
+            $this->app->alias($"wechat.{$name}.default", 'easywechat.'.$name);
         }
     }
 

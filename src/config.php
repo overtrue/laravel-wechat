@@ -65,10 +65,12 @@ return [
      * 公众号
      */
     'official_account' => [
-        'app_id' => env('WECHAT_OFFICIAL_ACCOUNT_APPID', 'your-app-id'),         // AppID
-        'secret' => env('WECHAT_OFFICIAL_ACCOUNT_SECRET', 'your-app-secret'),    // AppSecret
-        'token' => env('WECHAT_OFFICIAL_ACCOUNT_TOKEN', 'your-token'),           // Token
-        'aes_key' => env('WECHAT_OFFICIAL_ACCOUNT_AES_KEY', ''),                 // EncodingAESKey
+        'default' => [
+            'app_id' => env('WECHAT_OFFICIAL_ACCOUNT_APPID', 'your-app-id'),         // AppID
+            'secret' => env('WECHAT_OFFICIAL_ACCOUNT_SECRET', 'your-app-secret'),    // AppSecret
+            'token' => env('WECHAT_OFFICIAL_ACCOUNT_TOKEN', 'your-token'),           // Token
+            'aes_key' => env('WECHAT_OFFICIAL_ACCOUNT_AES_KEY', ''),                 // EncodingAESKey
+        ],
 
         /*
          * OAuth 配置
@@ -88,33 +90,39 @@ return [
      * 开放平台第三方平台
      */
     // 'open_platform' => [
-    //     'app_id'  => env('WECHAT_OPEN_PLATFORM_APPID', ''),
-    //     'secret'  => env('WECHAT_OPEN_PLATFORM_SECRET', ''),
-    //     'token'   => env('WECHAT_OPEN_PLATFORM_TOKEN', ''),
-    //     'aes_key' => env('WECHAT_OPEN_PLATFORM_AES_KEY', ''),
+    //     'default' => [
+    //         'app_id'  => env('WECHAT_OPEN_PLATFORM_APPID', ''),
+    //         'secret'  => env('WECHAT_OPEN_PLATFORM_SECRET', ''),
+    //         'token'   => env('WECHAT_OPEN_PLATFORM_TOKEN', ''),
+    //         'aes_key' => env('WECHAT_OPEN_PLATFORM_AES_KEY', ''),
+    //     ],
     // ],
 
     /*
      * 小程序
      */
     // 'mini_program' => [
-    //     'app_id'  => env('WECHAT_MINI_PROGRAM_APPID', ''),
-    //     'secret'  => env('WECHAT_MINI_PROGRAM_SECRET', ''),
-    //     'token'   => env('WECHAT_MINI_PROGRAM_TOKEN', ''),
-    //     'aes_key' => env('WECHAT_MINI_PROGRAM_AES_KEY', ''),
+    //     'default' => [
+    //         'app_id'  => env('WECHAT_MINI_PROGRAM_APPID', ''),
+    //         'secret'  => env('WECHAT_MINI_PROGRAM_SECRET', ''),
+    //         'token'   => env('WECHAT_MINI_PROGRAM_TOKEN', ''),
+    //         'aes_key' => env('WECHAT_MINI_PROGRAM_AES_KEY', ''),
+    //     ],
     // ],
 
     /*
      * 微信支付
      */
     // 'payment' => [
-    //     'sandbox'            => env('WECHAT_PAYMENT_SANDBOX', false),
-    //     'app_id'             => env('WECHAT_PAYMENT_APPID', ''),
-    //     'mch_id'             => env('WECHAT_PAYMENT_MCH_ID', 'your-mch-id'),
-    //     'key'                => env('WECHAT_PAYMENT_KEY', 'key-for-signature'),
-    //     'cert_path'          => env('WECHAT_PAYMENT_CERT_PATH', 'path/to/cert/apiclient_cert.pem'),    // XXX: 绝对路径！！！！
-    //     'key_path'           => env('WECHAT_PAYMENT_KEY_PATH', 'path/to/cert/apiclient_key.pem'),      // XXX: 绝对路径！！！！
-    //     'notify_url'         => 'http://example.com/payments/wechat-notify',                           // 默认支付结果通知地址
+    //     'default' => [
+    //         'sandbox'            => env('WECHAT_PAYMENT_SANDBOX', false),
+    //         'app_id'             => env('WECHAT_PAYMENT_APPID', ''),
+    //         'mch_id'             => env('WECHAT_PAYMENT_MCH_ID', 'your-mch-id'),
+    //         'key'                => env('WECHAT_PAYMENT_KEY', 'key-for-signature'),
+    //         'cert_path'          => env('WECHAT_PAYMENT_CERT_PATH', 'path/to/cert/apiclient_cert.pem'),    // XXX: 绝对路径！！！！
+    //         'key_path'           => env('WECHAT_PAYMENT_KEY_PATH', 'path/to/cert/apiclient_key.pem'),      // XXX: 绝对路径！！！！
+    //         'notify_url'         => 'http://example.com/payments/wechat-notify',                           // 默认支付结果通知地址
+    //     ],
     //     // ...
     // ],
 
@@ -122,16 +130,18 @@ return [
      * 企业微信
      */
     // 'work' => [
-    //     // 企业 ID
-    //     'corp_id' => 'xxxxxxxxxxxxxxxxx',
+    //     'default' => [
+    //         // 企业 ID
+    //         'corp_id' => 'xxxxxxxxxxxxxxxxx',
 
-    //     // 应用列表
-    //     'agents' => [
-    //         'contacts' => [
-    //             'agent_id' => 100020,
-    //             'secret'   => env('WECHAT_WORK_AGENT_CONTACTS_SECRET', ''),
-    //         ],
-    //        //...
+    //         // 应用列表
+    //         'agents' => [
+    //             'contacts' => [
+    //                 'agent_id' => 100020,
+    //                 'secret'   => env('WECHAT_WORK_AGENT_CONTACTS_SECRET', ''),
+    //             ],
+    //            //...
+    //        ],
     //    ],
     // ],
 ];
