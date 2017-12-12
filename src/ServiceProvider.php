@@ -14,7 +14,6 @@ namespace Overtrue\LaravelWeChat;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
-use Overtrue\LaravelWeChat\Controllers\OpenPlatformController;
 use Overtrue\Socialite\User as SocialiteUser;
 
 /**
@@ -36,10 +35,6 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function boot()
     {
-        if (config('wechat.route.enabled')) {
-            $this->registerRoutes();
-        }
-
         if ($this->app instanceof LaravelApplication) {
             // 创建模拟授权
             $this->setUpMockAuthUser();
@@ -74,17 +69,13 @@ class ServiceProvider extends LaravelServiceProvider
         });
     }
 
-    /**
-     * Register routes.
-     */
-    protected function registerRoutes()
+    protected function getRouter()
     {
-        $router = isset($this->app['router']) ? $this->app['router'] : $this->app;
+        if ($this->app instanceof LumenApplication && !class_exists('Laravel\Lumen\Routing\Router')) {
+            return $this->app;
+        }
 
-        // Register open-platform routes...
-        $router->group(config('wechat.route.open_platform.attributes', []), function ($router) {
-            $router->post(config('wechat.route.open_platform.uri'), OpenPlatformController::class.'@index');
-        });
+        return $this->app->router;
     }
 
     /**

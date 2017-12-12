@@ -19,6 +19,7 @@ class WeChatUserAuthorized
     use SerializesModels;
 
     public $user;
+
     public $isNewSession;
 
     /**
