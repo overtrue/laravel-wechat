@@ -1,6 +1,6 @@
 # laravel-wechat
 
-‼️ 注意：此版本为未发布的 4.x 版本，不兼容 3.x，与 [overtrue/wechat 4.x](https://github.com/overtrue/wechat) 同步
+‼️ 注意：此版本为 4.x 版本，不兼容 3.x，与 [overtrue/wechat 4.x](https://github.com/overtrue/wechat) 同步
 
 ‼️ 如果你用的 3.x 版本，请从这里查看文档 https://github.com/overtrue/laravel-wechat/tree/3.1.10
 
@@ -10,7 +10,7 @@
 
 <p align="center">
   <br>
-  <b>创造不息，交付不止</b>
+  <b>创造不息，交付不止</b>
   <br>
   <a href="https://www.yousails.com">
     <img src="https://yousails.com/banners/brand.png" width=350>
@@ -19,7 +19,7 @@
 
 ## 框架要求
 
-Laravel/Lumen >= 5.5
+Laravel/Lumen >= 5.1
 
 ## 安装
 
@@ -31,13 +31,26 @@ composer require "overtrue/laravel-wechat:~4.0"
 
 ### Laravel 应用
 
-1. 创建配置文件：
+1. 在 `config/app.php` 注册 ServiceProvider 和 Facade (Laravel 5.5 无需手动注册)
+
+```php
+'providers' => [
+    // ...
+    Overtrue\LaravelWeChat\ServiceProvider::class,
+],
+'aliases' => [
+    // ...
+    'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,
+],
+```
+
+2. 创建配置文件：
 
 ```shell
 php artisan vendor:publish --provider="Overtrue\LaravelWeChat\ServiceProvider"
 ```
 
-2. 请修改应用根目录下的 `config/wechat.php` 中对应的项即可。
+3. 修改应用根目录下的 `config/wechat.php` 中对应的参数即可。
 
 ### Lumen 应用
 
@@ -130,14 +143,6 @@ class WechatController extends Controller
 
 ##### 使用外观
 
-在 `config/app.php` 中 `alias` 部分添加外观别名：
-
-```php
-'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,
-```
-
-然后就可以在任何地方使用外观方式调用 SDK 对应的服务了：
-
 ```php
   $officialAccount = EasyWeChat::officialAccount(); // 公众号
   $work = EasyWeChat::work(); // 企业微信
@@ -182,8 +187,6 @@ Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function
 ```
 
 上面的路由定义了 `/user` 是需要微信授权的，那么在这条路由的**回调 或 控制器对应的方法里**， 你就可以从 `session('wechat.oauth_user')` 拿到已经授权的用户信息了。
-
-启用路由，无需在项目中定义路由、控制器等，只需监听相应的事件即可。
 
 ## 开放平台路由支持
 
