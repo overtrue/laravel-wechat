@@ -11,14 +11,13 @@
     ],
     "require": {
         "illuminate/container": "^5.1",
-        "overtrue/wechat": "dev-master"
+        "overtrue/wechat": "^4.0"
     },
     "autoload": {
         "psr-4": {
             "Overtrue\\LaravelWeChat\\": "src/"
         }
     },
-    "minimum-stability" : "dev",
     "extra": {
         "laravel": {
             "providers": [
