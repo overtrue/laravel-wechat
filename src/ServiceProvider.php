@@ -11,11 +11,6 @@
 
 namespace Overtrue\LaravelWeChat;
 
-use EasyWeChat\MiniProgram\Application as MiniProgram;
-use EasyWeChat\OfficialAccount\Application as OfficialAccount;
-use EasyWeChat\OpenPlatform\Application as OpenPlatform;
-use EasyWeChat\Payment\Application as Payment;
-use EasyWeChat\Work\AgentFactory as Work;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
@@ -28,6 +23,13 @@ use Overtrue\Socialite\User as SocialiteUser;
  */
 class ServiceProvider extends LaravelServiceProvider
 {
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = true;
+
     /**
      * Boot the provider.
      */
@@ -62,37 +64,9 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $this->setupConfig();
 
-        $apps = [
-            'official_account' => OfficialAccount::class,
-            'work' => Work::class,
-            'mini_program' => MiniProgram::class,
-            'payment' => Payment::class,
-            'open_platform' => OpenPlatform::class,
-        ];
-
-        foreach ($apps as $name => $class) {
-            if (empty(config('wechat.'.$name))) {
-                continue;
-            }
-
-            if ($config = config('wechat.route.'.$name)) {
-                $this->getRouter()->group($config['attributes'], function ($router) use ($config) {
-                    $router->post($config['uri'], $config['action']);
-                });
-            }
-
-            $this->app->singleton($class, function ($laravelApp) use ($name, $class) {
-                $app = new $class(array_merge(config('wechat.defaults', []), config('wechat.'.$name)));
-                if (config('wechat.defaults.use_laravel_cache')) {
-                    $app['cache'] = new CacheBridge($laravelApp['cache.store']);
-                }
-                $app['request'] = $laravelApp['request'];
-
-                return $app;
-            });
-            $this->app->alias($class, 'wechat.'.$name);
-            $this->app->alias($class, 'easywechat.'.$name);
-        }
+        $this->app->singleton('wechat', function ($laravelApp) {
+            return new WeChatManager($laravelApp);
+        });
     }
 
     protected function getRouter()
