@@ -24,9 +24,13 @@ class WeChatManager implements Factory
      *  collections of types.
      */
     protected $officialAccounts;
+
     protected $works;
+
     protected $miniPrograms;
+
     protected $payments;
+
     protected $openPlatforms;
 
     /**
