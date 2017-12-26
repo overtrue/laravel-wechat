@@ -33,40 +33,40 @@ class Facade extends LaravelFacade
     /**
      * @return \EasyWeChat\OfficialAccount\Application
      */
-    public static function officialAccount()
+    public static function officialAccount($name = '')
     {
-        return app('wechat.official_account');
+        return $name ? app('wechat.official_account.' . $name) : app('wechat.official_account');
     }
 
     /**
      * @return \EasyWeChat\Work\AgentFactory
      */
-    public static function work()
+    public static function work($name = '')
     {
-        return app('wechat.work');
+        return $name ? app('wechat.work.' . $name) : app('wechat.work');
     }
 
     /**
      * @return \EasyWeChat\Payment\Application
      */
-    public static function payment()
+    public static function payment($name = '')
     {
-        return app('wechat.payment');
+        return $name ? app('wechat.payment.' . $name) : app('wechat.payment');
     }
 
     /**
      * @return \EasyWeChat\MiniProgram\Application
      */
-    public static function miniProgram()
+    public static function miniProgram($name = '')
     {
-        return app('wechat.mini_program');
+        return $name ? app('wechat.mini_program.' . $name) : app('wechat.mini_program');
     }
 
     /**
      * @return \EasyWeChat\OpenPlatform\Application
      */
-    public static function openPlatform()
+    public static function openPlatform($name = '')
     {
-        return app('wechat.open_platform');
+        return $name ? app('wechat.open_platform.' . $name) : app('wechat.open_platform');
     }
 }
