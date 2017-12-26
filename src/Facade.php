@@ -35,7 +35,7 @@ class Facade extends LaravelFacade
      */
     public static function officialAccount($name = '')
     {
-        return $name ? app('wechat.official_account.' . $name) : app('wechat.official_account');
+        return $name ? app('wechat.official_account.'.$name) : app('wechat.official_account');
     }
 
     /**
@@ -43,7 +43,7 @@ class Facade extends LaravelFacade
      */
     public static function work($name = '')
     {
-        return $name ? app('wechat.work.' . $name) : app('wechat.work');
+        return $name ? app('wechat.work.'.$name) : app('wechat.work');
     }
 
     /**
@@ -51,7 +51,7 @@ class Facade extends LaravelFacade
      */
     public static function payment($name = '')
     {
-        return $name ? app('wechat.payment.' . $name) : app('wechat.payment');
+        return $name ? app('wechat.payment.'.$name) : app('wechat.payment');
     }
 
     /**
@@ -59,7 +59,7 @@ class Facade extends LaravelFacade
      */
     public static function miniProgram($name = '')
     {
-        return $name ? app('wechat.mini_program.' . $name) : app('wechat.mini_program');
+        return $name ? app('wechat.mini_program.'.$name) : app('wechat.mini_program');
     }
 
     /**
@@ -67,6 +67,6 @@ class Facade extends LaravelFacade
      */
     public static function openPlatform($name = '')
     {
-        return $name ? app('wechat.open_platform.' . $name) : app('wechat.open_platform');
+        return $name ? app('wechat.open_platform.'.$name) : app('wechat.open_platform');
     }
 }
