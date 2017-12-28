@@ -52,6 +52,8 @@ php artisan vendor:publish --provider="Overtrue\LaravelWeChat\ServiceProvider"
 
 3. 修改应用根目录下的 `config/wechat.php` 中对应的参数即可。
 
+4. 每个模块基本都支持多账号，默认为 `default`。
+
 ### Lumen 应用
 
 1. 在 `bootstrap/app.php` 中 82 行左右：
@@ -120,27 +122,6 @@ class WeChatController extends Controller
 
 ### 我们有以下方式获取 SDK 的服务实例
 
-##### 使用容器的自动注入
-
-以公众号为例：
-
-```php
-<?php
-
-namespace App\Http\Controllers;
-
-use EasyWeChat\OfficialAccount\Application;
-
-class WechatController extends Controller
-{
-
-    public function demo(Application $officialAccount)
-    {
-        // $officialAccount 则为容器中 EasyWeChat\OfficialAccount\Application 的实例
-    }
-}
-```
-
 ##### 使用外观
 
 ```php
@@ -149,8 +130,12 @@ class WechatController extends Controller
   $payment = EasyWeChat::payment(); // 微信支付
   $openPlatform = EasyWeChat::openPlatform(); // 开放平台
   $miniProgram = EasyWeChat::miniProgram(); // 小程序
-
+  
+  // 均支持传入配置账号名称
+  EasyWeChat::officialAccount('foo'); // `foo` 为配置文件中的名称，默认为 `default`
+  //...
 ```
+
 
 ## OAuth 中间件
 
