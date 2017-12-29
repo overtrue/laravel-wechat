@@ -132,7 +132,7 @@ return [
     // 'work' => [
     //     'default' => [
     //         'corp_id' => 'xxxxxxxxxxxxxxxxx',
-    ///        'agent_id' => 100020, 
+    ///        'agent_id' => 100020,
     //         'secret'   => env('WECHAT_WORK_AGENT_CONTACTS_SECRET', ''),
     //          //...
     //      ],
