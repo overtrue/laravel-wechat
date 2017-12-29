@@ -70,20 +70,20 @@ return [
             'secret' => env('WECHAT_OFFICIAL_ACCOUNT_SECRET', 'your-app-secret'),    // AppSecret
             'token' => env('WECHAT_OFFICIAL_ACCOUNT_TOKEN', 'your-token'),           // Token
             'aes_key' => env('WECHAT_OFFICIAL_ACCOUNT_AES_KEY', ''),                 // EncodingAESKey
-        ],
 
-        /*
-         * OAuth 配置
-         *
-         * only_wechat_browser: 只在微信浏览器跳转
-         * scopes：公众平台（snsapi_userinfo / snsapi_base），开放平台：snsapi_login
-         * callback：OAuth授权完成后的回调页地址(如果使用中间件，则随便填写。。。)
-         */
-        // 'oauth' => [
-        //     'only_wechat_browser' => false,
-        //     'scopes'   => array_map('trim', explode(',', env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_SCOPES', 'snsapi_userinfo'))),
-        //     'callback' => env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_CALLBACK', '/examples/oauth_callback.php'),
-        // ],
+            /*
+             * OAuth 配置
+             *
+             * only_wechat_browser: 只在微信浏览器跳转
+             * scopes：公众平台（snsapi_userinfo / snsapi_base），开放平台：snsapi_login
+             * callback：OAuth授权完成后的回调页地址(如果使用中间件，则随便填写。。。)
+             */
+            // 'oauth' => [
+            //     'only_wechat_browser' => false,
+            //     'scopes'   => array_map('trim', explode(',', env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_SCOPES', 'snsapi_userinfo'))),
+            //     'callback' => env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_CALLBACK', '/examples/oauth_callback.php'),
+            // ],
+        ],
     ],
 
     /*
@@ -131,17 +131,10 @@ return [
      */
     // 'work' => [
     //     'default' => [
-    //         // 企业 ID
     //         'corp_id' => 'xxxxxxxxxxxxxxxxx',
-
-    //         // 应用列表
-    //         'agents' => [
-    //             'contacts' => [
-    //                 'agent_id' => 100020,
-    //                 'secret'   => env('WECHAT_WORK_AGENT_CONTACTS_SECRET', ''),
-    //             ],
-    //            //...
-    //        ],
-    //    ],
+    ///        'agent_id' => 100020, 
+    //         'secret'   => env('WECHAT_WORK_AGENT_CONTACTS_SECRET', ''),
+    //          //...
+    //      ],
     // ],
 ];
