@@ -81,7 +81,7 @@ class ServiceProvider extends LaravelServiceProvider
                 });
             }
 
-            if (empty(config('wechat.'.$name.'default'))) {
+            if (empty(config('wechat.'.$name.'.default'))) {
                 $accounts = [
                     'default' => config('wechat.'.$name),
                 ];
