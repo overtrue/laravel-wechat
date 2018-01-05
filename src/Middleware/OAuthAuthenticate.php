@@ -12,31 +12,16 @@
 namespace Overtrue\LaravelWeChat\Middleware;
 
 use Closure;
-use EasyWeChat\OfficialAccount\Application;
 use Event;
-use Log;
+use http\Env\Request;
 use Overtrue\LaravelWeChat\Events\WeChatUserAuthorized;
+use Overtrue\Socialite\User;
 
 /**
  * Class OAuthAuthenticate.
  */
 class OAuthAuthenticate
 {
-    /**
-     * Use Service Container would be much artisan.
-     */
-    private $wechat;
-
-    /**
-     * Inject the wechat service.
-     *
-     * @param \EasyWeChat\OfficialAccount\Application $wechat
-     */
-    public function __construct(Application $wechat)
-    {
-        $this->wechat = $wechat;
-    }
-
     /**
      * Handle an incoming request.
      *
@@ -46,41 +31,42 @@ class OAuthAuthenticate
      *
      * @return mixed
      */
-    public function handle($request, Closure $next, $scopes = null)
+    public function handle($request, Closure $next, $account = 'default', $scopes = null)
     {
-        $isNewSession = false;
-        $onlyRedirectInWeChatBrowser = config('wechat.official_account.oauth.only_wechat_browser', false);
-
-        if ($onlyRedirectInWeChatBrowser && !$this->isWeChatBrowser($request)) {
-            if (config('wechat.debug')) {
-                Log::debug('[not wechat browser] skip wechat oauth redirect.');
-            }
-
-            return $next($request);
+        // $account 与 $scopes 写反的情况
+        if (is_array($scopes) || (\is_string($account) && str_is($account, 'snsapi_*'))) {
+            list($account, $scopes) = [$scopes, $account];
+            $account || $account = 'default';
         }
 
-        $scopes = $scopes ?: config('wechat.official_account.oauth.scopes', ['snsapi_base']);
+        $isNewSession = false;
+        $sessionKey = \sprintf('wechat.oauth_user.%s', $account);
+        $config = config(\sprintf('wechat.official_account.%s', $account), []);
+        $officialAccount = app(\sprintf('wechat.official_account.%s', $account));
+        $scopes = $scopes ?: array_get($config, 'oauth.scopes', ['snsapi_base']);
 
         if (is_string($scopes)) {
             $scopes = array_map('trim', explode(',', $scopes));
         }
 
-        if (!session('wechat.oauth_user') || $this->needReauth($scopes)) {
+        $session = session($sessionKey, []);
+
+        if (!$session) {
             if ($request->has('code')) {
-                session(['wechat.oauth_user' => $this->wechat->oauth->user()]);
+                session([$sessionKey => $officialAccount->oauth->user() ?? []]);
                 $isNewSession = true;
 
-                Event::fire(new WeChatUserAuthorized(session('wechat.oauth_user'), $isNewSession));
+                Event::fire(new WeChatUserAuthorized(session($sessionKey), $isNewSession, $account));
 
                 return redirect()->to($this->getTargetUrl($request));
             }
 
-            session()->forget('wechat.oauth_user');
+            session()->forget($sessionKey);
 
-            return $this->wechat->oauth->scopes($scopes)->redirect($request->fullUrl());
+            return $officialAccount->oauth->scopes($scopes)->redirect($request->fullUrl());
         }
 
-        Event::fire(new WeChatUserAuthorized(session('wechat.oauth_user'), $isNewSession));
+        Event::fire(new WeChatUserAuthorized(session($sessionKey), $isNewSession, $account));
 
         return $next($request);
     }
@@ -100,18 +86,6 @@ class OAuthAuthenticate
     }
 
     /**
-     * Is different scopes.
-     *
-     * @param array $scopes
-     *
-     * @return bool
-     */
-    protected function needReauth($scopes)
-    {
-        return 'snsapi_base' == session('wechat.oauth_user.original.scope') && in_array('snsapi_userinfo', $scopes);
-    }
-
-    /**
      * Detect current user agent type.
      *
      * @param \Illuminate\Http\Request $request
@@ -120,6 +94,6 @@ class OAuthAuthenticate
      */
     protected function isWeChatBrowser($request)
     {
-        return false !== strpos($request->header('user_agent'), 'MicroMessenger');
+        return false !== strpos($request->header('user_agent', ''), 'MicroMessenger');
     }
 }

@@ -163,15 +163,65 @@ Route::group(['middleware' => ['web', 'wechat.oauth']], function () {
 });
 ```
 
-当然，你也可以在中间件参数指定当前的 `scopes`:
+中间件支持指定配置名称：`'wechat.oauth:default'`，当然，你也可以在中间件参数指定当前的 `scopes`:
 
 ```php
-Route::group(['middleware' => ['web', 'wechat.oauth:snsapi_userinfo']], function () {
+Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
+  // ...
+});
+
+// 或者指定账户的同时指定 scopes:
+Route::group(['middleware' => ['wechat.oauth:default,snsapi_userinfo']], function () {
   // ...
 });
 ```
 
-上面的路由定义了 `/user` 是需要微信授权的，那么在这条路由的**回调 或 控制器对应的方法里**， 你就可以从 `session('wechat.oauth_user')` 拿到已经授权的用户信息了。
+上面的路由定义了 `/user` 是需要微信授权的，那么在这条路由的**回调 或 控制器对应的方法里**， 你就可以从 `session('wechat.oauth_user.default')` 拿到已经授权的用户信息了。
+
+## 模拟授权
+
+有时候我们希望在本地开发完成后线上才真实的走微信授权流程，这将减少我们的开发成本，那么你需要做以下两步：
+
+1. 准备假资料：
+
+> 以下字段在 scope 为 `snsapi_userinfo` 时尽可能配置齐全哦，当然，如果你的模式只是 `snsapi_base` 的话只需要 `openid` 就好了。
+
+```php
+use Overtrue\Socialite\User as SocialiteUser;
+
+$user = new SocialiteUser([
+                'id' => array_get($user, 'openid'),
+                'name' => array_get($user, 'nickname'),
+                'nickname' => array_get($user, 'nickname'),
+                'avatar' => array_get($user, 'headimgurl'),
+                'email' => null,
+                'original' => [],
+                'provider' => 'WeChat',
+            ]);
+
+```
+
+2. 将资料写入 session：
+
+> 注意：一定要在 OAuth 中间件之前写入，比如你可以创建一个全局中间件来完成这件事儿，当然了，只在开发环境启用即可。
+
+```php
+session(['wechat.oauth_user.default' => $user]); // 同理，`default` 可以更换为您对应的其它配置名
+```
+
+## 事件
+
+> 你可以监听相应的事件，并对事件发生后执行相应的操作。
+
+- OAuth 网页授权：`Overtrue\LaravelWeChat\Events\WeChatUserAuthorized`
+
+```php
+// 该事件有以下属性
+$event->user; // 同 session('wechat.oauth_user.default') 一样
+$event->isNewSession; // 是不是新的会话（第一次创建 session 时为 true）
+$event->account; // 当前中间件所使用的账号，对应在配置文件中的配置项名称
+```
+
 
 ## 开放平台路由支持
 
@@ -202,45 +252,7 @@ $message = $event->payload; // 开放平台事件通知内容
 
 配置后 `http://example.com/open-platform/serve` 则为开放平台第三方应用设置的授权事件接收 URL。
 
-## 模拟授权
 
-有时候我们希望在本地开发完成后线上才真实的走微信授权流程，这将减少我们的开发成本，那么你需要做以下两步：
-
-1.  在 config/wechat.php 中将：'enable_mock' 启用，不论你是用 `.env` 文件里 `WECHAT_ENABLE_MOCK=true` 或者其它什么方法都可以。
-2.  在 config/wechat.php 中配置 `mock_user` 为微信的模拟的用户资料:
-
-```php
-/*
- * 开发模式下的免授权模拟授权用户资料
- *
- * 当 enable_mock 为 true 则会启用模拟微信授权，用于开发时使用，开发完成请删除或者改为 false 即可
- */
-'enable_mock' => env('WECHAT_ENABLE_MOCK', true),
-'mock_user' => [
-    'openid' => 'odh7zsgI75iT8FRh0fGlSojc9PWM',
-    // 以下字段为 scope 为 snsapi_userinfo 时需要
-    'nickname' => 'overtrue',
-    'sex' => '1',
-    'province' => '北京',
-    'city' => '北京',
-    'country' => '中国',
-    'headimgurl' => 'http://wx.qlogo.cn/mmopen/C2rEUskXQiblFYMUl9O0G05Q6pKibg7V1WpHX6CIQaic824apriabJw4r6EWxziaSt5BATrlbx1GVzwW2qjUCqtYpDvIJLjKgP1ug/0',
-],
-```
-
-以上字段在 scope 为 `snsapi_userinfo` 时尽可能配置齐全哦，当然，如果你的模式只是 `snsapi_base` 的话只需要 `openid` 就好了。
-
-## 事件
-
-> 你可以监听相应的事件，并对事件发生后执行相应的操作。
-
-- OAuth 网页授权：`Overtrue\LaravelWeChat\Events\WeChatUserAuthorized`
-
-```php
-// 该事件有两个属性
-$event->user; // 同 session('wechat.oauth_user') 一样
-$event->isNewSession; // 是不是新的会话（第一次创建 session 时为 true）
-```
 
 更多 SDK 的具体使用请参考：https://easywechat.com
 

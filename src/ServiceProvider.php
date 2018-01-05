@@ -19,7 +19,6 @@ use EasyWeChat\Work\Application as Work;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
-use Overtrue\Socialite\User as SocialiteUser;
 
 /**
  * Class ServiceProvider.
@@ -33,10 +32,6 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function boot()
     {
-        if ($this->app instanceof LaravelApplication) {
-            // 创建模拟授权
-            $this->setUpMockAuthUser();
-        }
     }
 
     /**
@@ -47,7 +42,7 @@ class ServiceProvider extends LaravelServiceProvider
         $source = realpath(__DIR__.'/config.php');
 
         if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
-            $this->publishes([$source => config_path('wechat.php')]);
+            $this->publishes([$source => config_path('wechat.php')], 'laravel-wechat');
         } elseif ($this->app instanceof LumenApplication) {
             $this->app->configure('wechat');
         }
@@ -85,6 +80,7 @@ class ServiceProvider extends LaravelServiceProvider
                 $accounts = [
                     'default' => config('wechat.'.$name),
                 ];
+                config(['wechat.'.$name.'.default' => $accounts]);
             } else {
                 $accounts = config('wechat.'.$name);
             }
@@ -115,25 +111,5 @@ class ServiceProvider extends LaravelServiceProvider
         }
 
         return $this->app->router;
-    }
-
-    /**
-     * 创建模拟登录.
-     */
-    protected function setUpMockAuthUser()
-    {
-        $user = config('wechat.mock_user');
-
-        if (is_array($user) && !empty($user['openid']) && config('wechat.enable_mock')) {
-            $user = (new SocialiteUser([
-                'id' => array_get($user, 'openid'),
-                'name' => array_get($user, 'nickname'),
-                'nickname' => array_get($user, 'nickname'),
-                'avatar' => array_get($user, 'headimgurl'),
-                'email' => null,
-            ]))->merge(['original' => array_merge($user, ['privilege' => []])])->setProviderName('WeChat');
-
-            session(['wechat.oauth_user' => $user]);
-        }
     }
 }
