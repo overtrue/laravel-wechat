@@ -34,7 +34,7 @@ class OAuthAuthenticate
     public function handle($request, Closure $next, $account = 'default', $scopes = null)
     {
         // $account 与 $scopes 写反的情况
-        if (is_array($scopes) || (\is_string($account) && str_is($account, 'snsapi_*'))) {
+        if (is_array($scopes) || (\is_string($account) && str_is('snsapi_*', $account))) {
             list($account, $scopes) = [$scopes, $account];
             $account || $account = 'default';
         }
