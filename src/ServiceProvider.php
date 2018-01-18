@@ -80,7 +80,7 @@ class ServiceProvider extends LaravelServiceProvider
                 $accounts = [
                     'default' => config('wechat.'.$name),
                 ];
-                config(['wechat.'.$name.'.default' => $accounts]);
+                config(['wechat.'.$name.'.default' => $accounts['default']]);
             } else {
                 $accounts = config('wechat.'.$name);
             }

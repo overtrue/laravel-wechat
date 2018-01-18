@@ -84,16 +84,4 @@ class OAuthAuthenticate
 
         return $request->url().(empty($queries) ? '' : '?'.http_build_query($queries));
     }
-
-    /**
-     * Detect current user agent type.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return bool
-     */
-    protected function isWeChatBrowser($request)
-    {
-        return false !== strpos($request->header('user_agent', ''), 'MicroMessenger');
-    }
 }
