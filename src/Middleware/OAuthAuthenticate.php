@@ -15,7 +15,6 @@ use Closure;
 use Event;
 use http\Env\Request;
 use Overtrue\LaravelWeChat\Events\WeChatUserAuthorized;
-use Overtrue\Socialite\User;
 
 /**
  * Class OAuthAuthenticate.
