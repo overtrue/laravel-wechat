@@ -14,7 +14,6 @@ return [
      * 默认配置，将会合并到各模块中
      */
     'defaults' => [
-
         /*
          * 指定 API 调用返回结果的类型：array(default)/collection/object/raw/自定义类名
          */
