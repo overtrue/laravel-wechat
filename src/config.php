@@ -14,12 +14,6 @@ return [
      * 默认配置，将会合并到各模块中
      */
     'defaults' => [
-        /*
-         * Debug 模式，bool 值：true/false
-         *
-         * 当值为 false 时，所有的日志都不会记录
-         */
-        'debug' => true,
 
         /*
          * 指定 API 调用返回结果的类型：array(default)/collection/object/raw/自定义类名
