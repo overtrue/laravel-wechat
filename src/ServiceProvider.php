@@ -62,6 +62,7 @@ class ServiceProvider extends LaravelServiceProvider
             'work' => Work::class,
             'mini_program' => MiniProgram::class,
             'payment' => Payment::class,
+            'mini_program_payment' => Payment::class,
             'open_platform' => OpenPlatform::class,
         ];
 
@@ -69,6 +70,11 @@ class ServiceProvider extends LaravelServiceProvider
             if (empty(config('wechat.'.$name))) {
                 continue;
             }
+            
+            //if init payment in mini_program, set the mini_program_openid as openid.
+			if ($name = 'mini_program_payment') {
+				config(['wechat.payment.default.app_id' => config('wechat.mini_program.default.app_id')]);
+			}
 
             if ($config = config('wechat.route.'.$name)) {
                 $this->getRouter()->group($config['attributes'], function ($router) use ($config) {
