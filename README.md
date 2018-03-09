@@ -128,6 +128,7 @@ class WeChatController extends Controller
   $officialAccount = EasyWeChat::officialAccount(); // 公众号
   $work = EasyWeChat::work(); // 企业微信
   $payment = EasyWeChat::payment(); // 微信支付
+  $miniProgramPayment=EasyWeChat::payment('mini_program');  //或者app("wechat.payment.mini_program")，来初始化服务，请确认配置文件是否有对应设置。
   $openPlatform = EasyWeChat::openPlatform(); // 开放平台
   $miniProgram = EasyWeChat::miniProgram(); // 小程序
   
