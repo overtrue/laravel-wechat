@@ -27,6 +27,9 @@ use Laravel\Lumen\Application as LumenApplication;
  */
 class ServiceProvider extends LaravelServiceProvider
 {
+    //Indicates if loading of the provider is deferred.
+    protected $defer = true;
+
     /**
      * Boot the provider.
      */
