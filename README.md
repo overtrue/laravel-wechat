@@ -62,7 +62,7 @@ php artisan vendor:publish --provider="Overtrue\LaravelWeChat\ServiceProvider"
 $app->register(Overtrue\LaravelWeChat\ServiceProvider::class);
 ```
 
-2. 如果你习惯使用 `config/wechat.php` 来配置的话，将 `vendor/overtrue/laravel-wechat/src/config.php` 拷贝到`app/config`目录下，并将文件名改成`wechat.php`。
+2. 如果你习惯使用 `config/wechat.php` 来配置的话，将 `vendor/overtrue/laravel-wechat/src/config.php` 拷贝到`项目根目录/config`目录下，并将文件名改成`wechat.php`。
 
 ## 使用
 
