@@ -3,6 +3,7 @@
 ‼️ 注意：此版本为 4.x 版本，不兼容 3.x，与 [overtrue/wechat 4.x](https://github.com/overtrue/wechat) 同步
 
 ‼️ 如果你用的 3.x 版本，请从这里查看文档 https://github.com/overtrue/laravel-wechat/tree/3.1.10
+
 ‼️ Laravel 5.6 以上不支持 3.x 请使用 4.0 以上版本。
 
 微信 SDK for Laravel 5 / Lumen， 基于 [overtrue/wechat](https://github.com/overtrue/wechat)
