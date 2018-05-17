@@ -21,9 +21,9 @@ abstract class OpenPlatformEvent
     /**
      * Create a new event instance.
      *
-     * @param array $payload
+     * @param mixed $payload
      */
-    public function __construct(array $payload)
+    public function __construct($payload)
     {
         $this->payload = $payload;
     }
