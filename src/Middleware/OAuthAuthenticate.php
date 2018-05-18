@@ -12,7 +12,7 @@
 namespace Overtrue\LaravelWeChat\Middleware;
 
 use Closure;
-use Event;
+use Illuminate\Support\Facades\Event;
 use http\Env\Request;
 use Overtrue\LaravelWeChat\Events\WeChatUserAuthorized;
 
