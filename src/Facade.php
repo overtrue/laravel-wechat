@@ -39,7 +39,7 @@ class Facade extends LaravelFacade
     }
 
     /**
-     * @return \EasyWeChat\Work\AgentFactory
+     * @return \EasyWeChat\Work\Application
      */
     public static function work($name = '')
     {
