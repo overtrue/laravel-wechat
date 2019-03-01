@@ -12,7 +12,6 @@
 namespace Overtrue\LaravelWeChat\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Event;
 use http\Env\Request;
 use Overtrue\LaravelWeChat\Events\WeChatUserAuthorized;
 
@@ -55,7 +54,7 @@ class OAuthAuthenticate
                 session([$sessionKey => $officialAccount->oauth->user() ?? []]);
                 $isNewSession = true;
 
-                Event::fire(new WeChatUserAuthorized(session($sessionKey), $isNewSession, $account));
+                event(new WeChatUserAuthorized(session($sessionKey), $isNewSession, $account));
 
                 return redirect()->to($this->getTargetUrl($request));
             }
@@ -65,7 +64,7 @@ class OAuthAuthenticate
             return $officialAccount->oauth->scopes($scopes)->redirect($request->fullUrl());
         }
 
-        Event::fire(new WeChatUserAuthorized(session($sessionKey), $isNewSession, $account));
+        event(new WeChatUserAuthorized(session($sessionKey), $isNewSession, $account));
 
         return $next($request);
     }
