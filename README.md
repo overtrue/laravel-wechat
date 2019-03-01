@@ -181,13 +181,14 @@ Route::group(['middleware' => ['wechat.oauth:default,snsapi_userinfo']], functio
 > 以下字段在 scope 为 `snsapi_userinfo` 时尽可能配置齐全哦，当然，如果你的模式只是 `snsapi_base` 的话只需要 `openid` 就好了。
 
 ```php
+use Illuminate\Support\Arr;
 use Overtrue\Socialite\User as SocialiteUser;
 
 $user = new SocialiteUser([
-                'id' => array_get($user, 'openid'),
-                'name' => array_get($user, 'nickname'),
-                'nickname' => array_get($user, 'nickname'),
-                'avatar' => array_get($user, 'headimgurl'),
+                'id' => Arr::get($user, 'openid'),
+                'name' => Arr::get($user, 'nickname'),
+                'nickname' => Arr::get($user, 'nickname'),
+                'avatar' => Arr::get($user, 'headimgurl'),
                 'email' => null,
                 'original' => [],
                 'provider' => 'WeChat',
