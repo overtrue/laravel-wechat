@@ -12,6 +12,7 @@
 namespace Overtrue\LaravelWeChat;
 
 use Illuminate\Cache\Repository;
+use Illuminate\Support\Carbon;
 use Psr\SimpleCache\CacheInterface;
 
 class CacheBridge implements CacheInterface
@@ -36,7 +37,7 @@ class CacheBridge implements CacheInterface
 
     public function set($key, $value, $ttl = null)
     {
-        return $this->repository->put($key, $value, $this->toMinutes($ttl));
+        return $this->repository->put($key, $value, is_null($ttl) ? null : (new Carbon())->addSeconds($ttl));
     }
 
     public function delete($key)
@@ -62,12 +63,5 @@ class CacheBridge implements CacheInterface
     public function has($key)
     {
         return $this->repository->has($key);
-    }
-
-    protected function toMinutes($ttl = null)
-    {
-        if (!is_null($ttl)) {
-            return $ttl / 60;
-        }
     }
 }
