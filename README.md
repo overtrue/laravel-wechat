@@ -18,7 +18,11 @@ Laravel/Lumen >= 5.1
 ## 安装
 
 ```shell
+# Laravel < 5.8
 composer require "overtrue/laravel-wechat:~4.0"
+
+# Laravel >= 5.8
+composer require "overtrue/laravel-wechat:~5.0"
 ```
 
 ## 配置
