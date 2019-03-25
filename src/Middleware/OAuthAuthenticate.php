@@ -18,7 +18,7 @@ use Illuminate\Support\Str;
 use Overtrue\LaravelWeChat\Events\WeChatUserAuthorized;
 
 /**
- * Class OAuthAuthenticate.
+ * Class OAuthAuthenticate: 微信公众号, 企业微信的网页应用。
  */
 class OAuthAuthenticate
 {
@@ -26,27 +26,25 @@ class OAuthAuthenticate
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
-     * @param string|null              $scopes
+     * @param \Closure $next
+     * @param string|null $scope
+     * @param string|null $type : service(服务号), subscription(订阅号), work(企业微信)
      *
      * @return mixed
      */
-    public function handle($request, Closure $next, $account = 'default', $scopes = null)
+    public function handle($request, Closure $next, $account = 'default', $scope = 'snsapi_base', $type = 'service')
     {
-        // $account 与 $scopes 写反的情况
-        if (is_array($scopes) || (\is_string($account) && Str::is('snsapi_*', $account))) {
-            list($account, $scopes) = [$scopes, $account];
-            $account || $account = 'default';
-        }
-
         $isNewSession = false;
-        $sessionKey = \sprintf('wechat.oauth_user.%s', $account);
-        $config = config(\sprintf('wechat.official_account.%s', $account), []);
-        $officialAccount = app(\sprintf('wechat.official_account.%s', $account));
-        $scopes = $scopes ?: Arr::get($config, 'oauth.scopes', ['snsapi_base']);
+        //保证兼容性
+        $class = ($type !== 'work') ? 'wechat' : 'work';
+        $prefix= ($type !== 'work') ? 'official_account' : 'work';
+        $sessionKey = \sprintf($class . '.oauth_user.%s', $account);
+        $config = config(\sprintf('wechat.' . $prefix . '.%s', $account), []);
+        $officialAccount = app(\sprintf('wechat.' . $prefix . '.%s', $account));
+        $scope = $scope ?: Arr::get($config, 'oauth.scopes', ['snsapi_base']);
 
-        if (is_string($scopes)) {
-            $scopes = array_map('trim', explode(',', $scopes));
+        if (is_string($scope)) {
+            $scope = array_map('trim', explode(',', $scope));
         }
 
         $session = session($sessionKey, []);
@@ -63,7 +61,7 @@ class OAuthAuthenticate
 
             session()->forget($sessionKey);
 
-            return $officialAccount->oauth->scopes($scopes)->redirect($request->fullUrl());
+            return $officialAccount->oauth->scopes($scope)->redirect($request->fullUrl());
         }
 
         event(new WeChatUserAuthorized(session($sessionKey), $isNewSession, $account));
@@ -82,6 +80,6 @@ class OAuthAuthenticate
     {
         $queries = Arr::except($request->query(), ['code', 'state']);
 
-        return $request->url().(empty($queries) ? '' : '?'.http_build_query($queries));
+        return $request->url() . (empty($queries) ? '' : '?' . http_build_query($queries));
     }
 }
