@@ -14,7 +14,6 @@ namespace Overtrue\LaravelWeChat\Middleware;
 use Closure;
 use http\Env\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Overtrue\LaravelWeChat\Events\WeChatUserAuthorized;
 
 /**
@@ -26,9 +25,9 @@ class OAuthAuthenticate
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
-     * @param string|null $scope
-     * @param string|null $type : service(服务号), subscription(订阅号), work(企业微信)
+     * @param \Closure                 $next
+     * @param string|null              $scope
+     * @param string|null              $type    : service(服务号), subscription(订阅号), work(企业微信)
      *
      * @return mixed
      */
@@ -36,11 +35,11 @@ class OAuthAuthenticate
     {
         $isNewSession = false;
         //保证兼容性
-        $class = ($type !== 'work') ? 'wechat' : 'work';
-        $prefix= ($type !== 'work') ? 'official_account' : 'work';
-        $sessionKey = \sprintf($class . '.oauth_user.%s', $account);
-        $config = config(\sprintf('wechat.' . $prefix . '.%s', $account), []);
-        $officialAccount = app(\sprintf('wechat.' . $prefix . '.%s', $account));
+        $class = ('work' !== $type) ? 'wechat' : 'work';
+        $prefix = ('work' !== $type) ? 'official_account' : 'work';
+        $sessionKey = \sprintf($class.'.oauth_user.%s', $account);
+        $config = config(\sprintf('wechat.'.$prefix.'.%s', $account), []);
+        $officialAccount = app(\sprintf('wechat.'.$prefix.'.%s', $account));
         $scope = $scope ?: Arr::get($config, 'oauth.scopes', ['snsapi_base']);
 
         if (is_string($scope)) {
@@ -80,6 +79,6 @@ class OAuthAuthenticate
     {
         $queries = Arr::except($request->query(), ['code', 'state']);
 
-        return $request->url() . (empty($queries) ? '' : '?' . http_build_query($queries));
+        return $request->url().(empty($queries) ? '' : '?'.http_build_query($queries));
     }
 }
