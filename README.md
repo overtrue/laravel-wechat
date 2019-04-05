@@ -249,6 +249,12 @@ $message = $event->payload; // 开放平台事件通知内容
 
 更多 SDK 的具体使用请参考：https://easywechat.com
 
+## PHP 扩展包开发
+
+> 想知道如何从零开始构建 PHP 扩展包？
+>
+> 请关注我的实战课程，我会在此课程中分享一些扩展开发经验 —— [《PHP 扩展包实战教程 - 从入门到发布》](https://learnku.com/courses/creating-package)
+
 ## License
 
 MIT
