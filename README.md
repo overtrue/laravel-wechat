@@ -117,14 +117,14 @@ class WeChatController extends Controller
 ##### 使用外观
 
 ```php
-  $officialAccount = EasyWeChat::officialAccount(); // 公众号
-  $work = EasyWeChat::work(); // 企业微信
-  $payment = EasyWeChat::payment(); // 微信支付
-  $openPlatform = EasyWeChat::openPlatform(); // 开放平台
-  $miniProgram = EasyWeChat::miniProgram(); // 小程序
+  $officialAccount = \EasyWeChat::officialAccount(); // 公众号
+  $work = \EasyWeChat::work(); // 企业微信
+  $payment = \EasyWeChat::payment(); // 微信支付
+  $openPlatform = \EasyWeChat::openPlatform(); // 开放平台
+  $miniProgram = \EasyWeChat::miniProgram(); // 小程序
   
   // 均支持传入配置账号名称
-  EasyWeChat::officialAccount('foo'); // `foo` 为配置文件中的名称，默认为 `default`
+  \EasyWeChat::officialAccount('foo'); // `foo` 为配置文件中的名称，默认为 `default`
   //...
 ```
 
