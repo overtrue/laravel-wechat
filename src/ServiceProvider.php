@@ -14,6 +14,7 @@ namespace Overtrue\LaravelWeChat;
 use EasyWeChat\MiniProgram\Application as MiniProgram;
 use EasyWeChat\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\OpenPlatform\Application as OpenPlatform;
+use EasyWeChat\OpenWork\Application as OpenWork;
 use EasyWeChat\Payment\Application as Payment;
 use EasyWeChat\Work\Application as Work;
 use Illuminate\Foundation\Application as LaravelApplication;
@@ -63,6 +64,7 @@ class ServiceProvider extends LaravelServiceProvider
             'mini_program' => MiniProgram::class,
             'payment' => Payment::class,
             'open_platform' => OpenPlatform::class,
+            'open_work' => OpenWork::class,
         ];
 
         foreach ($apps as $name => $class) {
