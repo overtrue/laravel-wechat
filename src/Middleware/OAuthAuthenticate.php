@@ -31,7 +31,7 @@ class OAuthAuthenticate
      *
      * @return mixed
      */
-    public function handle($request, Closure $next, $account = 'default', $scope = 'snsapi_base', $type = 'service')
+    public function handle($request, Closure $next, $account = 'default', $scope = null, $type = 'service')
     {
         $isNewSession = false;
         //保证兼容性
