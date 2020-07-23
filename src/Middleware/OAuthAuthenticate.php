@@ -60,7 +60,7 @@ class OAuthAuthenticate
 
             session()->forget($sessionKey);
 
-            return $officialAccount->oauth->scopes($scope)->redirect($request->fullUrl());
+            return redirect()->to($officialAccount->oauth->scopes($scope)->redirect($request->fullUrl()));
         }
 
         event(new WeChatUserAuthorized(session($sessionKey), $isNewSession, $account));
