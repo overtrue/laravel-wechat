@@ -14,6 +14,7 @@ namespace Overtrue\LaravelWeChat\Middleware;
 use Closure;
 use http\Env\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Overtrue\LaravelWeChat\Events\WeChatUserAuthorized;
 
 /**
