@@ -14,6 +14,7 @@ namespace Overtrue\LaravelWeChat\Middleware;
 use Closure;
 use http\Env\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Overtrue\LaravelWeChat\Events\WeChatUserAuthorized;
 
@@ -25,54 +26,58 @@ class OAuthAuthenticate
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $scope
-     * @param  string|null  $type : service(服务号), subscription(订阅号), work(企业微信)
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     * @param string                   $account
+     * @param string|null              $scope
+     * @param string|null              $type : service(服务号), subscription(订阅号), work(企业微信)
+     *
      * @return mixed
      */
     public function handle($request, Closure $next, $account = 'default', $scope = null, $type = 'service')
     {
-        $isNewSession = false;
         //保证兼容性
         $class = ('work' !== $type) ? 'wechat' : 'work';
         $prefix = ('work' !== $type) ? 'official_account' : 'work';
-        $sessionKey = \sprintf($class . '.oauth_user.%s', $account);
-        $config = config(\sprintf('wechat.' . $prefix . '.%s', $account), []);
-        $officialAccount = app(\sprintf('wechat.' . $prefix . '.%s', $account));
+        $sessionKey = \sprintf('%s.oauth_user.%s', $class, $account);
+        $service = \sprintf('wechat.%s.%s', $prefix, $account);
+        $config = config($service, []);
+        $officialAccount = app($service);
+
         $scope = $scope ?: Arr::get($config, 'oauth.scopes', ['snsapi_base']);
 
         if (is_string($scope)) {
             $scope = array_map('trim', explode(',', $scope));
         }
 
-        $session = session($sessionKey, []);
-
-        if (!$session) {
-            // 是否强制使用 HTTPS 跳转
-            $enforceHttps = Arr::get($config, 'oauth.enforce_https', false);
-
-            if ($request->has('code')) {
-                session([$sessionKey => $officialAccount->oauth->user() ?? []]);
-                $isNewSession = true;
-
-                event(new WeChatUserAuthorized(session($sessionKey), $isNewSession, $account));
-
-                return redirect()->to($this->getTargetUrl($request, $enforceHttps));
-            }
-
-            session()->forget($sessionKey);
-
-            // 跳转到微信授权页
-            return redirect()->away(
-                $officialAccount->oauth->scopes($scope)
-                                       ->redirect($this->getRedirectUrl($request, $enforceHttps))
-            );
+        if (Session::has($sessionKey)) {
+            event(new WeChatUserAuthorized(session($sessionKey), false, $account));
+            return $next($request);
         }
 
-        event(new WeChatUserAuthorized(session($sessionKey), $isNewSession, $account));
+        // 是否强制使用 HTTPS 跳转
+        $enforceHttps = Arr::get($config, 'oauth.enforce_https', false);
 
-        return $next($request);
+        if ($request->has('code')) {
+            if (\is_callable($officialAccount->oauth, 'user')) {
+                $user = $officialAccount->oauth->user();
+            } else {
+                $user = $officialAccount->oauth->userFromCode($request->query('code'));
+            }
+
+            session([$sessionKey => $user]);
+
+            event(new WeChatUserAuthorized(session($sessionKey), true, $account));
+
+            return redirect()->to($this->getTargetUrl($request, $enforceHttps));
+        }
+
+        session()->forget($sessionKey);
+
+        // 跳转到微信授权页
+        return redirect()->away(
+            $officialAccount->oauth->scopes($scope)->redirect($this->getRedirectUrl($request, $enforceHttps))
+        );
     }
 
     /**
