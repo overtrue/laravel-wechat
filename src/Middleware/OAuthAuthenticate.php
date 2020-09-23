@@ -59,7 +59,7 @@ class OAuthAuthenticate
         $enforceHttps = Arr::get($config, 'oauth.enforce_https', false);
 
         if ($request->has('code')) {
-            if (\is_callable($officialAccount->oauth, 'user')) {
+            if (\is_callable([$officialAccount->oauth, 'user'])) {
                 $user = $officialAccount->oauth->user();
             } else {
                 $user = $officialAccount->oauth->userFromCode($request->query('code'));
