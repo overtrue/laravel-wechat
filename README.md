@@ -1,6 +1,6 @@
 # laravel-wechat
 
-微信 SDK for Laravel 5 / Lumen， 基于 [overtrue/wechat](https://github.com/overtrue/wechat)
+微信 SDK for Laravel / Lumen， 基于 [overtrue/wechat](https://github.com/overtrue/wechat)
 
 > 交流QQ群：319502940
 
@@ -12,11 +12,11 @@ Laravel/Lumen >= 5.1
 ## 安装
 
 ```shell
-# Laravel < 5.8
-composer require "overtrue/laravel-wechat:~4.0"
+# overtrue/wechat 4.x
+composer require "overtrue/laravel-wechat:^5.0"
 
-# Laravel >= 5.8
-composer require "overtrue/laravel-wechat:~5.0"
+# overtrue/wechat 5.x
+composer require "overtrue/laravel-wechat:^6.0"
 ```
 
 ## 配置
