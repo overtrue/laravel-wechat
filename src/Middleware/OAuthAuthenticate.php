@@ -59,7 +59,7 @@ class OAuthAuthenticate
         $enforceHttps = Arr::get($config, 'oauth.enforce_https', false);
 
         if ($request->has('code')) {
-            session([$sessionKey => $officialAccount->oauth->user()]);
+            session([$sessionKey => $officialAccount->oauth->userFromCode($request->query('code'))]);
 
             event(new WeChatUserAuthorized(session($sessionKey), true, $account));
 
@@ -70,7 +70,7 @@ class OAuthAuthenticate
 
         // 跳转到微信授权页
         return redirect()->away(
-            $officialAccount->oauth->scopes($scope)->redirect($this->getRedirectUrl($request, $enforceHttps))->getTargetUrl()
+            $officialAccount->oauth->scopes($scope)->redirect($this->getRedirectUrl($request, $enforceHttps))
         );
     }
 
