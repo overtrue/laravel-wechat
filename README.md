@@ -12,10 +12,10 @@ Laravel/Lumen >= 5.1
 ## 安装
 
 ```shell
-# overtrue/wechat 4.x
+# overtrue/wechat 5.x
 composer require "overtrue/laravel-wechat:^5.1"
 
-# overtrue/wechat 5.x
+# overtrue/wechat 6.x
 composer require "overtrue/laravel-wechat:^6.0"
 ```
 
