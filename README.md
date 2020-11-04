@@ -7,7 +7,8 @@
 
 ## 框架要求
 
-Laravel/Lumen >= 5.1
+- overtrue/laravel-wechat:^5.1 -> Laravel/Lumen >= 5.1
+- overtrue/laravel-wechat:^6.0 -> Laravel/Lumen >= 7.0
 
 ## 安装
 
