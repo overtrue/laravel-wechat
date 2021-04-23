@@ -30,7 +30,7 @@ class WeChatUserAuthorized
      * @param \Overtrue\Socialite\User $user
      * @param bool                     $isNewSession
      */
-    public function __construct(User $user, $isNewSession = false, string $account)
+    public function __construct(User $user, $isNewSession = false, string $account = '')
     {
         $this->user = $user;
         $this->isNewSession = $isNewSession;
