@@ -250,6 +250,12 @@ $message = $event->payload; // 开放平台事件通知内容
 
 更多 SDK 的具体使用请参考：https://www.easywechat.com
 
+## :heart: Sponsor me 
+
+If you like the work I do and want to support it, [you know what to do :heart:](https://github.com/sponsors/overtrue)
+
+如果你喜欢我的项目并想支持它，[点击这里 :heart:](https://github.com/sponsors/overtrue)
+
 ## PHP 扩展包开发
 
 > 想知道如何从零开始构建 PHP 扩展包？
