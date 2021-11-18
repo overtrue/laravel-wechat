@@ -4,6 +4,7 @@
 
 > 交流QQ群：319502940
 
+[![Sponsor me](https://raw.githubusercontent.com/overtrue/overtrue/master/sponsor-me-button-s.svg)](https://github.com/sponsors/overtrue)
 
 ## 框架要求
 
