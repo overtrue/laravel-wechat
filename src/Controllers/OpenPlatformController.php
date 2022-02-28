@@ -1,43 +1,36 @@
 <?php
 
-/*
- * This file is part of the overtrue/laravel-wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
-
 namespace Overtrue\LaravelWeChat\Controllers;
 
 use EasyWeChat\OpenPlatform\Application;
-use EasyWeChat\OpenPlatform\Server\Guard;
 use Overtrue\LaravelWeChat\Events\OpenPlatform as Events;
 
 class OpenPlatformController extends Controller
 {
     /**
-     * Register for open platform.
-     *
-     * @param \EasyWeChat\OpenPlatform\Application $application
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     * @throws \Throwable
+     * @throws \ReflectionException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function __invoke(Application $application)
+    public function __invoke(Application $application): \Psr\Http\Message\ResponseInterface
     {
-        $server = $application->server;
+        $server = $application->getServer();
 
-        $server->on(Guard::EVENT_AUTHORIZED, function ($payload) {
+        $server->handleAuthorized(function ($payload) {
             event(new Events\Authorized($payload));
         });
-        $server->on(Guard::EVENT_UNAUTHORIZED, function ($payload) {
+
+        $server->handleUnauthorized(function ($payload) {
             event(new Events\Unauthorized($payload));
         });
-        $server->on(Guard::EVENT_UPDATE_AUTHORIZED, function ($payload) {
+
+        $server->handleAuthorizeUpdated(function ($payload) {
             event(new Events\UpdateAuthorized($payload));
         });
-        $server->on(Guard::EVENT_COMPONENT_VERIFY_TICKET, function ($payload) {
+
+        $server->handleVerifyTicketRefreshed(function ($payload) {
             event(new Events\VerifyTicketRefreshed($payload));
         });
 

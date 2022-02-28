@@ -24,56 +24,25 @@ class WeChatUserAuthorized
 
     public $account;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param \Overtrue\Socialite\User $user
-     * @param bool                     $isNewSession
-     */
-    public function __construct(User $user, $isNewSession = false, string $account = '')
+    public function __construct(User $user, bool $isNewSession = false, string $account = '')
     {
         $this->user = $user;
         $this->isNewSession = $isNewSession;
         $this->account = $account;
     }
 
-    /**
-     * Retrieve the authorized user.
-     *
-     * @return \Overtrue\Socialite\User
-     */
-    public function getUser()
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    /**
-     * The name of official account.
-     *
-     * @return string
-     */
-    public function getAccount()
+    public function getAccount(): string
     {
         return $this->account;
     }
 
-    /**
-     * Check the user session is first created.
-     *
-     * @return bool
-     */
-    public function isNewSession()
+    public function isNewSession(): bool
     {
         return $this->isNewSession;
-    }
-
-    /**
-     * Get the channels the event should be broadcast on.
-     *
-     * @return array
-     */
-    public function broadcastOn()
-    {
-        return [];
     }
 }

@@ -1,62 +1,41 @@
 # laravel-wechat
 
-微信 SDK for Laravel / Lumen， 基于 [overtrue/wechat](https://github.com/overtrue/wechat)
-
-> 交流QQ群：319502940
+微信 SDK for Laravel， 基于 [overtrue/wechat](https://github.com/overtrue/wechat)
 
 [![Sponsor me](https://github.com/overtrue/overtrue/blob/master/sponsor-me-button-s.svg?raw=true)](https://github.com/sponsors/overtrue)
 
+> 7.x 起不再默认支持 Lumen。
+
 ## 框架要求
 
-- overtrue/laravel-wechat:^5.1 -> Laravel/Lumen >= 5.1
+- overtrue/laravel-wechat:^7.0 -> Laravel >= 8.0
 - overtrue/laravel-wechat:^6.0 -> Laravel/Lumen >= 7.0
+- overtrue/laravel-wechat:^5.1 -> Laravel/Lumen >= 5.1
 
 ## 安装
 
-```shell
-# overtrue/wechat 4.x
-composer require "overtrue/laravel-wechat:^5.1"
-
-# overtrue/wechat 5.x
-composer require "overtrue/laravel-wechat:^6.0"
+```bash
+composer require "overtrue/laravel-wechat"
 ```
 
 ## 配置
 
-### Laravel 应用
-
-1. 在 `config/app.php` 注册 ServiceProvider 和 Facade (Laravel 5.5 + 无需手动注册)
-
-```php
-'providers' => [
-    // ...
-    Overtrue\LaravelWeChat\ServiceProvider::class,
-],
-'aliases' => [
-    // ...
-    'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,
-],
-```
-
-2. 创建配置文件：
+1. 创建配置文件：
 
 ```shell
 php artisan vendor:publish --provider="Overtrue\LaravelWeChat\ServiceProvider"
 ```
 
-3. 修改应用根目录下的 `config/wechat.php` 中对应的参数即可。
-
-4. 每个模块基本都支持多账号，默认为 `default`。
-
-### Lumen 应用
-
-1. 在 `bootstrap/app.php` 中 82 行左右：
+2. 可选，添加别名
 
 ```php
-$app->register(Overtrue\LaravelWeChat\ServiceProvider::class);
+'aliases' => [
+    // ...
+    'EasyWeChat' => Overtrue\LaravelWeChat\EasyWeChat::class,
+],
 ```
 
-2. 如果你习惯使用 `config/wechat.php` 来配置的话，将 `vendor/overtrue/laravel-wechat/src/config.php` 拷贝到`项目根目录/config`目录下，并将文件名改成`wechat.php`。
+3. 每个模块基本都支持多账号，默认为 `default`。
 
 ## 使用
 
@@ -69,9 +48,7 @@ protected $except = [
 ];
 ```
 
-下面以接收普通消息为例写一个例子：
-
-> 假设您的域名为 `overtrue.me` 那么请登录微信公众平台 “开发者中心” 修改 “URL（服务器配置）” 为： `http://overtrue.me/wechat`。
+下面以接收普通消息为例写一个例子。
 
 路由：
 
@@ -92,44 +69,20 @@ use Log;
 
 class WeChatController extends Controller
 {
-
-    /**
-     * 处理微信的请求消息
-     *
-     * @return string
-     */
     public function serve()
     {
-        Log::info('request arrived.'); # 注意：Log 为 Laravel 组件，所以它记的日志去 Laravel 日志看，而不是 EasyWeChat 日志
+        Log::info('request arrived.'); 
 
-        $app = app('wechat.official_account');
-        $app->server->push(function($message){
+        $server = app('easywechat.official_account')->getServer();
+
+        $server->with(function($message){
             return "欢迎关注 overtrue！";
         });
 
-        return $app->server->serve();
+        return $server->serve();
     }
 }
 ```
-
-> 上面例子里的 Log 是 Laravel 组件，所以它的日志不会写到 EasyWeChat 里的，建议把 wechat 的日志配置到 Laravel 同一个日志文件，便于调试。
-
-### 我们有以下方式获取 SDK 的服务实例
-
-##### 使用外观
-
-```php
-  $officialAccount = \EasyWeChat::officialAccount(); // 公众号
-  $work = \EasyWeChat::work(); // 企业微信
-  $payment = \EasyWeChat::payment(); // 微信支付
-  $openPlatform = \EasyWeChat::openPlatform(); // 开放平台
-  $miniProgram = \EasyWeChat::miniProgram(); // 小程序
-  
-  // 均支持传入配置账号名称
-  \EasyWeChat::officialAccount('foo'); // `foo` 为配置文件中的名称，默认为 `default`
-  //...
-```
-
 
 ## OAuth 中间件
 
@@ -140,7 +93,7 @@ class WeChatController extends Controller
 ```php
 protected $routeMiddleware = [
     // ...
-    'wechat.oauth' => \Overtrue\LaravelWeChat\Middleware\OAuthAuthenticate::class,
+    'easywechat.oauth' => \Overtrue\LaravelWeChat\Middleware\OAuthAuthenticate::class,
 ];
 ```
 
@@ -148,29 +101,29 @@ protected $routeMiddleware = [
 
 ```php
 //...
-Route::group(['middleware' => ['web', 'wechat.oauth']], function () {
+Route::group(['middleware' => ['web', 'easywechat.oauth']], function () {
     Route::get('/user', function () {
-        $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+        $user = session('easywechat.oauth_user.default'); // 拿到授权用户资料
 
         dd($user);
     });
 });
 ```
 
-中间件支持指定配置名称：`'wechat.oauth:default'`，当然，你也可以在中间件参数指定当前的 `scopes`:
+中间件支持指定配置名称：`'easywechat.oauth:default'`，当然，你也可以在中间件参数指定当前的 `scopes`:
 
 ```php
-Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
+Route::group(['middleware' => ['easywechat.oauth:snsapi_userinfo']], function () {
   // ...
 });
 
 // 或者指定账户的同时指定 scopes:
-Route::group(['middleware' => ['wechat.oauth:default,snsapi_userinfo']], function () {
+Route::group(['middleware' => ['easywechat.oauth:default,snsapi_userinfo']], function () {
   // ...
 });
 ```
 
-上面的路由定义了 `/user` 是需要微信授权的，那么在这条路由的**回调 或 控制器对应的方法里**， 你就可以从 `session('wechat.oauth_user.default')` 拿到已经授权的用户信息了。
+上面的路由定义了 `/user` 是需要微信授权的，那么在这条路由的**回调 或 控制器对应的方法里**， 你就可以从 `session('easywechat.oauth_user.default')` 拿到已经授权的用户信息了。
 
 ## 模拟授权
 
@@ -201,7 +154,7 @@ $user = new SocialiteUser([
 > 注意：一定要在 OAuth 中间件之前写入，比如你可以创建一个全局中间件来完成这件事儿，当然了，只在开发环境启用即可。
 
 ```php
-session(['wechat.oauth_user.default' => $user]); // 同理，`default` 可以更换为您对应的其它配置名
+session(['easywechat.oauth_user.default' => $user]); // 同理，`default` 可以更换为您对应的其它配置名
 ```
 
 ## 事件
@@ -212,7 +165,7 @@ session(['wechat.oauth_user.default' => $user]); // 同理，`default` 可以更
 
 ```php
 // 该事件有以下属性
-$event->user; // 同 session('wechat.oauth_user.default') 一样
+$event->user; // 同 session('easywechat.oauth_user.default') 一样
 $event->isNewSession; // 是不是新的会话（第一次创建 session 时为 true）
 $event->account; // 当前中间件所使用的账号，对应在配置文件中的配置项名称
 ```
