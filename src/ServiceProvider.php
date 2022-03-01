@@ -69,10 +69,10 @@ class ServiceProvider extends LaravelServiceProvider
             foreach ($accounts as $account => $config) {
                 $this->app->bind("wechat.{$name}.{$account}", function ($laravelApp) use ($name, $account, $config, $class) {
                     $app = new $class(array_merge(config('easywechat.defaults', []), $config));
-                    if (config('easywechat.defaults.use_laravel_cache')) {
-                        $app['cache'] = $laravelApp['cache.store'];
-                    }
-                    $app['request'] = $laravelApp['request'];
+
+                    $app->setCache($laravelApp['cache.store']);
+
+                    $app->setRequestFromSymfonyRequest($laravelApp['request']);
 
                     return $app;
                 });

@@ -5,10 +5,9 @@ return [
      * 默认配置，将会合并到各模块中
      */
     'defaults'         => [
-        /*
-         * 使用 Laravel 的缓存系统
-         */
-        'use_laravel_cache' => true,
+        'http' => [
+            'timeout' => 5.0,
+        ],
     ],
 
     /*
@@ -33,6 +32,16 @@ return [
             //     'callback'      => env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_CALLBACK', '/examples/oauth_callback.php'),
             //     'enforce_https' => true,
             // ],
+
+            /**
+             * 接口请求相关配置，超时时间等，具体可用参数请参考：
+             * https://github.com/symfony/symfony/blob/6.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php#L26
+             */
+            //'http' => [
+            //  'timeout' => 5.0,
+            //   // 如果你在国外想要覆盖默认的 url 的时候才使用，根据不同的模块配置不同的 uri
+            //  'base_uri' => 'https://api.weixin.qq.com/',
+            //],
         ],
     ],
 
@@ -45,6 +54,16 @@ return [
     //         'secret'     => env('WECHAT_OPEN_PLATFORM_SECRET', ''),
     //         'token'      => env('WECHAT_OPEN_PLATFORM_TOKEN', ''),
     //         'aes_key'    => env('WECHAT_OPEN_PLATFORM_AES_KEY', ''),
+
+                /**
+                 * 接口请求相关配置，超时时间等，具体可用参数请参考：
+                 * https://github.com/symfony/symfony/blob/6.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php#L26
+                 */
+    //          'http' => [
+    //            'timeout' => 5.0,
+    //             // 如果你在国外想要覆盖默认的 url 的时候才使用，根据不同的模块配置不同的 uri
+    //            'base_uri' => 'https://api.weixin.qq.com/',
+    //          ],
     //     ],
     // ],
 
@@ -57,6 +76,16 @@ return [
     //         'secret'     => env('WECHAT_MINI_APP_SECRET', ''),
     //         'token'      => env('WECHAT_MINI_APP_TOKEN', ''),
     //         'aes_key'    => env('WECHAT_MINI_APP_AES_KEY', ''),
+
+                /**
+                 * 接口请求相关配置，超时时间等，具体可用参数请参考：
+                 * https://github.com/symfony/symfony/blob/6.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php#L26
+                 */
+    //          'http' => [
+    //            'timeout' => 5.0,
+    //             // 如果你在国外想要覆盖默认的 url 的时候才使用，根据不同的模块配置不同的 uri
+    //            'base_uri' => 'https://api.weixin.qq.com/',
+    //          ],
     //     ],
     // ],
 
@@ -97,7 +126,16 @@ return [
     //         'secret'     => env('WECHAT_WORK_SECRET', ''),
     //         'token'      => env('WECHAT_WORK_TOKEN', ''),
     //         'aes_key'    => env('WECHAT_WORK_AES_KEY', ''),
-    //         //...
+
+                /**
+                 * 接口请求相关配置，超时时间等，具体可用参数请参考：
+                 * https://github.com/symfony/symfony/blob/6.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php#L26
+                 */
+    //          'http' => [
+    //            'timeout' => 5.0,
+    //             // 如果你在国外想要覆盖默认的 url 的时候才使用，根据不同的模块配置不同的 uri
+    //            'base_uri' => 'https://api.weixin.qq.com/',
+    //          ],
     //      ],
     // ],
 
@@ -110,7 +148,16 @@ return [
     //         'provider_secret'    => env('WECHAT_OPEN_WORK_SECRET', ''),
     //         'token'              => env('WECHAT_OPEN_WORK_TOKEN', ''),
     //         'aes_key'            => env('WECHAT_OPEN_WORK_AES_KEY', ''),
-    //         //...
+
+                /**
+                 * 接口请求相关配置，超时时间等，具体可用参数请参考：
+                 * https://github.com/symfony/symfony/blob/6.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php#L26
+                 */
+    //          'http' => [
+    //            'timeout' => 5.0,
+    //             // 如果你在国外想要覆盖默认的 url 的时候才使用，根据不同的模块配置不同的 uri
+    //            'base_uri' => 'https://api.weixin.qq.com/',
+    //          ],
     //      ],
     // ],
 
