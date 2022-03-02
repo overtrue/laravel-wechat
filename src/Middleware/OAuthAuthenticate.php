@@ -29,7 +29,6 @@ class OAuthAuthenticate
      * @param  \Closure  $next
      * @param  string  $account
      * @param  string|null  $scope
-     * @param  string|null  $type  : service(服务号), subscription(订阅号), work(企业微信)
      *
      * @return mixed
      */
@@ -41,10 +40,9 @@ class OAuthAuthenticate
         ?string $type = 'service'
     ): mixed {
         // 保证兼容性参数处理
-        $class = ('work' !== $type) ? 'wechat' : 'work';
         $prefix = ('work' !== $type) ? 'official_account' : 'work';
 
-        $sessionKey = \sprintf('%s.oauth_user.%s', $class, $account);
+        $sessionKey = \sprintf('easywechat.oauth_user.%s', $account);
         $name = \sprintf('easywechat.%s.%s', $prefix, $account);
         $config = config($name, []);
         $service = app($name);
