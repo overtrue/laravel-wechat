@@ -1,6 +1,6 @@
-# laravel-wechat
+# EasyWeChat for Laravel
 
-微信 SDK for Laravel， 基于 [overtrue/wechat](https://github.com/overtrue/wechat)
+微信 SDK EasyWeChat for Laravel， 基于 [w7corp/easywechat](https://github.com/w7corp/easywechat)
 
 [![Sponsor me](https://github.com/overtrue/overtrue/blob/master/sponsor-me-button-s.svg?raw=true)](https://github.com/sponsors/overtrue)
 
