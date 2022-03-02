@@ -21,8 +21,12 @@ class EasyWeChat extends Facade
         return app('easywechat.work.'.$name);
     }
 
+    public static function openWork(string $name = 'default'): \EasyWeChat\OpenWork\Application
+    {
+        return app('easywechat.open_work.'.$name);
+    }
 
-    public static function payment(string $name = 'default'): \EasyWeChat\Pay\Application
+    public static function pay(string $name = 'default'): \EasyWeChat\Pay\Application
     {
         return app('easywechat.payment.'.$name);
     }
