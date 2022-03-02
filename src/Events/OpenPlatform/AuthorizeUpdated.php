@@ -11,6 +11,6 @@ namespace Overtrue\LaravelWeChat\Events\OpenPlatform;
  * @method string getAuthorizationCodeExpiredTime()
  * @method string getPreAuthCode()
  */
-class UpdateAuthorized extends OpenPlatformEvent
+class AuthorizeUpdated extends OpenPlatformEvent
 {
 }

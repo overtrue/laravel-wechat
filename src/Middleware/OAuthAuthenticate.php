@@ -12,46 +12,52 @@
 namespace Overtrue\LaravelWeChat\Middleware;
 
 use Closure;
-use http\Env\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use JetBrains\PhpStorm\Pure;
 use Overtrue\LaravelWeChat\Events\WeChatUserAuthorized;
 
 /**
- * Class OAuthAuthenticate: 微信公众号, 企业微信的网页应用。
+ * 仅适用于微信公众号, 企业微信的网页应用。
  */
 class OAuthAuthenticate
 {
     /**
-     * Handle an incoming request.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
-     * @param string                   $account
-     * @param string|null              $scope
-     * @param string|null              $type : service(服务号), subscription(订阅号), work(企业微信)
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string  $account
+     * @param  string|null  $scope
+     * @param  string|null  $type  : service(服务号), subscription(订阅号), work(企业微信)
      *
      * @return mixed
      */
-    public function handle($request, Closure $next, $account = 'default', $scope = null, $type = 'service')
-    {
-        //保证兼容性
+    public function handle(
+        \Illuminate\Http\Request $request,
+        Closure $next,
+        string $account = 'default',
+        string $scope = null,
+        ?string $type = 'service'
+    ): mixed {
+        // 保证兼容性参数处理
         $class = ('work' !== $type) ? 'wechat' : 'work';
         $prefix = ('work' !== $type) ? 'official_account' : 'work';
+
         $sessionKey = \sprintf('%s.oauth_user.%s', $class, $account);
-        $service = \sprintf('wechat.%s.%s', $prefix, $account);
-        $config = config($service, []);
-        $officialAccount = app($service);
+        $name = \sprintf('easywechat.%s.%s', $prefix, $account);
+        $config = config($name, []);
+        $service = app($name);
 
         $scope = $scope ?: Arr::get($config, 'oauth.scopes', ['snsapi_base']);
 
-        if (is_string($scope)) {
-            $scope = array_map('trim', explode(',', $scope));
+        if (\is_string($scope)) {
+            $scope = \array_map('trim', explode(',', $scope));
         }
 
         if (Session::has($sessionKey)) {
             event(new WeChatUserAuthorized(session($sessionKey), false, $account));
+
             return $next($request);
         }
 
@@ -59,55 +65,49 @@ class OAuthAuthenticate
         $enforceHttps = Arr::get($config, 'oauth.enforce_https', false);
 
         if ($request->has('code')) {
-            session([$sessionKey => $officialAccount->oauth->userFromCode($request->query('code'))]);
+            session([$sessionKey => $service->getOAuth()->userFromCode($request->query('code'))]);
 
             event(new WeChatUserAuthorized(session($sessionKey), true, $account));
 
-            return redirect()->to($this->getTargetUrl($request, $enforceHttps));
+            return redirect()->to($this->getIntendUrl($request, $enforceHttps));
         }
 
         session()->forget($sessionKey);
 
         // 跳转到微信授权页
         return redirect()->away(
-            $officialAccount->oauth->scopes($scope)->redirect($this->getRedirectUrl($request, $enforceHttps))
+            $service->oauth->scopes($scope)->redirect($this->getRedirectUrl($request,$enforceHttps))
         );
     }
 
-    /**
-     * Build the target business url.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  bool  $https
-     * @return string
-     */
-    protected function getTargetUrl($request, $https = false)
+    protected function getIntendUrl(Request $request, bool $https = false): string
     {
-        $queries = Arr::except($request->query(), ['code', 'state']);
+        $query = Arr::except($request->query(), ['code', 'state']);
         $url = $request->url();
 
-        if ($https && Str::startsWith($url, 'http://')) {
-            $url = Str::replaceFirst('http', 'https', $url);
+        if ($https) {
+            $url = $this->ensureHttpsScheme($url);
         }
 
-        return $url . (empty($queries) ? '' : '?' . http_build_query($queries));
+        return $url.(empty($query) ? '' : '?'.http_build_query($query));
     }
 
-    /**
-     * generate the redirect url
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  bool  $https
-     * @return string
-     */
-    protected function getRedirectUrl($request, $https = false)
+    protected function getRedirectUrl(Request $request, bool $https = false): string
     {
         if (!$https) {
             return $request->fullUrl();
         }
 
-        return Str::startsWith($request->fullUrl(), 'http://')
-            ? Str::replaceFirst('http', 'https', $request->fullUrl())
-            : $request->fullUrl();
+        return $this->ensureHttpsScheme($request->fullUrl());
+    }
+
+    #[Pure]
+    protected function ensureHttpsScheme(string $url): string
+    {
+        if (Str::startsWith($url, 'http://')) {
+            $url = Str::replaceFirst('http', 'https', $url);
+        }
+
+        return $url;
     }
 }

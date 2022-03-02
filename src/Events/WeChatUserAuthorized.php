@@ -18,17 +18,11 @@ class WeChatUserAuthorized
 {
     use SerializesModels;
 
-    public $user;
-
-    public $isNewSession;
-
-    public $account;
-
-    public function __construct(User $user, bool $isNewSession = false, string $account = '')
-    {
-        $this->user = $user;
-        $this->isNewSession = $isNewSession;
-        $this->account = $account;
+    public function __construct(
+        public User $user,
+        public bool $isNewSession = false,
+        public string $account = ''
+    ) {
     }
 
     public function getUser(): User

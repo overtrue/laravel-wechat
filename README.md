@@ -171,25 +171,39 @@ $event->account; // 当前中间件所使用的账号，对应在配置文件中
 ```
 
 
-## 开放平台路由支持
+## 开放平台支持
 
-在配置文件 `route` 处取消注释即可启用。
+您可以适用内置的 `Overtrue\LaravelWeChat\Traits\HandleOpenPlatformServerEvents` 来快速完成开放平台的服务端验证工作：
 
+*routes/web.php:*
 ```php
-'open_platform' => [
-    'uri' => 'serve',
-    'action' => Overtrue\LaravelWeChat\Controllers\OpenPlatformController::class,
-    'attributes' => [
-        'prefix' => 'open-platform',
-        'middleware' => null,
-    ],
-],
+Route::any('/open-platform/server', OpenPlatformController::class);
 ```
 
-Tips: 默认的控制器会根据微信开放平台的推送内容触发如下事件，你可以监听相应的事件并进行处理：
+*app/Http/Controllers/OpenPlatformController.php:*
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Overtrue\LaravelWeChat\Traits\HandleOpenPlatformServerEvents;
+
+class OpenPlatformController extends Controller
+{
+    public function __invoke(Application $application): \Psr\Http\Message\ResponseInterface
+    {
+        $app = app('easywechat.open-platform');
+        
+        return $this->handleServerEvents($app);
+    }
+}
+```
+
+Tips: 默认会根据微信开放平台的推送内容触发如下事件，你可以监听相应的事件并进行处理：
 
 - 授权方成功授权：`Overtrue\LaravelWeChat\Events\OpenPlatform\Authorized`
-- 授权方更新授权：`Overtrue\LaravelWeChat\Events\OpenPlatform\UpdateAuthorized`
+- 授权方更新授权：`Overtrue\LaravelWeChat\Events\OpenPlatform\AuthorizeUpdated`
 - 授权方取消授权：`Overtrue\LaravelWeChat\Events\OpenPlatform\Unauthorized`
 - 开放平台推送 VerifyTicket：`Overtrue\LaravelWeChat\Events\OpenPlatform\VerifyTicketRefreshed`
 
@@ -198,11 +212,10 @@ Tips: 默认的控制器会根据微信开放平台的推送内容触发如下�
 $message = $event->payload; // 开放平台事件通知内容
 ```
 
-配置后 `http://example.com/open-platform/serve` 则为开放平台第三方应用设置的授权事件接收 URL。
+配置后 `http://example.com/open-platform/server` 则为开放平台第三方应用设置的授权事件接收 URL。
 
 
-
-更多 SDK 的具体使用请参考：https://www.easywechat.com
+更多 SDK 的具体使用请参考：<https://www.easywechat.com>
 
 ## :heart: Sponsor me 
 
