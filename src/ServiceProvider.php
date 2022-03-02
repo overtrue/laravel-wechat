@@ -51,12 +51,6 @@ class ServiceProvider extends LaravelServiceProvider
                 continue;
             }
 
-            if ($config = config('easywechat.route.'.$name)) {
-                Route::group($config['attributes'], function ($router) use ($config) {
-                    $router->post($config['uri'], $config['action']);
-                });
-            }
-
             if (!empty(config('easywechat.'.$name.'.app_id')) || !empty(config('easywechat.'.$name.'.corp_id'))) {
                 $accounts = [
                     'default' => config('easywechat.'.$name),
@@ -67,7 +61,7 @@ class ServiceProvider extends LaravelServiceProvider
             }
 
             foreach ($accounts as $account => $config) {
-                $this->app->bind("wechat.{$name}.{$account}", function ($laravelApp) use ($name, $account, $config, $class) {
+                $this->app->bind("easywechat.{$name}.{$account}", function ($laravelApp) use ($name, $account, $config, $class) {
                     $app = new $class(array_merge(config('easywechat.defaults', []), $config));
 
                     if (\is_callable([$app, 'setCache'])) {
@@ -81,8 +75,8 @@ class ServiceProvider extends LaravelServiceProvider
                     return $app;
                 });
             }
-            $this->app->alias("wechat.{$name}.default", 'easywechat.'.$name);
-            $this->app->alias("wechat.{$name}.default", 'easywechat.'.$name);
+            $this->app->alias("easywechat.{$name}.default", 'easywechat.'.$name);
+            $this->app->alias("easywechat.{$name}.default", 'easywechat.'.$name);
 
             $this->app->alias('easywechat.'.$name, $class);
             $this->app->alias('easywechat.'.$name, $class);
