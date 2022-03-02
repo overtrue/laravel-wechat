@@ -129,29 +129,28 @@ Route::group(['middleware' => ['easywechat.oauth:default,snsapi_userinfo']], fun
 
 有时候我们希望在本地开发完成后线上才真实的走微信授权流程，这将减少我们的开发成本，那么你需要做以下两步：
 
-1. 准备假资料：
-
-> 以下字段在 scope 为 `snsapi_userinfo` 时尽可能配置齐全哦，当然，如果你的模式只是 `snsapi_base` 的话只需要 `openid` 就好了。
-
+1. 准备模拟授权资料：
+2. 
 ```php
 use Illuminate\Support\Arr;
 use Overtrue\Socialite\User as SocialiteUser;
 
 $user = new SocialiteUser([
-                'id' => Arr::get($user, 'openid'),
-                'name' => Arr::get($user, 'nickname'),
-                'nickname' => Arr::get($user, 'nickname'),
-                'avatar' => Arr::get($user, 'headimgurl'),
-                'email' => null,
-                'original' => [],
-                'provider' => 'WeChat',
-            ]);
-
+            'id' => 'mock-openid',
+            'name' => 'overtrue',
+            'nickname' => 'overtrue',
+            'avatar' => 'http://example.com/avatars/overtrue.png',
+            'email' => null,
+            'original' => [],
+            'provider' => 'WeChat',
+        ]);
 ```
+
+> 以上字段在 scope 为 `snsapi_userinfo` 时尽可能配置齐全哦，当然，如果你的模式只是 `snsapi_base` 的话只需要 `openid` 就好了。
 
 2. 将资料写入 session：
 
-> 注意：一定要在 OAuth 中间件之前写入，比如你可以创建一个全局中间件来完成这件事儿，当然了，只在开发环境启用即可。
+> 注意：一定要在调用 OAuth 中间件之前写入，比如你可以创建一个全局中间件来完成这件事儿，只在开发环境启用即可。
 
 ```php
 session(['easywechat.oauth_user.default' => $user]); // 同理，`default` 可以更换为您对应的其它配置名
