@@ -76,7 +76,7 @@ class OAuthAuthenticate
 
         // 跳转到微信授权页
         return redirect()->away(
-            $service->oauth->scopes($scope)->redirect($this->getRedirectUrl($request,$enforceHttps))
+            $service->getOAuth()->scopes($scope)->redirect($this->getRedirectUrl($request,$enforceHttps))
         );
     }
 
