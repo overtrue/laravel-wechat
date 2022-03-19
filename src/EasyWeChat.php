@@ -33,7 +33,7 @@ class EasyWeChat extends Facade
 
     public static function miniApp(string $name = 'default'): \EasyWeChat\MiniApp\Application
     {
-        return app('easywechat.mini_program.'.$name);
+        return app('easywechat.mini_app.'.$name);
     }
 
     public static function openPlatform(string $name = 'default'): \EasyWeChat\OpenPlatform\Application
