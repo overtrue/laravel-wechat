@@ -24,19 +24,19 @@ trait HandleOpenPlatformServerEvents
         $server = $application->getServer();
 
         $server->handleAuthorized(function ($payload) {
-            event(new Authorized($payload));
+            event(new Authorized($payload->toArray()));
         });
 
         $server->handleUnauthorized(function ($payload) {
-            event(new Unauthorized($payload));
+            event(new Unauthorized($payload->toArray()));
         });
 
         $server->handleAuthorizeUpdated(function ($payload) {
-            event(new AuthorizeUpdated($payload));
+            event(new AuthorizeUpdated($payload->toArray()));
         });
 
         $server->handleVerifyTicketRefreshed(function ($payload) {
-            event(new VerifyTicketRefreshed($payload));
+            event(new VerifyTicketRefreshed($payload->toArray()));
         });
 
         if ($callback) {
