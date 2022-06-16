@@ -142,7 +142,7 @@ return [
     /*
      * 企业微信开放平台
      */
-    // 'work' => [
+    // 'open_work' => [
     //     'default' => [
     //         'corp_id'            => env('WECHAT_OPEN_WORK_CORP_ID', ''),
     //         'provider_secret'    => env('WECHAT_OPEN_WORK_SECRET', ''),
