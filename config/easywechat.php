@@ -110,7 +110,7 @@ return [
     //          ],
     //
     //          // v2 API 秘钥
-    //          //'secret_key' => '26db3e15cfedb44abfbb5fe94fxxxxx',
+    //          //'v2_secret_key' => '26db3e15cfedb44abfbb5fe94fxxxxx',
     //
     //          // v3 API 秘钥
     //          //'secret_key' => '43A03299A3C3FED3D8CE7B820Fxxxxx',
@@ -142,7 +142,7 @@ return [
     /*
      * 企业微信开放平台
      */
-    // 'work' => [
+    // 'open_work' => [
     //     'default' => [
     //         'corp_id'            => env('WECHAT_OPEN_WORK_CORP_ID', ''),
     //         'provider_secret'    => env('WECHAT_OPEN_WORK_SECRET', ''),
