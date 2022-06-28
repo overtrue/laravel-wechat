@@ -114,6 +114,11 @@ return [
     //
     //          // v3 API 秘钥
     //          //'secret_key' => '43A03299A3C3FED3D8CE7B820Fxxxxx',
+    //          
+    //          // 注意 此处为微信支付平台证书 https://pay.weixin.qq.com/wiki/doc/apiv3/apis/wechatpay5_1.shtml
+    //          'platform_certs' => [
+    //              '/data/private/certs/platform_key.pem',
+    //          ],
     //     ],
     // ],
 
