@@ -86,7 +86,7 @@ class WeChatController extends Controller
 
 ## OAuth 中间件
 
-使用中间件的情况下 `app/config/wechat.php` 中的 `oauth.callback` 就随便填写吧(因为用不着了 :smile:)。
+使用中间件的情况下 `app/config/easywechat.php` 中的 `oauth.callback` 就随便填写吧(因为用不着了 :smile:)。
 
 1. 在 `app/Http/Kernel.php` 中添加路由中间件：
 
@@ -190,6 +190,8 @@ use Overtrue\LaravelWeChat\Traits\HandleOpenPlatformServerEvents;
 
 class OpenPlatformController extends Controller
 {
+    use HandleOpenPlatformServerEvents;
+    
     public function __invoke(Application $application): \Psr\Http\Message\ResponseInterface
     {
         $app = app('easywechat.open-platform');
