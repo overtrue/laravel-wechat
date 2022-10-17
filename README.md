@@ -194,7 +194,7 @@ class OpenPlatformController extends Controller
     
     public function __invoke(Application $application): \Psr\Http\Message\ResponseInterface
     {
-        $app = app('easywechat.open-platform');
+        $app = app('easywechat.open_platform');
         
         return $this->handleServerEvents($app);
     }
