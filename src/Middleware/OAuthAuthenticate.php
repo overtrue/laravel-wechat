@@ -24,16 +24,8 @@ use Overtrue\LaravelWeChat\Events\WeChatUserAuthorized;
  */
 class OAuthAuthenticate
 {
-    /**
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string  $account
-     * @param  string|null  $scope
-     *
-     * @return mixed
-     */
     public function handle(
-        \Illuminate\Http\Request $request,
+        Request $request,
         Closure $next,
         string $account = 'default',
         string $scope = null,
@@ -92,7 +84,7 @@ class OAuthAuthenticate
 
     protected function getRedirectUrl(Request $request, bool $https = false): string
     {
-        if (!$https) {
+        if (! $https) {
             return $request->fullUrl();
         }
 

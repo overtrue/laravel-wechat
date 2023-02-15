@@ -17,7 +17,6 @@ use EasyWeChat\OpenPlatform\Application as OpenPlatform;
 use EasyWeChat\OpenWork\Application as OpenWork;
 use EasyWeChat\Pay\Application as Payment;
 use EasyWeChat\Work\Application as Work;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
 class ServiceProvider extends LaravelServiceProvider
@@ -51,7 +50,7 @@ class ServiceProvider extends LaravelServiceProvider
                 continue;
             }
 
-            if (!empty(config('easywechat.'.$name.'.app_id')) || !empty(config('easywechat.'.$name.'.corp_id'))) {
+            if (! empty(config('easywechat.'.$name.'.app_id')) || ! empty(config('easywechat.'.$name.'.corp_id'))) {
                 $accounts = [
                     'default' => config('easywechat.'.$name),
                 ];
@@ -61,7 +60,7 @@ class ServiceProvider extends LaravelServiceProvider
             }
 
             foreach ($accounts as $account => $config) {
-                $this->app->bind("easywechat.{$name}.{$account}", function ($laravelApp) use ($name, $account, $config, $class) {
+                $this->app->bind("easywechat.{$name}.{$account}", function ($laravelApp) use ($config, $class) {
                     $app = new $class(array_merge(config('easywechat.defaults', []), $config));
 
                     if (\is_callable([$app, 'setCache'])) {

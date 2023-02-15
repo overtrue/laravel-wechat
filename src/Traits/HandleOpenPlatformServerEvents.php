@@ -4,8 +4,8 @@ namespace Overtrue\LaravelWeChat\Traits;
 
 use EasyWeChat\OpenPlatform\Application;
 use Overtrue\LaravelWeChat\Events\OpenPlatform\Authorized;
-use Overtrue\LaravelWeChat\Events\OpenPlatform\Unauthorized;
 use Overtrue\LaravelWeChat\Events\OpenPlatform\AuthorizeUpdated;
+use Overtrue\LaravelWeChat\Events\OpenPlatform\Unauthorized;
 use Overtrue\LaravelWeChat\Events\OpenPlatform\VerifyTicketRefreshed;
 
 trait HandleOpenPlatformServerEvents
