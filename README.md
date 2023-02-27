@@ -23,7 +23,7 @@ composer require "overtrue/laravel-wechat"
 1. 创建配置文件：
 
 ```shell
-php artisan vendor:publish --provider="Overtrue\LaravelWeChat\ServiceProvider"
+php artisan vendor:publish --provider="Overtrue\\LaravelWeChat\\ServiceProvider"
 ```
 
 2. 可选，添加别名
