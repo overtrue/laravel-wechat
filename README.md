@@ -15,7 +15,7 @@
 ## 安装
 
 ```bash
-composer require "overtrue/laravel-wechat"
+composer require overtrue/laravel-wechat:^7.2
 ```
 
 ## 配置
