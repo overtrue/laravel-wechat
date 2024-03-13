@@ -15,7 +15,7 @@
     }
   ],
   "require": {
-    "illuminate/container": "^9.0|^10.0",
+    "illuminate/container": "^9.0|^10.0|^11.0",
     "w7corp/easywechat": "^6.0.0"
   },
   "require-dev": {
